@@ -1,0 +1,27 @@
+Tips & Tricks
+-------------
+
+# distrib infos:
+lsb_release -a
+
+# ports scanning:
+# option '-P0' to disable ping
+nmap -sT IP_ADDRESS -p PORT -oG | grep open | cut -f2 -d ":" | cut -f1 -d "("
+
+# mysql connect:
+mysql --user=USER --host=XX.YY.ZZ.WW --port=3306 --password='PASS' DATABASE
+
+# define a proxy:
+export ftp_proxy=...
+export http_proxy=...
+export https_proxy=...
+
+# encryption:
+# ENcrypt
+echo STRING | openssl enc -aes-256-cbc -a -salt -pass PASS:SALT
+# DEcrypt
+echo HASH | openssl enc -aes-256-cbc -a -salt -pass PASS:SALT -d
+# via file
+openssl enc -a -aes-256-cbc -salt -in INITFILE -out PASSFILE -pass PASS:SALT
+openssl enc -a -aes-256-cbc -salt -in PASSFILE -out FINALFILE -pass PASS:SALT -d
+
