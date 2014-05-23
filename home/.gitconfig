@@ -1,0 +1,27 @@
+#
+# .gitconfig
+# by @pierowbmstr (me at picas dot fr)
+# <http://github.com/pierowbmstr/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+[user]
+    name = pierowbmstr
+    email = me@picas.fr
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = vi
+[filter "media"]
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
+[color]
+    ui = true
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch --color --list --verbose
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    k = log --graph --full-history --all --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%cN <%cE>%Creset'

@@ -1,0 +1,18 @@
+#
+# .bash_completions
+# by @pierowbmstr (me at picas dot fr)
+# <http://github.com/pierowbmstr/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# Turn on extended globbing and programmable completion
+shopt -s extglob progcomp
+
+# Make directory commands see only directories
+complete -d pushd
+
+_pith()
+{
+    no=no;
+}
+complete -F _pith pith

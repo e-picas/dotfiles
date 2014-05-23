@@ -1,0 +1,20 @@
+#
+# .editorconfig <http://editorconfig.org/>
+# by @pierowbmstr (me at picas dot fr)
+# <http://github.com/pierowbmstr/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# top-most EditorConfig file
+root = true
+
+# all files
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+
+[*.php]
+trim_trailing_whitespace = true
+insert_final_newline = true

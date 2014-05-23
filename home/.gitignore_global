@@ -1,0 +1,43 @@
+#
+# .gitignore_global
+# by @pierowbmstr (me at picas dot fr)
+# <http://github.com/pierowbmstr/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# OS & temp files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon
+._*
+*~
+*~lock*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+nbproject
+.cache
+.settings
+.project
+.buildpath
+.idea
+.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace
+
+# cvs internals
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi

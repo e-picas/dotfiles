@@ -1,0 +1,34 @@
+#
+# .inputrc
+# by @pierowbmstr (me at picas dot fr)
+# <http://github.com/pierowbmstr/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+set bell-style none
+set completion-ignore-case On
+set echo-control-characters Off
+set enable-keypad On
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
+set show-all-if-unmodified On
+set skip-completed-text On
+set visible-stats On
+
+"\M-l": "ll\n"
+"\M-h": "cdhist\r"
+
+# If you type any text and press Up/Down,
+# you can search your history for commands starting
+# with that text
+"\e[B": history-search-forward
+"\e[A": history-search-backward
+
+# Use Ctrl or Alt Arrow keys to move along words
+# Disabled - doesn't work well with tmux.
+#"\C-[OD" backward-word
+#"\C-[OC" forward-word
+#"\e\e[C": forward-word
+#"\e\e[D": backward-word
+
+"\M-r": forward-search-history

@@ -1,0 +1,12 @@
+[submodule "modules/html5-quick-template"]
+	path = modules/html5-quick-template
+	url = https://github.com/pierowbmstr/html5-quick-template.git
+[submodule "modules/piwi-bash-library"]
+	path = modules/piwi-bash-library
+	url = https://github.com/atelierspierrot/piwi-bash-library.git
+[submodule "modules/markdown-extended"]
+	path = modules/markdown-extended
+	url = https://github.com/atelierspierrot/markdown-extended.git
+[submodule "modules/dev-tools"]
+	path = modules/dev-tools
+	url = https://github.com/atelierspierrot/dev-tools.git
