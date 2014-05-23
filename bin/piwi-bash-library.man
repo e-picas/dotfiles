@@ -1,0 +1,1 @@
+../modules/piwi-bash-library/src/piwi-bash-library.man
