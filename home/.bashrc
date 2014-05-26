@@ -6,7 +6,7 @@
 #
 
 # Personal environment variables and startup programs should go in
-# ~/.bash_profile.  System wide environment variables and startup
+# $HOME/.bash_profile.  System wide environment variables and startup
 # programs are in /etc/profile.  System wide aliases and functions are
 # in /etc/bashrc.
 
@@ -42,9 +42,11 @@ export CLICOLOR=1
 
 # history
 [ -z $HISTFILE ] && export HISTFILE="${HOME}/.history";
+[ -z $MYSQL_HISTFILE ] && export MYSQL_HISTFILE="${HOME}/.mysql_history";
+[ -z $SQLITE_HISTFILE ] && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
 export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
-export HISTFILESIZE=2000
+export HISTFILESIZE=5000
 export HISTIGNORE="l:la:ll:clear:pwd:hist:history:tree"
 
 # terminal & env settings
@@ -55,14 +57,17 @@ shopt -s extglob    # extended pattern matching features
 shopt -s progcomp   # programmable completion
 shopt -s cdspell    # correct dir spelling errors on cd
 shopt -s lithist    # save multi-line commands with newlines
-shopt -s autocd     # if a command is a dir name, cd to it
-shopt -s checkjobs  # print warning if jobs are running on shell exit
-shopt -s dirspell   # correct dir spelling errors on completion
-shopt -s globstar   # ** matches all files, dirs and subdirs
 shopt -s cmdhist        # save multi-line commands in a single hist entry
 shopt -s checkwinsize               # check the window size after each command
 shopt -s no_empty_cmd_completion    # don't try to complete empty cmds
 shopt -s histappend     # append new history entries
+if [ "$UNAME" != 'Darwin' ]
+then
+    shopt -s autocd     # if a command is a dir name, cd to it
+    shopt -s checkjobs  # print warning if jobs are running on shell exit
+    shopt -s dirspell   # correct dir spelling errors on completion
+    shopt -s globstar   # ** matches all files, dirs and subdirs
+fi
 
 # coloured man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -72,7 +77,7 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-export LESSOPEN="|~/bin/lesspipe.sh %s"
+export LESSOPEN="|$HOME/bin/lesspipe.sh %s"
 
 # define some colours
 export GREY=$'\033[1;30m'
@@ -114,7 +119,13 @@ else
 fi
 
 if [ "$color_prompt" = yes ]
-then PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+then 
+    if [ "$UNAME" = 'Darwin' ]
+    then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    fi
 else PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt
@@ -127,3 +138,6 @@ esac
 
 # personal notes dir
 mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

@@ -461,3 +461,17 @@ note(){
         echo note added to $notestack
     fi
 }
+
+cheatsheet() {
+    if [ $# -eq 0 ]
+    then
+        echo "Usage:   cheatsheet NAME"
+        return 1
+    fi
+    _name="cheatsheets/${1}-cheatsheet.txt"
+    shift
+    note "${_name}" "$*"
+}
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

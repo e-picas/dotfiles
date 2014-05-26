@@ -70,3 +70,6 @@ alias editbashfct='vi ~/.bash_functions'
 alias reloadbashfct='source ~/.bash_functions'
 alias editbashalias='vi ~/.bash_aliases'
 alias reloadbashalias='source ~/.bash_aliases'
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

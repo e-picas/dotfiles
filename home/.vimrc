@@ -112,3 +112,21 @@ set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
+
+" backup
+set dir=~/.vim/tmp
+set backup backupdir=~/.vim/backups
+set undofile undodir=~/.vim/undo
+
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX files.
+function! AppendModeline()
+  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
+        \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
+  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+  call append(line("$"), l:modeline)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Endfile
+" vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

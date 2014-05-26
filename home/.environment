@@ -15,3 +15,6 @@ export LC_NAME="fr_FR.UTF-8"
 export LC_ADDRESS="fr_FR.UTF-8"
 export LC_TELEPHONE="fr_FR.UTF-8"
 export LC_MEASUREMENT="fr_FR.UTF-8"
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

@@ -11,8 +11,12 @@ shopt -s extglob progcomp
 # Make directory commands see only directories
 complete -d pushd
 
-_pith()
+# personal completions
+_perso()
 {
     no=no;
 }
-complete -F _pith pith
+complete -F _perso perso
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

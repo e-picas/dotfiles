@@ -18,6 +18,9 @@ Icon
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+*.swp
+*.swo
+*.vi
 
 # IDEs
 nbproject
@@ -37,7 +40,6 @@ nbproject
 *.orig
 *.log
 *.rej
-*.swo
-*.swp
-*.zip
-*.vi
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

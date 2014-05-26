@@ -8,20 +8,43 @@
 [user]
     name = pierowbmstr
     email = me@picas.fr
+[github]
+    user = pierowbmstr
+    token = @TOKEN@
 [core]
     excludesfile = ~/.gitignore_global
     editor = vi
+    whitespace = -trailing-space
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
+[fetch]
+    recurseSubmodules = on-demand
+[grep]
+    extendedRegexp = true
+[log]
+    abbrevCommit = true
+[status]
+    submoduleSummary = true
 [color]
     ui = true
+    branch = true
+    diff = true
+    status = true
+[help]
+    autocorrect = 1
 [alias]
     co = checkout
     ci = commit
     st = status
     br = branch --color --list --verbose
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    hist = log --graph --oneline --date-order --decorate --color --all
     type = cat-file -t
     dump = cat-file -p
     k = log --graph --full-history --all --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%cN <%cE>%Creset'
+    mybranch = rev-parse --abbrev-ref HEAD
+    save = stash save
+    pop = stash pop --index
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

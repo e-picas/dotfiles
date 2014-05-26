@@ -1,7 +1,8 @@
 VIM cheat sheet
 ---------------
 Help : vim -h
-Use the '.vimrc' file : vim -u pth/to/.vimrc file
+Use a '.vimrc' file : vim -u pth/to/.vimrc file
+Modeline documentation : <http://vimdoc.sourceforge.net/htmldoc/options.html#modeline>
 ---------------
 General
     h     move cursor left
