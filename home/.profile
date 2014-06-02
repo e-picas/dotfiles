@@ -7,13 +7,13 @@
 
 # MacOSX special for completion
 if [ -x /usr/libexec/path_helper ]; then
-    eval `/usr/libexec/path_helper -s`
+    eval `/usr/libexec/path_helper -s`;
 fi
 
 # source .bashrc and infos
 if [ -n $BASH_VERSION ]; then
     if [ -r $HOME/.bashrc ]; then
-        source $HOME/.bashrc
+        source $HOME/.bashrc;
         echo "# env:"
         echo "UNAME = ${UNAME}"
         echo "HOME = ${HOME}"
