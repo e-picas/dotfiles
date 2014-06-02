@@ -473,5 +473,8 @@ cheatsheet() {
     note "${_name}" "$*"
 }
 
+# user per-device external files
+[ -r ${HOME}/.bash_functions_alt ] && source ${HOME}/.bash_functions_alt;
+
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

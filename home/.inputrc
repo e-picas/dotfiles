@@ -33,5 +33,12 @@ set visible-stats on
 
 "\M-r": forward-search-history
 
+# Include system wide settings which are ignored
+# by default if one has their own .inputrc
+$include /etc/inputrc
+
+# Include per-device .inputrc_alt
+$include ~/.inputrc_alt
+
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

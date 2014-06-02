@@ -12,5 +12,8 @@ if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi
 
+# user per-device external files
+[ -r ${HOME}/.bash_logout_alt ] && source ${HOME}/.bash_logout_alt;
+
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

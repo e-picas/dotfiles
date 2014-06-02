@@ -97,6 +97,7 @@ export GREP_OPTIONS='--color=auto'
 # user external files
 [ -r ${HOME}/.bash_aliases ] && source ${HOME}/.bash_aliases;           # all bash aliases
 [ -r ${HOME}/.bash_completions ] && source ${HOME}/.bash_completions;   # custom completion rules
+[ -r ${HOME}/.bash_functions ] && source ${HOME}/.bash_functions;   # custom completion rules
 [ -r ${HOME}/.hosts ] && export HOSTFILE="${HOME}/.hosts";              # hosts definitions
 [ -r ${HOME}/.inputrc ] && export INPUTRC="${HOME}/.inputrc";           # keyboard & input rules
 
@@ -138,6 +139,9 @@ esac
 
 # personal notes dir
 mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
+
+# user per-device external files
+[ -r ${HOME}/.bashrc_alt ] && source ${HOME}/.bashrc_alt;
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
