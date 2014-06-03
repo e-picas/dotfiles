@@ -35,5 +35,8 @@ nbproject
 *.zip
 *.vi
 
+# any _alt file
+*_alt
+
 # exclusion of the niximp symlink
 niximp.sh
