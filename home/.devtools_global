@@ -1,0 +1,20 @@
+#
+# .devtools_globals
+# by @pierowbmstr (me at picas dot fr)
+# <http://github.com/pierowbmstr/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+# this file is to be used with <https://github.com/atelierspierrot/dev-tools>
+#
+
+# the PiwiBashLib may be in `~/bin/`
+DEFAULT_BASHLIBRARY_PATH=${HOME}/bin/piwi-bash-library.sh
+
+# extract action will always show filenames
+DEFAULT_EXTRACT_SHOW_FILENAME=true
+
+# md2man : MDE may be in `~/bin/`
+DEFAULT_MD2MAN_MARKDOWN_BIN=${HOME}/bin/markdown-extended
+
+# manpage
+DEFAULT_MANPAGE_MARKDOWN_BIN=${HOME}/bin/markdown-extended
