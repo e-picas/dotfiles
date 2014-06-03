@@ -1,5 +1,5 @@
 #
-# .gitignore_global
+# .gitignore
 # <http://github.com/pierowbmstr/dotfiles.git>
 #
 
@@ -34,3 +34,6 @@ nbproject
 *.swp
 *.zip
 *.vi
+
+# exclusion of the niximp symlink
+niximp.sh

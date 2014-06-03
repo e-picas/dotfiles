@@ -1,1 +1,0 @@
-/Users/pierrecassat/Sites/GitHub_projects/niximp-wip/niximp.sh
