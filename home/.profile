@@ -38,11 +38,11 @@ umask 022
 if [ -d "$HOME/bin/lib" ]; then
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/bin/lib";
     export LD_RUN_PATH="$LD_RUN_PATH:$HOME/bin/lib";
-if
+fi
 if [ -d "$HOME/lib" ]; then
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib";
     export LD_RUN_PATH="$LD_RUN_PATH:$HOME/lib";
-if
+fi
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
