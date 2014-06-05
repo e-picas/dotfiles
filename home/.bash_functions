@@ -466,7 +466,10 @@ note(){
 cheatsheet() {
     if [ $# -eq 0 ]
     then
-        echo "Usage:   cheatsheet NAME"
+        echo "Usage:   cheatsheet <note name>"
+        echo "           read a cheatsheet"
+        echo "Usage:   cheatsheet <note name> [note text ...]"
+        echo "           write a cheatsheet or add content in it"
         return 1
     fi
     _name="cheatsheets/${1}-cheatsheet.txt"
