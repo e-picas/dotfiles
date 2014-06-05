@@ -411,6 +411,7 @@ note(){
         echo "           action -  to clear note"
         echo "           action -- to remove a note"
         echo "           action vi to open a note with EDITOR"
+        echo "NOTE : use the 'cheatsheet' cmd for cheat-sheets"
         return 1
     fi
     case $1 in
