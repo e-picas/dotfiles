@@ -13,7 +13,7 @@
     token = @TOKEN@
 [core]
     excludesfile = ~/.gitignore_global
-    editor = vi
+    editor = vim
     whitespace = -trailing-space
 [filter "media"]
     clean = git-media-clean %f
@@ -33,6 +33,12 @@
     status = true
 [help]
     autocorrect = 1
+[giggle]
+     main-window-maximized = false
+     main-window-geometry = 1486x814+241+173
+     history-view-vpane-position = 276
+     main-window-view = HistoryView
+     file-view-vpane-position = 756
 [alias]
     co = checkout
     ci = commit

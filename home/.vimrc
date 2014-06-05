@@ -24,7 +24,7 @@ set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 
-"Always show current position
+" Always show current position
 set ruler
 
 " Height of the command bar
@@ -100,9 +100,9 @@ set tabstop=4
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
+set ai " Auto indent
+set si " Smart indent
+set wrap " Wrap lines
 
 " Always show the status line
 set laststatus=2
@@ -112,11 +112,6 @@ set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
-
-" backup
-set dir=~/.vim/tmp
-set backup backupdir=~/.vim/backups
-set undofile undodir=~/.vim/undo
 
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX files.
