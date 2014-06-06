@@ -3,9 +3,8 @@ dotfiles
 
 My personal *NIX dotfiles, licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 
-@pierowbmstr (me at picas dot fr)
+This is largely inspired by <http://dotfiles.github.io/>.
 
-<http://github.com/pierowbmstr/dotfiles.git>
 
 ## How-To
 
@@ -55,3 +54,11 @@ My `.bashrc` will (always) create the following directories:
 
     $HOME/backups/  : loaded in `BACKUPDIR` env var
     $HOME/tmp/      : created only if the `TMPDIR` env var is not defined
+
+----
+
+Author: Pierre Cassat - @pierowbmstr (me at picas dot fr)
+
+Original sources: <http://github.com/pierowbmstr/dotfiles.git>
+
+License: CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>

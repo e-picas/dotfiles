@@ -65,11 +65,11 @@ if [ -z $(which wget) ]; then
 fi
 
 # dotfiles shortcuts
-alias editbashrc='vi ~/.bashrc'
+alias editbashrc='vim ~/.bashrc'
 alias reloadbashrc='source ~/.bashrc'
-alias editbashfct='vi ~/.bash_functions'
+alias editbashfct='vim ~/.bash_functions'
 alias reloadbashfct='source ~/.bash_functions'
-alias editbashalias='vi ~/.bash_aliases'
+alias editbashalias='vim ~/.bash_aliases'
 alias reloadbashalias='source ~/.bash_aliases'
 
 # user per-device external files

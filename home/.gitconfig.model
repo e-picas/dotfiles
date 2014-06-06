@@ -6,10 +6,10 @@
 #
 
 [user]
-    name = pierowbmstr
-    email = me@picas.fr
+    name = @USERNAME@
+    email = @EMAIL@
 [github]
-    user = pierowbmstr
+    user = @USERNAME@
     token = @TOKEN@
 [core]
     excludesfile = ~/.gitignore_global

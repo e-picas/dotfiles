@@ -18,8 +18,6 @@
 
 # path
 [ -d ${HOME}/bin ] && export PATH="${PATH}:${HOME}/bin";
-[ -d /opt/local/sbin ] && export PATH="/opt/local/sbin:${PATH}";
-[ -d /opt/local/bin ] && export PATH="/opt/local/bin:${PATH}";
 
 # global external files
 [ -r /etc/bashrc ] && source /etc/bashrc;
@@ -31,6 +29,7 @@ which less &> /dev/null && export PAGER="$(which less) -i";
 which vim &> /dev/null && export EDITOR="$(which vim)";
 which emacs &> /dev/null && export VISUAL="$(which emacs)";
 which lynx &> /dev/null && export BROWSER="$(which lynx)";
+which less &> /dev/null && export MANPAGER="$(which less) -X"; # don't clear the screen after a manpage
 
 # user land
 UNAME=$( uname -s )
@@ -101,10 +100,6 @@ export GREP_OPTIONS='--color=auto'
 [ -r ${HOME}/.hosts ] && export HOSTFILE="${HOME}/.hosts";              # hosts definitions
 [ -r ${HOME}/.inputrc ] && export INPUTRC="${HOME}/.inputrc";           # keyboard & input rules
 
-# user directories
-[ -z $TMPDIR ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
-[ -z $BACKUPDIR ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
-
 # bash prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -137,6 +132,9 @@ case "$TERM" in
     *);;
 esac
 
+# user directories
+[ -z $TMPDIR ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
+[ -z $BACKUPDIR ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
 # personal notes dir
 mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
 
