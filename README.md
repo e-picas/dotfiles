@@ -59,6 +59,6 @@ My `.bashrc` will (always) create the following directories:
 
 Author: Pierre Cassat - @pierowbmstr (me at picas dot fr)
 
-Original sources: <http://github.com/pierowbmstr/dotfiles.git>
+Original sources: <http://github.com/piwi/dotfiles.git>
 
 License: CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>

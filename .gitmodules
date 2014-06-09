@@ -1,6 +1,6 @@
 [submodule "modules/html5-quick-template"]
 	path = modules/html5-quick-template
-	url = https://github.com/pierowbmstr/html5-quick-template.git
+	url = https://github.com/piwi/html5-quick-template.git
 [submodule "modules/piwi-bash-library"]
 	path = modules/piwi-bash-library
 	url = https://github.com/atelierspierrot/piwi-bash-library.git
