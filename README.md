@@ -57,7 +57,7 @@ My `.bashrc` will (always) create the following directories:
 
 ----
 
-Author: Pierre Cassat - @pierowbmstr (me at picas dot fr)
+Author: Pierre Cassat - @pierowbmstr (me at e-piwi dot fr)
 
 Original sources: <http://github.com/piwi/dotfiles.git>
 
