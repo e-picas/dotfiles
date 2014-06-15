@@ -7,10 +7,10 @@
 
 [user]
     name = @USERNAME@
-    email = @EMAIL@
+    email = @USEREMAIL@
 [github]
     user = @USERNAME@
-    token = @TOKEN@
+    token = @GITHUBTOKEN@
 [core]
     excludesfile = ~/.gitignore_global
     editor = vim

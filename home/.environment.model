@@ -1,0 +1,27 @@
+#
+# .environment
+# by @pierowbmstr (me at e-piwi dot fr)
+# <http://github.com/piwi/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# defaults may be:
+# USERLC = fr_FR.UTF-8
+# USERNAME = ...
+# USEREMAIL = ...
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export LC_NUMERIC="@USERLC@"
+export LC_TIME="@USERLC@"
+export LC_MONETARY="@USERLC@"
+export LC_PAPER="@USERLC@"
+export LC_IDENTIFICATION="@USERLC@"
+export LC_NAME="@USERLC@"
+export LC_ADDRESS="@USERLC@"
+export LC_TELEPHONE="@USERLC@"
+export LC_MEASUREMENT="@USERLC@"
+export USERNAME="@USERNAME@"
+export USEREMAIL="@USEREMAIL@"
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
