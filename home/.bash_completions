@@ -14,7 +14,11 @@ complete -d pushd
 # personal completions
 _perso()
 {
-    no=no;
+
+    MYCOMPLETIONS=()
+
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=( $(compgen -W "${MYCOMPLETIONS[@]}" -- $cur) )
 }
 complete -F _perso perso
 
