@@ -8,6 +8,20 @@ This is largely inspired by <http://dotfiles.github.io/>.
 
 ## How-To
 
+### Installation
+
+Clone the repo:
+
+    git clone https://github.com/piwi/dotfiles.git ~/dotfiles
+
+Load submodules:
+
+    git submodule init
+    git submodule update
+
+
+### Usage
+
 The rules are quite simple:
 
 -   all "dotfiles" are stored in the `home/` directory and are to be symlinked or copied
