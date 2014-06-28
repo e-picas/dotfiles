@@ -10,3 +10,6 @@
 [submodule "modules/dev-tools"]
 	path = modules/dev-tools
 	url = https://github.com/atelierspierrot/dev-tools.git
+[submodule "modules/binaries"]
+	path = modules/binaries
+	url = https://github.com/piwi/binaries.git
