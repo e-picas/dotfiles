@@ -13,3 +13,7 @@
 [submodule "modules/binaries"]
 	path = modules/binaries
 	url = https://github.com/piwi/binaries.git
+[submodule "modules/lesspipe"]
+	path = modules/lesspipe
+	url = https://github.com/piwi/dotfiles.git
+	branch = lesspipe

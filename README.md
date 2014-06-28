@@ -69,6 +69,18 @@ My `.bashrc` will (always) create the following directories:
     $HOME/backups/  : loaded in `BACKUPDIR` env var
     $HOME/tmp/      : created only if the `TMPDIR` env var is not defined
 
+
+## Notes
+
+I use the [lesspipe](http://www-zeuthen.desy.de/~friebel/unix/lesspipe.html) tool by *Wolfgang Friebel*
+to view some special files with `less`. As the original repository is under SVN and hosted by 
+[SourceForge](http://sourceforge.net/projects/lesspipe/), I use the internal `git-svn` command
+to track the original SVN sources on branch `lesspipe` of this actual package and define
+this branch as a submodule.
+
+I mostly followed this tutorial: <http://fredericiana.com/2010/01/12/using-svn-repositories-as-git-submodules/>.
+
+
 ----
 
 Author: Pierre Cassat - @pierowbmstr (me at e-piwi dot fr)
