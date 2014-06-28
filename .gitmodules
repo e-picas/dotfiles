@@ -6,7 +6,7 @@
 	url = https://github.com/atelierspierrot/piwi-bash-library.git
 [submodule "modules/markdown-extended"]
 	path = modules/markdown-extended
-	url = https://github.com/atelierspierrot/markdown-extended.git
+	url = https://github.com/piwi/markdown-extended.git
 [submodule "modules/dev-tools"]
 	path = modules/dev-tools
 	url = https://github.com/atelierspierrot/dev-tools.git
