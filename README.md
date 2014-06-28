@@ -76,7 +76,14 @@ I use the [lesspipe](http://www-zeuthen.desy.de/~friebel/unix/lesspipe.html) too
 to view some special files with `less`. As the original repository is under SVN and hosted by 
 [SourceForge](http://sourceforge.net/projects/lesspipe/), I use the internal `git-svn` command
 to track the original SVN sources on branch `lesspipe` of this actual package and define
-this branch as a submodule.
+this branch as a submodule. SVN config (for fresh clones):
+
+    [svn-remote "svn"]
+        url = svn://svn.code.sf.net/p/lesspipe/code
+        fetch = trunk:refs/remotes/trunk
+        branches = branches/*:refs/remotes/*
+        tags = tags/*:refs/remotes/tags/*
+
 
 I mostly followed this tutorial: <http://fredericiana.com/2010/01/12/using-svn-repositories-as-git-submodules/>.
 
