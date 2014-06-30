@@ -60,6 +60,9 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 alias showpath='echo -e ${PATH//:/\\n}'
 
+# lesspipe utility
+[ -r ${HOME}/bin/lesspipe.sh ] && alias lesspipe="$HOME/bin/lesspipe.sh "
+
 # 'wget' emulation if it doesn't exist
 if [ -z $(which wget) ]; then
     alias wget='curl -C - -O '
