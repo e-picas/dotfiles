@@ -138,6 +138,9 @@ esac
 # personal notes dir
 mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
 
+# special inclusion of .bashrc_git if it exists
+[ -r ${HOME}/.bashrc_git ] && source ${HOME}/.bashrc_git;
+
 # user per-device external files
 [ -r ${HOME}/.bashrc_alt ] && source ${HOME}/.bashrc_alt;
 
