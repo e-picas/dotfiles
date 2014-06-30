@@ -111,9 +111,9 @@ then
 fi
 if $_FORCED
 then
-    find "$(cd bin; pwd)" -maxdepth 1 -name "*.model" -prune -o ${FINDEXECTYPE} ln -fs {} ${INSTALLDIR}/bin/ \;
+    find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} ln -fs {} ${INSTALLDIR}/bin/ \;
 else
-    find "$(cd bin; pwd)" -maxdepth 1 -name "*.model" -prune -o ${FINDEXECTYPE} ln -s {} ${INSTALLDIR}/bin/ \;
+    find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} ln -s {} ${INSTALLDIR}/bin/ \;
 fi
 
 # installation of notes
