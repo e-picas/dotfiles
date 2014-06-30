@@ -39,6 +39,7 @@ else
     alias ls="ls -G"
 fi
 alias lll='ls -alFh'
+alias lh='ls -alFh'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
