@@ -16,9 +16,13 @@ Clone the repo:
 
     git clone https://github.com/piwi/dotfiles.git ~/dotfiles
 
-Launch installer:
+Launch installer (fully interactive):
 
     ./path/to/clone/install.sh
+
+To see installer usage, run:
+
+    ./path/to/clone/install.sh -h
 
 ### Usage
 

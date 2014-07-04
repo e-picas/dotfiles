@@ -80,6 +80,16 @@ fi
 # go to the clone directory
 cd "${HERE}"
 
+# how-to info
+if ! $_FORCED
+then
+    echo
+    echo "The installation process will begin ... Any prompt is waiting for an answer to validate the action or file:"
+    echo "      - default answer is ALWAYS 'NO'"
+    echo "      - you HAVE to type 'y' to validate a prompt"
+    echo
+fi
+
 # update of submodules
 $_VERBOSE && echo "> updating git sub-modules ..."
 git submodule init
