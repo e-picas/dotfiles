@@ -1,14 +1,14 @@
 #
-# .bashrc
+# .bashrc <http://www.linuxfromscratch.org/blfs/view/svn/postlfs/profile.html>
 # by @pierowbmstr (me at e-piwi dot fr)
 # <http://github.com/piwi/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
 
 # Personal environment variables and startup programs should go in
-# $HOME/.bash_profile.  System wide environment variables and startup
-# programs are in /etc/profile.  System wide aliases and functions are
-# in /etc/bashrc.
+# `$HOME/.bash_profile`.  System wide environment variables and startup
+# programs are in `/etc/profile`.  System wide aliases and functions are
+# in `/etc/bashrc`.
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -96,7 +96,7 @@ export GREP_OPTIONS='--color=auto'
 # user external files
 [ -r ${HOME}/.bash_aliases ] && source ${HOME}/.bash_aliases;           # all bash aliases
 [ -r ${HOME}/.bash_completions ] && source ${HOME}/.bash_completions;   # custom completion rules
-[ -r ${HOME}/.bash_functions ] && source ${HOME}/.bash_functions;       # custom completion rules
+[ -r ${HOME}/.bash_functions ] && source ${HOME}/.bash_functions;       # custom bash functions
 [ -r ${HOME}/.hosts ] && export HOSTFILE="${HOME}/.hosts";              # hosts definitions
 [ -r ${HOME}/.inputrc ] && export INPUTRC="${HOME}/.inputrc";           # keyboard & input rules
 
@@ -114,9 +114,9 @@ else
     color_prompt=
 fi
 
-if [ "$color_prompt" = yes ]
+if [ "$color_prompt" == yes ]
 then 
-    if [ "$UNAME" = 'Darwin' ]
+    if [ "$UNAME" == 'Darwin' ]
     then
         PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\$ '
     else

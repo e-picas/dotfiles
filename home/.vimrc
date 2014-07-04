@@ -1,5 +1,5 @@
 "
-" .vimrc
+" .vimrc <http://vimdoc.sourceforge.net/htmldoc/starting.html#.vimrc>
 " by @pierowbmstr (me at e-piwi dot fr)
 " <http://github.com/piwi/dotfiles.git>
 " (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
