@@ -92,6 +92,10 @@ this branch as a submodule. Corresponding SVN config (for fresh clones):
 I mostly followed this tutorial to build the git branch tracking the svn repo and use it 
 as a submodule: <http://fredericiana.com/2010/01/12/using-svn-repositories-as-git-submodules/>.
 
+I also include a hard copy of the `git-completion` script written by [*Shawn O. Pearce*](http://spearce.org).
+His script is included in recent GIT official distributions but I used to include it as a
+dotfile at `$HOME/.git-completion`. It is sourced by my `.bashrc_git` (stored in `home/alt/`)
+sourced itself, if it is found at `$HOME/.bashrc_git`, by my global `.bashrc`.
 
 ----
 

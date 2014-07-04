@@ -43,6 +43,7 @@ export CLICOLOR=1
 [ -z $HISTFILE ] && export HISTFILE="${HOME}/.history";
 [ -z $MYSQL_HISTFILE ] && export MYSQL_HISTFILE="${HOME}/.mysql_history";
 [ -z $SQLITE_HISTFILE ] && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
+# ignore duplicate history lines and any command beginning by a space
 export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
 export HISTFILESIZE=5000

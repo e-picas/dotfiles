@@ -34,7 +34,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 
-# cvs internals
+# VCS internals
 *.diff
 *.err
 *.orig

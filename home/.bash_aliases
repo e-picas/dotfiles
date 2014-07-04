@@ -18,7 +18,7 @@ alias rmdir='rm -r'
 alias mv='mv -i'
 alias cp='cp -i'
 
-# exclude csv internals from grep
+# exclude vcs internals from grep
 alias grep='grep --color=auto --exclude-dir=\.svn  --exclude-dir=\.git'
 
 # enable color support of ls and also add handy aliases
