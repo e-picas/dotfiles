@@ -8,18 +8,26 @@
 
 #######################################################################
 # script infos
-declare -rx VERSION="1.0.0"
+declare -rx VERSION="1.0.1"
 declare -rx NAME="piwi/dotfiles"
 declare -rx REPO="http://github.com/piwi/dotfiles"
 declare -rx USAGE=$(cat <<EOT
 ## ${NAME} installer & updater
 
-This script will try to install or update all dotfiles and binaries of this clone in a directory
-(by default, current user 'HOME'). The default behavior is to be fully interactive (the built-in 
-'find' command used in this script needs to receive an 'y' answer to process).
+This script will try to install or update all dotfiles, binaries and sub-directories of this clone 
+in a directory (by default, current user 'HOME'). The default behavior is to be fully interactive 
+(the built-in 'find' command used in this script needs to receive an 'y' answer to process).
 
 usage:
-     $0 [-h] [-V] [-f|--force] [-v|--verbose] <install_dir = \$HOME/>
+     $0 [-hV]
+     $0 [-fv] <install_dir=\$HOME/> <type=all> <mode=symlinks>
+
+arguments:
+    install_dir = \$HOME      : installation target directory
+    type        = all        : installation type in 'all', 'bin', 'home' or any sub-directory name
+    mode        = symlinks   : define the copy mode:
+                                - 'symlinks' to symlink files from repository
+                                - 'hard-copies' to copy files as new hard files
 
 options:
     -f|--force      : force installing all files (NOT interactive)
@@ -70,15 +78,40 @@ then
     exit 1
 fi
 
+# type of installation
+declare -x INSTALLTYPE="${2:-all}"
+
+# mode of installation
+declare -x INSTALLMODE="${3:-symlinks}"
+
+# no interaction in FORCED mode
+LNOPTS='-s'
+CPOPTS=''
 if $_FORCED
 then
     FINDEXECTYPE='-exec '
+    LNOPTS+=' -f'
+    CPOPTS+=' -f'
 else
     FINDEXECTYPE='-ok '
 fi
 
 # go to the clone directory
 cd "${HERE}"
+
+# test if we are in a GIT clone
+if [ ! -d .git ]
+then
+    export INSTALLMODE='hard-copies'
+    echo "!! > current directory doesn't seem to be a clone of a GIT repository ... Installation mode automatically set on 'hard-copies'."
+    read -p "do you want to continue ? [N/y] " _resp
+    _resp="${_resp:-N}"
+    if [ "${_resp}" != 'y' ]&&[ "${_resp}" != 'Y' ]
+    then
+        echo "_ abort"
+        exit 0
+    fi
+fi
 
 # how-to info
 if ! $_FORCED
@@ -91,50 +124,70 @@ then
 fi
 
 # update of submodules
-$_VERBOSE && echo "> updating git sub-modules ..."
-git submodule init
-git submodule update
+if [ -d .git ]
+then
+    $_VERBOSE && echo "> updating git sub-modules ..."
+    git submodule init
+    git submodule update
+fi
 
 # installation of dotfiles
-$_VERBOSE && echo "> installing dotfiles in '${INSTALLDIR}/' ..."
-# symlink all but models
-if $_FORCED
+if [ "${INSTALLTYPE}" == 'dotfiles' ]||[ "${INSTALLTYPE}" == 'home' ]||[ "${INSTALLTYPE}" == 'all' ]
 then
-    find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -o -type f ${FINDEXECTYPE} ln -fs {} ${INSTALLDIR}/ \;
-else
-    find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -o -type f ${FINDEXECTYPE} ln -s {} ${INSTALLDIR}/ \;
+    $_VERBOSE && echo "> installing dotfiles in '${INSTALLDIR}/' ..."
+    # symlink all but models
+    for f in $(find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -o -type f ${FINDEXECTYPE} echo {} \;)
+    do
+        if [ "${INSTALLMODE}" == 'hard-copies' ]
+        then
+            cp ${CPOPTS} ${f} ${INSTALLDIR}/
+        else
+            ln ${LNOPTS} ${f} ${INSTALLDIR}/
+        fi
+    done
+    # copy and edit models
+    $_VERBOSE && echo "> installing dotfiles models in '${INSTALLDIR}/': first choose models to install then edit them ..."
+    for f in $(find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -type f ${FINDEXECTYPE} echo {} \;)
+    do
+        ofn=`basename $f`
+        tfn="${ofn/.model}"
+        cp ${CPOPTS} ${f} ${INSTALLDIR}/${tfn} && vim ${INSTALLDIR}/${tfn}
+    done
 fi
-# copy and edit models
-$_VERBOSE && echo "> installing dotfiles models in '${INSTALLDIR}/': first choose models to install then edit them ..."
-for f in $(find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -type f ${FINDEXECTYPE} echo {} \;)
-do
-    ofn=`basename $f`
-    tfn="${ofn/.model}"
-    cp $f ${INSTALLDIR}/${tfn} && vim ${INSTALLDIR}/${tfn}
-done
 
 # installation of binaries
-$_VERBOSE && echo "> installing binaries in '${INSTALLDIR}/bin/' ..."
-if [ ! -d ${INSTALLDIR}/bin ]
+if [ "${INSTALLTYPE}" == 'bin' ]||[ "${INSTALLTYPE}" == 'binaries' ]||[ "${INSTALLTYPE}" == 'all' ]
 then
-    mkdir -p ${INSTALLDIR}/bin
-fi
-if $_FORCED
-then
-    find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} ln -fs {} ${INSTALLDIR}/bin/ \;
-else
-    find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} ln -s {} ${INSTALLDIR}/bin/ \;
+    $_VERBOSE && echo "> installing binaries in '${INSTALLDIR}/bin/' ..."
+    for f in $(find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} echo {} \;)
+    do
+        [ ! -d ${INSTALLDIR}/bin ] && mkdir -p ${INSTALLDIR}/bin;
+        if [ "${INSTALLMODE}" == 'hard-copies' ]
+        then
+            cp ${CPOPTS} ${f} ${INSTALLDIR}/bin/
+        else
+            ln ${LNOPTS} ${f} ${INSTALLDIR}/bin/
+        fi
+    done
 fi
 
-# installation of notes
-$_VERBOSE && echo "> symlinking notes directory in '${INSTALLDIR}/notes/' ..."
-if $_FORCED
-then
-    ln -fs "${HERE}/notes" ${INSTALLDIR}/
-else
-    ln -s "${HERE}/notes" ${INSTALLDIR}/
-fi
+# installation of sub-directories
+$_VERBOSE && echo "> linking sub-directory in '${INSTALLDIR}/%s' ..."
+for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
+do
+    if [ "${INSTALLTYPE}" == "${d}" ]||[ "${INSTALLTYPE}" == 'all' ]
+    then
+        $_VERBOSE && echo "> linking '${d}' directory in '${INSTALLDIR}/${d}/' ..."
+        if [ "${INSTALLMODE}" == 'hard-copies' ]
+        then
+            cp ${CPOPTS} -r ${f} "${HERE}/${d}" ${INSTALLDIR}/
+        else
+            ln ${LNOPTS} "${HERE}/${d}" ${INSTALLDIR}/
+        fi
+    fi
+done
 
 exit 0
+
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
