@@ -52,11 +52,12 @@ quietly() {
 emailme(){
     if [ $# -eq 0 ]
     then
-        echo "Usage: emailme [text]"
+        echo "Usage: emailme [subject] [text]"
         return 1
     fi
-    mailx -s "$@" $USER <<< "$@"
-    echo "Sent email"
+    local subject="$1"
+    shift
+    mailx -s "${subject}" $USER <<< "$@" && echo "email sent to ${USER}" || "email NOT sent!"
 }
 
 #
