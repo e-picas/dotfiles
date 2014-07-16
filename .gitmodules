@@ -21,3 +21,6 @@
 	path = modules/mde-html5-quick-template
 	url = https://github.com/piwi/html5-quick-template.git
 	branch = mde-master
+[submodule "modules/fonts.conf"]
+	path = modules/fonts.conf
+	url = https://gist.github.com/5599072.git

@@ -108,7 +108,23 @@ set wrap " Wrap lines
 set laststatus=2
 
 " Format the status line
-set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=
+set statusline+=%#error#\                                           " error highlighting
+set statusline+=%1*[%n]%*                                           " buffer number
+set statusline+=%#error#\                                           " error highlighting
+set statusline+=%F%m%r%h\ %w\                                       " file flags and path 
+set statusline+=[%{strlen(&ft)?&ft:'none'},                         " file type
+set statusline+=%{strlen(&fenc)?&fenc:&enc},                        " file encoding
+set statusline+=%{&fileformat}]\                                    " file format
+set statusline+=%*                                                  " stop highlighting
+set statusline+=\ CWD:\ %r%{getcwd()}%h                             " current working dir
+set statusline+=%=                                                  " right align
+set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\   " current line type
+set statusline+=%#todo#\                                            " todo highlighting
+set statusline+=line:\ %l\ \|\                                      " line number
+set statusline+=column:\ %c\ \|\                                    " column number
+set statusline+=%<%P\                                               " position percentage
+set statusline+=%*                                                  " stop highlighting
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
