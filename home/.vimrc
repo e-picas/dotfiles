@@ -80,8 +80,9 @@ if has("gui_running")
     set guitablabel=%M\ %t
 endif
 
-" Set utf8 as standard encoding and en_US as the standard language
+" Set utf8 as standard encoding for contents and files
 set encoding=utf8
+setglobal fileencoding=utf-8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -95,6 +96,10 @@ set expandtab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+
+" show tabs on highlight
+set list
+set listchars=tab:\|\ 
 
 " Linebreak on 500 characters
 set lbr
