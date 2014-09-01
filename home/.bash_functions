@@ -407,7 +407,8 @@ note(){
     fi
     if [ "$action" = 'read' ]
     then
-        cat $NOTESDIR/$notestack
+        less $NOTESDIR/$notestack
+        #cat $NOTESDIR/$notestack
     else
         takenote=$*
         if [ $append -eq 0 ]
