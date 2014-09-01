@@ -54,6 +54,9 @@ alias d='date +%Y%m%d-%H%M%S'
 alias hn='hostname -a'
 alias fullps='ps -auxwww'
 
+# summary of LXC with IPs and status
+alias lxc-list='sudo lxc-ls -1f'
+
 # Add an "alert" alias for long running commands
 # usage: sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
