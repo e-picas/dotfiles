@@ -135,17 +135,20 @@ case "$TERM" in
     *);;
 esac
 
-# user directories
-[ -z $TMPDIR ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
-[ -z $BACKUPDIR ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
-# personal notes dir
-mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
+# user per-device external files
+[ -r ${HOME}/.bashrc_alt ] && source ${HOME}/.bashrc_alt;
 
 # special inclusion of .bashrc_git if it exists
 [ -r ${HOME}/.bashrc_git ] && source ${HOME}/.bashrc_git;
 
-# user per-device external files
-[ -r ${HOME}/.bashrc_alt ] && source ${HOME}/.bashrc_alt;
+## user directories
+# to avoid their creations, define `TMPDIR=''`, `BACKUPDIR=''` and `NOTESDIR=''` in `.bashrc_alt`
+# temporary directory: TMPDIR
+[ -z $TMPDIR ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
+# backup directory: BACKUPDIR
+[ -z $BACKUPDIR ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
+# personal notes directory: NOTESDIR (used by the `notes` and `cheatsheet` functions)
+[ -z $NOTESDIR ] && mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
