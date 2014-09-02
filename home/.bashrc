@@ -142,7 +142,7 @@ esac
 [ -r ${HOME}/.bashrc_git ] && source ${HOME}/.bashrc_git;
 
 ## user directories
-# to avoid their creations, define `TMPDIR=''`, `BACKUPDIR=''` and `NOTESDIR=''` in `.bashrc_alt`
+# to avoid their creations, define `TMPDIR=false`, `BACKUPDIR=false` and `NOTESDIR=false` in `.bashrc_alt`
 # temporary directory: TMPDIR
 [ -z $TMPDIR ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
 # backup directory: BACKUPDIR
