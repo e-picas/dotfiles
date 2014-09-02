@@ -18,6 +18,9 @@ General
     0     jump to the start of the line
     ^     jump to the first non-blank character of the line
     $     jump to the end of the line
+    H     jump to the top of the screen
+    L     jump to the bottom of the screen
+    gg    go to the top of the document
     G     go to the last line of the document
     5G    go to line 5
 
@@ -44,7 +47,7 @@ Editing
     Ctrl+r redo
     .      repeat last command
 
-Marking text (visual mode)
+Marking text ("visual mode")
     v       start visual mode, mark lines, then do a command (like y-yank)
     V       start linewise visual mode
     o       move to other end of marked area
@@ -64,7 +67,10 @@ Visual commands
     d     delete marked text
     ~     switch case
 
-Cut and paste
+Cut, copy and paste
+    (use "visual mode" to select a part of text)
+    y       yank (copy) current selection
+    d       cut current selection
     yy      yank (copy) a line
     2yy     yank (copy) 2 lines
     yw      yank (copy) word
