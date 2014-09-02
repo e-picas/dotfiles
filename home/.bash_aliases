@@ -54,6 +54,9 @@ alias d='date +%Y%m%d-%H%M%S'
 alias hn='hostname -a'
 alias fullps='ps -auxwww'
 
+# sudo with current user env
+alias sudome='sudo -sE'
+
 # summary of LXC with IPs and status
 alias lxc-list='sudo lxc-ls -1f'
 
