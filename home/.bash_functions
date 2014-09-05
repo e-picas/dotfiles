@@ -91,22 +91,31 @@ cdls() {
 # prints a ruler the size of the terminal window
 #
 ruler() {
-    for s in '....^....|' '1234567890'
-    do
-        w=${#s}
-        str=$( for (( i=1; $i<=$(( ($COLUMNS + $w) / $w )) ; i=$i+1 )); do echo -n $s; done )
-        str=$(echo $str | cut -c -$COLUMNS)
-        echo $str
-    done
+    PADDER=$(printf '%0.1s' "#"{1..1000})
+    printf "%*.*s\n" 0 $(tput cols) "${PADDER}";
 }
 
 #
 # Prints out a long line. Useful for setting a visual flag in your terminal.
 #
 flag(){
-    echo -e "\e[1;36m[==============="$@"===\
-             ($(date +"%A %e %B %Y %H:%M"))\
-             ===============]\e[m";
+    case $USEROS in
+        Linux|FreeBSD|OpenBSD|SunOS) 
+            $(which echo) -e "\033[1;36m[==============="$@"===\
+                     ($(date +"%A %e %B %Y %H:%M"))\
+                     ===============]\033[m";
+            ;;
+        Darwin)
+            echo "\033[1;36m[==============="$@"===\
+                     ($(date +"%A %e %B %Y %H:%M"))\
+                     ===============]\033[m";
+            ;;
+        *)
+            echo -e "\033[1;36m[==============="$@"===\
+                     ($(date +"%A %e %B %Y %H:%M"))\
+                     ===============]\033[m";
+            ;;
+    esac
 }
 
 #
@@ -187,7 +196,7 @@ tarball () {
       *.zip) shift && zip -r "$FILE" "$@" ;;
       *.rar) shift && rar "$FILE" "$@" ;;
       *.7z) shift && 7zr a "$FILE" "$@" ;;
-      *) echo "'$1' cannot be rolled via roll()" ;;
+      *) echo "'$1' cannot be rolled via tarball()" ;;
     esac
   else
     echo "usage: tarball [file] [contents]"
