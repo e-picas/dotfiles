@@ -351,6 +351,7 @@ myinfos () {
 # Simple notepad
 #-------------------------------
 
+# personal notes (not under VCS) are stored in notes/perso/
 note(){
     if [ -z $NOTESDIR ]
     then
