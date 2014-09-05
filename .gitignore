@@ -42,5 +42,6 @@ nbproject
 niximp.sh
 
 # exlusion of personal notes
-notes/perso
+notes/perso/*
+!notes/perso/.gitkeep
 
