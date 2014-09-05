@@ -6,37 +6,13 @@
 #
 
 #
-# moves file to ~/.Trash
-# (use instead of rm)
-#
-trash(){
-    if [ $# -eq 0 ]
-    then
-        echo "Usage: trash <FILE> ..."
-        return 1
-    fi
-    local DATE=$(date +%Y%m%d)
-    [ -d "${HOME}/.Trash/${DATE}" ] || mkdir -p ${HOME}/.Trash/${DATE};
-    for FILE in "$@"
-    do
-        mv "${FILE}" "${HOME}/.Trash/${DATE}"
-        echo "${FILE} trashed!"
-    done
-}
-
-#
 # get a timestamp
 #
 timestamp() {
-    date +"%T"
-}
-
-#
-# cf. <http://www.admin-linux.fr/?p=1965>
-# can take a timestamp as argument
-#
-envdate() {
-    [ ! -z ${1} ] && date -d @${1} +'%d/%m/%Y (%A) %X (UTC %z)' || date +'%d/%m/%Y (%A) %X (UTC %z)';
+    case $UNAME in
+        Darwin) date +"%s" ;;
+        *) date +"%T" ;;
+    esac
 }
 
 #
@@ -44,47 +20,6 @@ envdate() {
 #
 quietly() {
     "$@" > /dev/null 2>&1
-}
-
-#
-# Email me a short note
-#
-emailme(){
-    if [ $# -eq 0 ]
-    then
-        echo "Usage: emailme [subject] [text]"
-        return 1
-    fi
-    local subject="$1"
-    shift
-    mailx -s "${subject}" $USER <<< "$@" && echo "email sent to ${USER}" || "email NOT sent!"
-}
-
-#
-# fast find, using globstar
-#
-fastfind () {
-    ls -ltr **/$@
-}
-
-#
-# Make a directory and change to it
-#
-mkcd() {
-  if [ $# -ne 1 ]
-  then
-        echo "Usage: mkcd <dir>"
-        return 1
-  else
-        mkdir -p "$@" && cd "$_"
-  fi
-}
-
-#
-# cd to a directory and ls
-#
-cdls() {
-    cd "$@" && ls -ltr
 }
 
 #
@@ -99,39 +34,87 @@ ruler() {
 # Prints out a long line. Useful for setting a visual flag in your terminal.
 #
 flag(){
-    case $USEROS in
-        Linux|FreeBSD|OpenBSD|SunOS) 
-            $(which echo) -e "\033[1;36m[==============="$@"===\
-                     ($(date +"%A %e %B %Y %H:%M"))\
-                     ===============]\033[m";
-            ;;
-        Darwin)
-            echo "\033[1;36m[==============="$@"===\
-                     ($(date +"%A %e %B %Y %H:%M"))\
-                     ===============]\033[m";
-            ;;
-        *)
-            echo -e "\033[1;36m[==============="$@"===\
-                     ($(date +"%A %e %B %Y %H:%M"))\
-                     ===============]\033[m";
-            ;;
-    esac
+    _date=$(date +"%A %e %B %Y %H:%M")
+    echo -e "\033[1;36m[==============="$@"===(${_date})===============]\033[m"
+}
+
+#-------------------------------
+# Files manipulation functions
+#-------------------------------
+
+#
+# fast find, using globstar
+#
+fastfind () {
+    ls -ltr **/$@
+}
+
+#
+# moves file to ~/.Trash
+# (use instead of rm)
+#
+trash(){
+    if [ $# -eq 0 ]; then
+        echo "usage: trash <file or dir> [<file or dir 2> ...]"
+        return 1
+    fi
+    local _date=$(date +%Y%m%d)
+    [ -d "${HOME}/.Trash/${_date}" ] || mkdir -p "${HOME}/.Trash/${_date}";
+    for f in "$@"; do
+        mv "${f}" "${HOME}/.Trash/${_date}"
+        echo "${f} trashed!"
+    done
+}
+
+#
+# Make a directory and change to it
+#
+mkcd() {
+    if [ $# -ne 1 ]; then
+        echo "usage: mkcd <dirname>"
+        return 1
+    fi
+    mkdir -p "$@" && cd "$_";
+}
+
+#
+# cd to a directory and ls
+#
+cdls() {
+    cd "$@" && ls -ltr;
+}
+
+#
+# duplicate a file or dir
+#
+duplicate() {
+    if [ $# -eq 0 ]; then
+        echo "usage: duplicate <file or dir> [<copy name>]"
+        return 1
+    fi
+    _source=$(basename "$1")
+    _ext="${_source##*.}"
+    _name="${_source%.*}"
+    if [ $# -gt 1 ]; then
+        _copy="$2"
+    else
+        _copy="${_name}.copy"
+        if [ "${_ext}" != '' ]; then _copy+=".${_ext}"; fi
+    fi
+    cp -R $_source $_copy && echo "${_copy}" || echo "error while copying '${_source}' to '${_copy}'";
 }
 
 #
 # Backup file(s)
 #
 dobackup(){
-    if [ $# -lt 1 ]
-    then
-        echo "Please supply a file to backup"
+    if [ $# -eq 0 ]; then
+        echo "usage: dobackup <file or dir> [<file or dir2> ...]"
         return 1
     fi
-    date=`date +%Y%m%d-%H%M`
-    for i in "$@"
-    do
-        echo Backed up $i to $i.$date
-        cp $i $i.$date
+    _date=`date +%Y%m%d-%H%M`
+    for i in "$@"; do
+        cp -R ${i} "${i}.${_date}" && echo "${i}.${_date}" || echo "error while copying '${i}' to '${i}.${_date}'";
     done
 }
 
@@ -140,16 +123,16 @@ dobackup(){
 addbom(){
     if [ $# -eq 0 ]; then
         echo "usage: addbom <working_dir/file> [<mask=*.php>]"
-        exit 1
+        return 1
     fi
-    _DIR="$1"
-    _MASK="${2:-*.php}"
-    for _f in `find "${_DIR}" -type f -name "${_MASK}"`; do
-        echo ${_f}
+    _dir="$1"
+    _mask="${2:-*.php}"
+    for _f in `find "${_dir}" -type f -name "${_mask}"`; do
         _f_tmp=${_f}.tmp
         printf '\xEF\xBB\xBF' > ${_f_tmp}
         cat ${_f} >> ${_f_tmp}
         rm -f ${_f} && mv ${_f_tmp} ${_f}
+        echo ${_f}
     done
 }
 
@@ -157,9 +140,8 @@ addbom(){
 # Extract an archive of any type
 #
 extract () {
-   if [ $# -lt 1 ]
-   then
-       echo "Usage: extract <file>"
+   if [ $# -eq 0 ]; then
+       echo "usage: extract <file>"
        return 1
    fi
    if [ -f $1 ] ; then
@@ -187,20 +169,21 @@ extract () {
 # Creates an archive
 #
 tarball () {
-  if [ "$#" -ne 0 ] ; then
+    if [ $# -eq 0 ]; then
+        echo "usage: tarball <filename> <contents ...>"
+        return 1
+    fi
     FILE="$1"
     case "$FILE" in
-      *.tar.bz2|*.tbz2) shift && tar cvjf "$FILE" "$@" ;;
-      *.tar.gz|*.tgz) shift && tar cvzf "$FILE" "$@" ;;
-      *.tar) shift && tar cvf "$FILE" "$@" ;;
-      *.zip) shift && zip -r "$FILE" "$@" ;;
-      *.rar) shift && rar "$FILE" "$@" ;;
-      *.7z) shift && 7zr a "$FILE" "$@" ;;
-      *) echo "'$1' cannot be rolled via tarball()" ;;
+        *.tar.bz2|*.tbz2) shift && tar cvjf "$FILE" "$@" ;;
+        *.tar.gz|*.tgz) shift && tar cvzf "$FILE" "$@" ;;
+        *.tar) shift && tar cvf "$FILE" "$@" ;;
+        *.zip) shift && zip -r "$FILE" "$@" ;;
+        *.rar) shift && rar "$FILE" "$@" ;;
+        *.7z) shift && 7zr a "$FILE" "$@" ;;
+        *) echo "'$1' cannot be rolled via tarball()" && return 1 ;;
     esac
-  else
-    echo "usage: tarball [file] [contents]"
-  fi
+    echo $FILE
 }
 
 #
@@ -213,18 +196,15 @@ dupes() {
 #
 # read a csv file
 #
-csv() {
-    if [ $# -eq 0 ]
-    then
-        echo "Usage: csv [delim] filename"
+readcsv() {
+    if [ $# -eq 0 ]; then
+        echo "usage: csv [delim] filename"
         exit 1
     fi
-    if [ $# -gt 1 ]
-    then
+    delim=';'
+    if [ $# -gt 1 ]; then
         delimiter="$1"
         shift
-    else
-        delim=';'
     fi
     awk -F "$delim" '{if(NR==1)split($0,arr);else for(i=1;i<=NF;i++)print arr[i]":"$i;print "";}' "$1"
 }
@@ -236,25 +216,23 @@ csv() {
 #
 # substring word start [length]
 #
-substring(){
+str_substring(){
     if [ $# -lt 2 ]; then
-        echo "Usage: substring word start [length]"
+        echo "usage: substring word start [length]"
         return 1
     fi
     if [ -z $3 ]
-    then
-        echo ${1:$2}
-    else
-        echo ${1:$2:$3}
+    then echo ${1:$2}
+    else echo ${1:$2:$3}
     fi
 }
 
 #
 # length of string
 #
-length(){
+str_length(){
     if [ $# -lt 1 ]; then
-        echo "Usage: length word"
+        echo "usage: length word"
         return 1
     fi
     echo ${#1}
@@ -263,9 +241,9 @@ length(){
 #
 # replace part of string with another
 #
-replace(){
+str_replace(){
     if [ $# -ne 3 ]; then
-        echo "Usage: replace string substring replacement"
+        echo "usage: replace string substring replacement"
         return 1
     fi
     echo ${1/$2/$3}
@@ -274,9 +252,9 @@ replace(){
 #
 # replace all parts of a string with another
 #
-replaceAll(){
+str_replaceall(){
     if [ $# -ne 3 ]; then
-        echo "Usage: replace string substring replacement"
+        echo "usage: replaceall string substring replacement"
         return 1
     fi
     echo ${1//$2/$3}
@@ -285,9 +263,9 @@ replaceAll(){
 #
 # find index of specified string
 #
-index(){
+str_index(){
     if [ $# -ne 2 ]; then
-        echo "Usage: index string substring"
+        echo "usage: index string substring"
         return 1
     fi
     expr index $1 $2
@@ -296,9 +274,9 @@ index(){
 #
 # Upper-case
 #
-upper(){
+str_upper(){
     if [ $# -lt 1 ]; then
-        echo "Usage: upper word"
+        echo "usage: upper word"
         return 1
     fi
     echo ${@^^}
@@ -307,9 +285,9 @@ upper(){
 #
 # Lower-case
 #
-lower(){
+str_lower(){
     if [ $# -lt 1 ]; then
-        echo "Usage: lower word"
+        echo "usage: lower word"
         return 1
     fi
     echo ${@,,}
@@ -318,10 +296,11 @@ lower(){
 #
 # surround string with quotes, for example.
 #
-surround(){
+str_surround(){
    if [ $# -ne 2 ]
    then
-     echo "Usage: surround string surround-with e.g. surround hello \\\""
+     echo "usage: surround string surround-with"
+     echo "(e.g. surround hello \\\")"
      return 1
    fi
    echo $1 | sed "s/^/$2/;s/$/$2/" ;
@@ -340,20 +319,46 @@ getip () {
 }
 
 #
+# cf. <http://www.admin-linux.fr/?p=1965>
+# can take a timestamp as argument
+#
+envdate() {
+    [ ! -z ${1} ] && date -d @${1} +'%d/%m/%Y (%A) %X (UTC %z)' || date +'%d/%m/%Y (%A) %X (UTC %z)';
+}
+
+#
 # device infos
 #
-myinfos () {
+envinfo () {
+    getip;
     echo
     echo -e "# `envdate`"
     echo -e "current user:     `whoami`"
-    echo -e "system infos:     `uname -n`"
-    echo -e "device infos:     `uname -v`"
+    echo -e "system info:      `uname -n`"
+    echo -e "device info:      `uname -v`"
     echo -e "device stats:     `uptime`"
-    getip;
     echo -n "IP address:       "; echo $_IP
     echo -n "ISP address:      "; echo $_ISP
     echo -e "#"
     echo
+}
+
+#-------------------------------
+# Shortcuts
+#-------------------------------
+
+#
+# Email me a short note
+#
+emailme(){
+    if [ $# -eq 0 ]; then
+        echo "usage: emailme [subject] [text]"
+        return 1
+    fi
+    local subject="$1"
+    shift
+    [ "$USERMAIL" == '' ] && _to=$USER || _to=$USERMAIL;
+    mailx -s "${subject}" $_to <<< "$@" && echo "email sent to ${_to}" || "email NOT sent!";
 }
 
 #-------------------------------
@@ -362,18 +367,16 @@ myinfos () {
 
 # personal notes (not under VCS) are stored in notes/perso/
 note(){
-    if [ -z $NOTESDIR ]
-    then
-        echo "NOTESDIR not defined, can't use notepad"
+    if [ -z $NOTESDIR ]; then
+        echo "NOTESDIR is not defined, can't use the notepad!"
         return 1
     fi
-    if [ $# -eq 0 ]
-    then
-        echo "Usage:   note ls"
+    if [ $# -eq 0 ]; then
+        echo "usage:   note ls"
         echo "           list all notes"
-        echo "Usage:   note <note name>"
+        echo "usage:   note <note name>"
         echo "           read a note"
-        echo "Usage:   note <note name> <action (+/-)> [note text ...]"
+        echo "usage:   note <note name> <action (+/-)> [note text ...]"
         echo "           action +  to write a note"
         echo "           action ++ to write a note with date header"
         echo "           action -  to clear note"
@@ -383,61 +386,58 @@ note(){
         return 1
     fi
     case $1 in
-        ls) ls $NOTESDIR && return 0;;
-        *) notestack=$1; shift;;
+        ls) 
+            which tree &> /dev/null && tree $NOTESDIR || ls $NOTESDIR;
+            return 0
+            ;;
+        *) notestack="$1"; shift;;
     esac
     append=1
     action=read
-    if [ "$notestack" = '-' ]
-    then
+    if [ "$notestack" == '-' ]; then
         notestack=`date +"%d-%m-%y"`
     fi
-    if [ "$1" = '++' ]
-    then
+    if [ "$1" == '++' ]; then
         action=add
         append=0
         shift
-    elif [ "$1" = '+' ]
-    then
+    elif [ "$1" == '+' ]; then
         action=add
         shift
-    elif [ "$1" = '--' ]
-    then
-        rm $NOTESDIR/$notestack
-        echo note $notestack deleted
+    elif [ "$1" == '--' ]; then
+        rm ${NOTESDIR}/${notestack}
+        echo "> note '${notestack}' deleted"
         return 0
-    elif [ "$1" = '-' ]
-    then
-        echo '' > $NOTESDIR/$notestack
-        echo note $notestack cleared
+    elif [ "$1" == '-' ]; then
+        echo '' > ${NOTESDIR}/${notestack}
+        echo "> note '${notestack}' cleared"
         return 0
-    elif [ "$1" = 'vi' ]
-    then
-        $EDITOR $NOTESDIR/$notestack
+    elif [ "$1" == 'vi' ]; then
+        ${EDITOR} ${NOTESDIR}/${notestack}
     fi
-    if [ "$action" = 'read' ]
-    then
-        less $NOTESDIR/$notestack
-        #cat $NOTESDIR/$notestack
-    else
-        takenote=$*
-        if [ $append -eq 0 ]
-        then
-            echo                                  >> $NOTESDIR/$notestack
-            echo "## `date '+%T, %a %d/%m/%y'`"   >> $NOTESDIR/$notestack
-            echo       '------------------------' >> $NOTESDIR/$notestack
+    if [ "${action}" == 'read' ]; then
+        if [ ! -f ${NOTESDIR}/${notestack} ]; then
+            echo "!! > not '${notestack}' inconnue!"
+            return 1
         fi
-        echo $takenote >> $NOTESDIR/$notestack
-        echo note added to $notestack
+        which less &> /dev/null && less ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
+    else
+        takenote="$*"
+        if [ $append -eq 0 ]; then
+            echo                                  >> ${NOTESDIR}/${notestack}
+            echo "## `date '+%T, %a %d/%m/%y'`"   >> ${NOTESDIR}/${notestack}
+            echo '------------------------'       >> ${NOTESDIR}/${notestack}
+        fi
+        echo "${takenote}" >> ${NOTESDIR}/${notestack}
+        echo "> note added to '${notestack}'"
     fi
 }
 
 cheatsheet() {
-    if [ $# -eq 0 ]
-    then
-        echo "Usage:   cheatsheet <note name>"
+    if [ $# -eq 0 ]; then
+        echo "usage:   cheatsheet <note name>"
         echo "           read a cheatsheet"
-        echo "Usage:   cheatsheet <note name> [note text ...]"
+        echo "usage:   cheatsheet <note name> [note text ...]"
         echo "           write a cheatsheet or add content in it"
         return 1
     fi
