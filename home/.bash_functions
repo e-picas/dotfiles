@@ -420,7 +420,7 @@ note(){
             echo "!! > not '${notestack}' inconnue!"
             return 1
         fi
-        which less &> /dev/null && less ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
+        which more &> /dev/null && more ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
     else
         takenote="$*"
         if [ $append -eq 0 ]; then
