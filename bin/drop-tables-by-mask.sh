@@ -1,0 +1,1 @@
+../modules/binaries/drop-tables-by-mask.sh
