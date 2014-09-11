@@ -146,18 +146,18 @@ extract () {
    fi
    if [ -f $1 ] ; then
        case $1 in
-           *.tar.bz2) tar xvjf $1 ;;
-           *.tar.gz) tar xvzf $1 ;;
+           *.tar.bz2) tar -xvjf $1 ;;
+           *.tar.gz) tar -xvzf $1 ;;
            *.bz2) bunzip2 $1 ;;
-           *.rar) unrar x $1 ;;
+           *.rar) unrar -x $1 ;;
            *.gz) gunzip $1 ;;
-           *.tar) tar xvf $1 ;;
-           *.tbz2) tar xvjf $1 ;;
-           *.tgz) tar xvzf $1 ;;
+           *.tar) tar -xvf $1 ;;
+           *.tbz2) tar -xvjf $1 ;;
+           *.tgz) tar -xvzf $1 ;;
            *.zip) unzip $1 ;;
            *.war|*.jar) unzip $1 ;;
            *.Z) uncompress $1 ;;
-           *.7z) 7z x $1 ;;
+           *.7z) 7z -x $1 ;;
            *) echo "don't know how to extract '$1'..." ;;
        esac
    else
@@ -174,14 +174,19 @@ tarball () {
         return 1
     fi
     FILE="$1"
+    shift
+    ARGS="$@"
+    if [ $# -eq 0 ]; then
+       ARGS=`echo "$FILE" | cut -d'.' -f1`
+    fi
     case "$FILE" in
-        *.tar.bz2|*.tbz2) shift && tar cvjf "$FILE" "$@" ;;
-        *.tar.gz|*.tgz) shift && tar cvzf "$FILE" "$@" ;;
-        *.tar) shift && tar cvf "$FILE" "$@" ;;
-        *.zip) shift && zip -r "$FILE" "$@" ;;
-        *.rar) shift && rar "$FILE" "$@" ;;
-        *.7z) shift && 7zr a "$FILE" "$@" ;;
-        *) echo "'$1' cannot be rolled via tarball()" && return 1 ;;
+        *.tar.bz2|*.tbz2) tar -cvjf "$FILE" "$ARGS" ;;
+        *.tar.gz|*.tgz) tar -cvzf "$FILE" "$ARGS" ;;
+        *.tar) tar -cvf "$FILE" "$ARGS" ;;
+        *.zip) zip -r "$FILE" "$ARGS" ;;
+        *.rar) rar "$FILE" "$ARGS" ;;
+        *.7z) 7zr -a "$FILE" "$ARGS" ;;
+        *) echo "'$FILE' cannot be rolled via tarball()" && return 1 ;;
     esac
     echo $FILE
 }
@@ -420,7 +425,8 @@ note(){
             echo "!! > not '${notestack}' inconnue!"
             return 1
         fi
-        which more &> /dev/null && more ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
+        #which more &> /dev/null && more ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
+        which less &> /dev/null && less ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
     else
         takenote="$*"
         if [ $append -eq 0 ]; then

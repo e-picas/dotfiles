@@ -47,7 +47,7 @@ alias ldir='ll -d */'
 
 # various
 alias diff='diff -u'        # use unified diff format
-alias less='less -iMFR'
+alias less='less -iMR'
 alias _echo='echo -e'
 alias cl='clear'
 alias d='date +%Y%m%d-%H%M%S'
