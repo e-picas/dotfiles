@@ -33,7 +33,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
-if [ $(uname) = "Linux" ]; then
+if [ $(uname) == "Linux" ]; then
     alias ls="ls --color=auto"
 else
     alias ls="ls -G"

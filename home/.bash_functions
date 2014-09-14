@@ -43,6 +43,36 @@ flag(){
 #-------------------------------
 
 #
+# Get the system appropriate temp directory
+# @see https://github.com/Jaymon/.bash/blob/master/util.sh
+#
+get_tmp(){
+    tmp_dir="/tmp/"
+    if [ "$TMPDIR" != "" ]; then
+        tmp_dir="$TMPDIR"
+    elif [ "$TMP" != "" ]; then
+        tmp_dir="$TMP"
+    elif [ "$TEMP" != "" ]; then
+        tmp_dir="$TEMP"
+    fi
+
+    # make sure last char is a /
+    # http://www.unix.com/shell-programming-scripting/14462-testing-last-character-string.html
+    if [[ $tmp_dir != */ ]]; then
+        tmp_dir="$tmp_dir"/
+    fi
+
+    # http://stackoverflow.com/questions/12283463/in-bash-how-do-i-join-n-parameters-together-as-a-string
+    if [ $# -gt 0 ]; then
+        IFS="/"
+        tmp_dir="$tmp_dir""$*"
+        unset IFS
+    fi
+
+    echo "$tmp_dir"
+}
+
+#
 # fast find, using globstar
 #
 fastfind () {
@@ -319,8 +349,21 @@ str_surround(){
 # load in _IP & _ISP
 #
 getip () {
-    export _IP=$(ifconfig | awk '/inet / { print $2 } ' | sed -e s/addr:// 2>&-)
+    _IP=$(ifconfig | awk '/inet / { print $2 } ' | sed -e s/addr:// 2>&-)
+    export _IP="${_IP//127\.0\.0\.1/}"
     export _ISP=$(ifconfig | awk '/P-t-P/ { print $3 } ' | sed -e s/P-t-P:// 2>&-)
+}
+
+#
+# Load computer's current ip address in _EIP
+# http://www.coderholic.com/invaluable-command-line-tools-for-web-developers/
+#
+getextip(){
+    if [ $(which curl &> /dev/null; echo $?) -eq 0 ]; then
+        export _EIP=$(curl -s http://ifconfig.me/ip)
+    else
+        export _EIP=$(wget -qO- http://ifconfig.me/ip)
+    fi
 }
 
 #
@@ -334,15 +377,17 @@ envdate() {
 #
 # device infos
 #
-envinfo () {
+getenvinfo () {
     getip;
+    getextip;
     echo
     echo -e "# `envdate`"
     echo -e "current user:     `whoami`"
     echo -e "system info:      `uname -n`"
     echo -e "device info:      `uname -v`"
     echo -e "device stats:     `uptime`"
-    echo -n "IP address:       "; echo $_IP
+    echo -n "Int. IP address:  "; echo $_IP
+    echo -n "Ext. IP address:  "; echo $_EIP
     echo -n "ISP address:      "; echo $_ISP
     echo -e "#"
     echo
@@ -425,8 +470,13 @@ note(){
             echo "!! > not '${notestack}' inconnue!"
             return 1
         fi
-        #which more &> /dev/null && more ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
-        which less &> /dev/null && less ${NOTESDIR}/${notestack} || cat ${NOTESDIR}/${notestack};
+        if $(which less &> /dev/null); then
+            less ${NOTESDIR}/${notestack}
+        elif $(which more &> /dev/null); then
+            more ${NOTESDIR}/${notestack}
+        else
+            cat ${NOTESDIR}/${notestack};
+        fi
     else
         takenote="$*"
         if [ $append -eq 0 ]; then
