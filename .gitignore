@@ -3,6 +3,7 @@
 # <http://github.com/piwi/dotfiles.git>
 #
 
+# IDE, OS & apps files
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -41,7 +42,9 @@ nbproject
 # exclusion of the niximp symlink
 niximp.sh
 
-# exlusion of personal notes
+# exclusion of personal notes
 notes/perso/*
-!notes/perso/.gitkeep
 
+# Hack to allow keeping an empty directory
+# this one HAS to keep last !!
+!.gitkeep
