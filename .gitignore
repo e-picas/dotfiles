@@ -39,11 +39,26 @@ nbproject
 # any _alt file
 *_alt
 
+# any *tmp* file
+*tmp*
+
 # exclusion of the niximp symlink
 niximp.sh
 
+# the composer binary
+*composer.phar
+
 # exclusion of personal notes
 notes/perso/*
+
+# www packages sources
+www/dependencies/bin/*
+www/dependencies/src/*
+www/GitHub-projects/*
+!www/GitHub-projects/composer.json
+www/CarteBlanche-projects/*
+!www/CarteBlanche-projects/composer.json
+www/DocBook/*
 
 # Hack to allow keeping an empty directory
 # this one HAS to keep last !!
