@@ -43,7 +43,7 @@ nbproject
 *tmp*
 
 # exclusion of the niximp symlink
-niximp.sh
+#niximp.sh
 
 # the composer binary
 *composer.phar
