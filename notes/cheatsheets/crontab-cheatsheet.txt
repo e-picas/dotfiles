@@ -1,0 +1,16 @@
+CRON cheat sheet
+----------------
+
+* * * * * command to execute
+- - - - -
+| | | | |
+| | | | + - - - day of week (0-6 ; sunday=0)
+| | | + - - - - month (1-12)
+| | + - - - - - day of month (1-31)
+| + - - - - - - hour (0-23)
++ - - - - - - - minute (0-59)
+
+Example:
+    alarm clock set to 6:30AM
+    30 6 * * * /home/nano/alarm
+

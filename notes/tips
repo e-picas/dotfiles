@@ -26,3 +26,14 @@ echo HASH | openssl enc -aes-256-cbc -a -salt -pass PASS:SALT -d
 openssl enc -a -aes-256-cbc -salt -in INITFILE -out PASSFILE -pass PASS:SALT
 openssl enc -a -aes-256-cbc -salt -in PASSFILE -out FINALFILE -pass PASS:SALT -d
 
+
+# write a message to a user
+write username
+...
+Ctrl+C
+
+# open disc drive
+eject
+# close disc drive
+eject -t
+
