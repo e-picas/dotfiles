@@ -10,6 +10,7 @@ nmap -sT IP_ADDRESS -p PORT -oG | grep open | cut -f2 -d ":" | cut -f1 -d "("
 
 # mysql connect:
 mysql --user=USER --host=XX.YY.ZZ.WW --port=3306 --password='PASS' DATABASE
+mysql -u USER -h XX.YY.ZZ.WW -P 3306 -p'PASS' DATABASE
 
 # define a proxy:
 export ftp_proxy=...
