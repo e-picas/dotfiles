@@ -42,6 +42,9 @@ nbproject
 # any *tmp* file
 *tmp*
 
+# exclusion of the 'dev/' subdir
+dev/*
+
 # exclusion of the niximp symlink
 niximp.sh
 
