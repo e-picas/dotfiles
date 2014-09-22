@@ -1,0 +1,51 @@
+{
+    "name": "GitHub-projects",
+    "name": "projects/all",
+    "description": "Various projects.",
+    "homepage": "http://github.com/atelierspierrot",
+    "require": {
+        "php": ">=5.3.2",
+        "atelierspierrot/patterns": "1.*",
+        "atelierspierrot/library": "1.*",
+        "atelierspierrot/validators": "1.*",
+        "atelierspierrot/maths": "1.*",
+        "atelierspierrot/internationalization": "1.*",
+        "atelierspierrot/assets-manager": "1.*",
+        "atelierspierrot/templatengine": "1.*",
+        "atelierspierrot/assets-library": "1.*",
+        "atelierspierrot/assets-bootstrapper": "1.*",
+        "atelierspierrot/devdebug": "1.*",
+        "atelierspierrot/mime-mailer": "1.*",
+        "atelierspierrot/webfilesystem": "1.*",
+        "atelierspierrot/media-processing": "1.*",
+        "atelierspierrot/webservices": "1.*",
+        "atelierspierrot/git-api": "1.*",
+        "atelierspierrot/devdebug": "1.*",
+        "atelierspierrot/demobuilder": "1.*",
+        "atelierspierrot/famfamfam-silk-sprite": "1.*",
+        "atelierspierrot/famfamfam-flags-sprite": "1.*",
+        "atelierspierrot/gentleface-sprites": "1.*",
+        "atelierspierrot/cryptography": "1.*@dev",
+        "atelierspierrot/web-syndication-analyzer": "1.*@dev",
+        "piwi/markdown-extended": "0.0.*@dev"
+    },
+    "repositories": [
+        { "type": "composer", "url": "http://packagist.ateliers-pierrot.fr/" },
+        { "type": "pear", "url": "http://pear.php.net" }
+    ],
+    "minimum-stability": "dev",
+    "archive": {
+        "exclude": [ "*build", "*dev", "*phpdoc", "*tmp*" ]
+    },
+    "config": {
+        "use-include-path": true,
+        "store-auths": true,
+        "optimize-autoloader": true,
+        "discard-changes": "stash",
+        "cache-dir": "../tmp/cache/",
+        "vendor-dir": "src",
+        "bin-dir": "bin",
+        "assets-dir": "www",
+        "assets-vendor-dir": "vendor"
+    }
+}

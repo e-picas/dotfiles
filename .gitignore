@@ -57,11 +57,19 @@ notes/perso/*
 # www packages sources
 www/dependencies/bin/*
 www/dependencies/src/*
-www/GitHub-projects/*
-!www/GitHub-projects/composer.json
-www/CarteBlanche-projects/*
-!www/CarteBlanche-projects/composer.json
-www/DocBook/*
+www/dependencies/composer.lock
+www/docbook/*
+www/projects/composer.lock
+www/projects/bin/*
+www/projects/src/*
+www/projects/www/*
+www/projects/carte-blanche/src/*
+www/projects/carte-blanche/bin/*
+www/projects/carte-blanche/var/*
+www/projects/carte-blanche/i18n/*
+www/projects/carte-blanche/doc/*
+www/projects/carte-blanche/config/*
+www/projects/carte-blanche/www/*
 
 # Hack to allow keeping an empty directory
 # this one HAS to keep last !!
