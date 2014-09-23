@@ -9,6 +9,7 @@
         "atelierspierrot/library": "1.*",
         "atelierspierrot/validators": "1.*",
         "atelierspierrot/maths": "1.*",
+        "atelierspierrot/cryptography": "1.*@dev",
         "atelierspierrot/internationalization": "1.*",
         "atelierspierrot/assets-manager": "1.*",
         "atelierspierrot/templatengine": "1.*",
@@ -21,17 +22,22 @@
         "atelierspierrot/webservices": "1.*",
         "atelierspierrot/git-api": "1.*",
         "atelierspierrot/devdebug": "1.*",
-        "atelierspierrot/demobuilder": "1.*",
         "atelierspierrot/famfamfam-silk-sprite": "1.*",
         "atelierspierrot/famfamfam-flags-sprite": "1.*",
         "atelierspierrot/gentleface-sprites": "1.*",
-        "atelierspierrot/cryptography": "1.*@dev",
         "atelierspierrot/web-syndication-analyzer": "1.*@dev",
+        "atelierspierrot/demobuilder": "dev-master",
+        "markdown-extended/aboutmde.org": "dev-master",
+        "piwi/html5-quick-template": "dev-master",
+        "piwi/bootstrap-companion": "dev-master",
         "piwi/markdown-extended": "0.0.*@dev"
     },
     "repositories": [
         { "type": "composer", "url": "http://packagist.ateliers-pierrot.fr/" },
-        { "type": "pear", "url": "http://pear.php.net" }
+        { "type": "vcs", "url": "https://github.com/atelierspierrot/demobuilder" },
+        { "type": "vcs", "url": "https://github.com/piwi/html5-quick-template" },
+        { "type": "vcs", "url": "https://github.com/piwi/bootstrap-companion" },
+        { "type": "vcs", "url": "https://github.com/markdown-extended/aboutmde.org" }
     ],
     "minimum-stability": "dev",
     "archive": {
