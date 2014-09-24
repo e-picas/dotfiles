@@ -42,6 +42,7 @@ declare -x _FORCED=false
 declare -x _VERBOSE=false
 declare -rx DEFUSERDIR=$(cd ~ && pwd)
 declare -rx HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+declare -rx AUTOINSTALLER='auto-install.sh'
 #######################################################################
 
 if [ "$1" == '-h' ]||[ "$1" == '--help' ]||[ "$1" == 'help' ]
@@ -177,15 +178,20 @@ then
     $_VERBOSE && echo "> linking sub-directory in '${INSTALLDIR}/%s' ..."
     for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
     do
-        if [ "${INSTALLTYPE}" == "${d}" ]||[ "${INSTALLTYPE}" == 'all' ]
+        odn=`basename $d`
+        installer="${d}/${AUTOINSTALLER}"
+        if [ ! -f "${installer}" ]
         then
-            $_VERBOSE && echo "> linking '${d}' directory in '${INSTALLDIR}/${d}/' ..."
+            $_VERBOSE && echo "> linking '${odn}' directory in '${INSTALLDIR}/${odn}/' ..."
             if [ "${INSTALLMODE}" == 'hard-copies' ]
             then
-                cp ${CPOPTS} -r "${HERE}/${d}" ${INSTALLDIR}/
+                cp ${CPOPTS} -r "${HERE}/${odn}" ${INSTALLDIR}/
             else
-                ln ${LNOPTS} "${HERE}/${d}" ${INSTALLDIR}/
+                ln ${LNOPTS} "${HERE}/${odn}" ${INSTALLDIR}/
             fi
+        else
+            $_VERBOSE && echo "> calling internal installer in '${odn}' directory ..."
+            mkdir -p ${INSTALLDIR}/${odn} && cd ${odn} && ${installer} "${INSTALLDIR}/${odn}";
         fi
     done
 fi
