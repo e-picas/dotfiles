@@ -24,7 +24,7 @@ usage:
 
 arguments:
     install_dir = \$HOME      : installation target directory
-    type        = all        : installation type in 'all', 'bin', 'home' or any sub-directory name
+    type        = all        : installation type in 'all', 'bin', 'home', 'subdirs' or any sub-directory name
     mode        = symlinks   : define the copy mode:
                                 - 'symlinks' to symlink files from repository
                                 - 'hard-copies' to copy files as new hard files
@@ -172,20 +172,23 @@ then
 fi
 
 # installation of sub-directories
-$_VERBOSE && echo "> linking sub-directory in '${INSTALLDIR}/%s' ..."
-for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
-do
-    if [ "${INSTALLTYPE}" == "${d}" ]||[ "${INSTALLTYPE}" == 'all' ]
-    then
-        $_VERBOSE && echo "> linking '${d}' directory in '${INSTALLDIR}/${d}/' ..."
-        if [ "${INSTALLMODE}" == 'hard-copies' ]
+if [ "${INSTALLTYPE}" == 'subdirs' ]||[ "${INSTALLTYPE}" == 'subdirs' ]||[ "${INSTALLTYPE}" == 'all' ]
+then
+    $_VERBOSE && echo "> linking sub-directory in '${INSTALLDIR}/%s' ..."
+    for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
+    do
+        if [ "${INSTALLTYPE}" == "${d}" ]||[ "${INSTALLTYPE}" == 'all' ]
         then
-            cp ${CPOPTS} -r ${f} "${HERE}/${d}" ${INSTALLDIR}/
-        else
-            ln ${LNOPTS} "${HERE}/${d}" ${INSTALLDIR}/
+            $_VERBOSE && echo "> linking '${d}' directory in '${INSTALLDIR}/${d}/' ..."
+            if [ "${INSTALLMODE}" == 'hard-copies' ]
+            then
+                cp ${CPOPTS} -r "${HERE}/${d}" ${INSTALLDIR}/
+            else
+                ln ${LNOPTS} "${HERE}/${d}" ${INSTALLDIR}/
+            fi
         fi
-    fi
-done
+    done
+fi
 
 exit 0
 
