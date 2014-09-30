@@ -342,6 +342,53 @@ str_surround(){
 }
 
 #-------------------------------
+# Quick encryption library
+#-------------------------------
+
+get_encryption_password () {
+    read -s -p "your encryption password: " answer;
+    echo $answer;
+}
+
+encrypt_string () {
+    if [ $# -gt 0 ]; then local s="$1"; else echo '! > not enough arguments (1 expected)' && return 1; fi
+    local p=$(get_encryption_password)
+    echo "$s" | openssl enc -aes-256-cbc -a -salt -pass pass:$p 2> /dev/null;
+}
+
+decrypt_string () {
+    if [ $# -gt 0 ]; then local s="$1"; else echo '! > not enough arguments (1 expected)' && return 1; fi
+    local p=$(get_encryption_password)
+    echo "$s" | openssl enc -aes-256-cbc -a -salt -d -pass pass:$p 2> /dev/null;
+    if [ $? -ne 0 ]; then echo '! > wrong password' && return 1; fi
+}
+
+encrypt_file () {
+    if [ $# -gt 0 ]; then local ifile="$1"; else echo '! > not enough arguments (1 or 2 expected)' && return 1; fi
+    local ofile="${2:-${ifile}-`date +%s`.enc}";
+    local p=$(get_encryption_password)
+    if [ -f "$ifile" ]; then
+        openssl enc -aes-256-cbc -a -salt -pass pass:$p -in "$ifile" -out "$ofile" 2> /dev/null;
+    else
+        echo "! > input file '$ifile' not found" && return 1
+    fi
+    echo "$ofile";
+}
+
+decrypt_file () {
+    if [ $# -gt 0 ]; then local ifile="$1"; else echo '! > not enough arguments (1 or 2 expected)' && return 1; fi
+    local ofile="${2:-${ifile}-`date +%s`.dec}";
+    local p=$(get_encryption_password)
+    if [ -f "$ifile" ]; then
+        openssl enc -aes-256-cbc -a -salt -pass pass:$p -in "$ifile" -out "$ofile" -d 2> /dev/null;
+        if [ $? -ne 0 ]; then rm -f "$ofile" && echo '! > wrong password' && return 1; fi
+    else
+        echo "! > input file '$ifile' not found" && return 1
+    fi
+    echo "$ofile";
+}
+
+#-------------------------------
 # Machine info
 #-------------------------------
 
