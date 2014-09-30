@@ -75,14 +75,6 @@ if [ -z $(which wget) ]; then
     alias wget='curl -C - -O '
 fi
 
-# dotfiles shortcuts
-alias editbashrc='vim ~/.bashrc'
-alias reloadbashrc='source ~/.bashrc'
-alias editbashfct='vim ~/.bash_functions'
-alias reloadbashfct='source ~/.bash_functions'
-alias editbashalias='vim ~/.bash_aliases'
-alias reloadbashalias='source ~/.bash_aliases'
-
 # user per-device external files
 [ -r ${HOME}/.bash_aliases_alt ] && source ${HOME}/.bash_aliases_alt;
 

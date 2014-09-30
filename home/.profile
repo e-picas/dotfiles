@@ -15,13 +15,15 @@ if [ -n $BASH_VERSION ]; then
     if [ -r $HOME/.bashrc ]; then
         source $HOME/.bashrc;
         echo "# env:"
-        echo "UNAME = ${UNAME}"
-        echo "HOME = ${HOME}"
-        echo "TMPDIR = ${TMPDIR}"
-        echo "PATH = ${PATH}"
+        echo "UNAME       = ${UNAME}"
+        echo "HOME        = ${HOME}"
+        echo "TMPDIR      = ${TMPDIR}"
+        echo "PATH        = ${PATH}"
         echo "HISTCONTROL = ${HISTCONTROL}"
         echo "# aliases:"
         alias
+        echo "# server date:"
+        date
     else
         echo "!! .bashrc not found!"
     fi
