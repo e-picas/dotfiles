@@ -344,28 +344,46 @@ str_surround(){
 #-------------------------------
 # Quick encryption library
 #-------------------------------
+#
+# the lib uses a password (prompted each time) - REMEMBER IT !!
+#
+# this can allow to write something like:
+#   alias mysqltest='p=$(decrypt_string U2FsdGVkX19FuOPF3w3+GG8E4f3+v042BguJw7vetA8=) && mysql -uUSER -p$p DB'
+#
 
 get_encryption_password () {
-    read -s -p "your encryption password: " answer;
-    echo $answer;
+    read -s -p "your encryption password: " && echo $REPLY
 }
 
 encrypt_string () {
-    if [ $# -gt 0 ]; then local s="$1"; else echo '! > not enough arguments (1 expected)' && return 1; fi
+    if [ $# -eq 0 ]; then
+        echo "usage: encrypt_string 'my string to encrypt'"
+        echo "(a password will be prompted)"
+        return 1
+    fi
     local p=$(get_encryption_password)
-    echo "$s" | openssl enc -aes-256-cbc -a -salt -pass pass:$p 2> /dev/null;
+    echo "$1" | openssl enc -aes-256-cbc -a -salt -pass pass:$p 2> /dev/null;
 }
 
 decrypt_string () {
-    if [ $# -gt 0 ]; then local s="$1"; else echo '! > not enough arguments (1 expected)' && return 1; fi
+    if [ $# -eq 0 ]; then
+        echo "usage: decrypt_string 'my string to decrypt'"
+        echo "(a password will be prompted)"
+        return 1
+    fi
     local p=$(get_encryption_password)
-    echo "$s" | openssl enc -aes-256-cbc -a -salt -d -pass pass:$p 2> /dev/null;
+    echo "$1" | openssl enc -aes-256-cbc -a -salt -d -pass pass:$p 2> /dev/null;
     if [ $? -ne 0 ]; then echo '! > wrong password' && return 1; fi
 }
 
 encrypt_file () {
-    if [ $# -gt 0 ]; then local ifile="$1"; else echo '! > not enough arguments (1 or 2 expected)' && return 1; fi
-    local ofile="${2:-${ifile}-`date +%s`.enc}";
+    if [ $# -eq 0 ]; then
+        echo "usage: encrypt_file file_path_to_encrypt [encrypted_file_path]"
+        echo "(a password will be prompted)"
+        return 1
+    fi
+    local ifile="$1"
+    local ofile="${2:-${ifile}-`date +%s`.enc}"
     local p=$(get_encryption_password)
     if [ -f "$ifile" ]; then
         openssl enc -aes-256-cbc -a -salt -pass pass:$p -in "$ifile" -out "$ofile" 2> /dev/null;
@@ -376,8 +394,13 @@ encrypt_file () {
 }
 
 decrypt_file () {
-    if [ $# -gt 0 ]; then local ifile="$1"; else echo '! > not enough arguments (1 or 2 expected)' && return 1; fi
-    local ofile="${2:-${ifile}-`date +%s`.dec}";
+    if [ $# -eq 0 ]; then
+        echo "usage: decrypt_file file_path_to_decrypt [decrypted_file_path]"
+        echo "(a password will be prompted)"
+        return 1
+    fi
+    local ifile="$1"
+    local ofile="${2:-${ifile}-`date +%s`.dec}"
     local p=$(get_encryption_password)
     if [ -f "$ifile" ]; then
         openssl enc -aes-256-cbc -a -salt -pass pass:$p -in "$ifile" -out "$ofile" -d 2> /dev/null;
