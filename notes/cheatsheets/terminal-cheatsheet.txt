@@ -21,6 +21,7 @@ Ctrl + W    cut word on the left of the cursor
 Ctrl + Y    paste
 
 !!          repeat last command
+!!:p        see last command
 !cmd        repeat last 'cmd' command
 !cmd:p      see last 'cmd' command
 
