@@ -49,7 +49,6 @@ alias ldir='ll -d */'
 alias diff='diff -u'        # use unified diff format
 alias less='less -iMR'
 alias _echo='echo -e'
-alias cl='clear'
 alias d='date +%Y%m%d-%H%M%S'
 alias hn='hostname -a'
 alias fullps='ps -auxwww'
@@ -71,9 +70,7 @@ alias showpath='echo -e ${PATH//:/\\n}'
 [ -r ${HOME}/bin/lesspipe.sh ] && alias lesspipe="$HOME/bin/lesspipe.sh "
 
 # 'wget' emulation if it doesn't exist
-if [ -z $(which wget) ]; then
-    alias wget='curl -C - -O '
-fi
+[ -z $(which wget) ] && alias wget='curl -C - -O '
 
 # user per-device external files
 [ -r ${HOME}/.bash_aliases_alt ] && source ${HOME}/.bash_aliases_alt;
