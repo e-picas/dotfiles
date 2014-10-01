@@ -36,9 +36,6 @@ UNAME=$( uname -s )
 # strip OS type and version under Cygwin (e.g. CYGWIN_NT-5.1 => Cygwin)
 UNAME=${UNAME/CYGWIN_*/Cygwin}
 
-# use colors
-export CLICOLOR=1
-
 # history
 [ -z $HISTFILE ] && export HISTFILE="${HOME}/.history";
 [ -z $MYSQL_HISTFILE ] && export MYSQL_HISTFILE="${HOME}/.mysql_history";
@@ -47,29 +44,30 @@ export CLICOLOR=1
 export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
 export HISTFILESIZE=5000
-export HISTIGNORE="l:la:ll:clear:pwd:hist:history:tree"
+export HISTIGNORE="ls:l:la:ll:clear:pwd:hist:history:tree"
 
 # terminal & env settings
-set -o notify       # Report status of terminated bg jobs immediately
-set -o emacs        # emacs-style editing
-
-shopt -s extglob    # extended pattern matching features
-shopt -s progcomp   # programmable completion
-shopt -s cdspell    # correct dir spelling errors on cd
-shopt -s lithist    # save multi-line commands with newlines
-shopt -s cmdhist        # save multi-line commands in a single hist entry
+set -o notify                       # report status of terminated bg jobs immediately
+set -o emacs                        # emacs-style editing
+shopt -s extglob                    # extended pattern matching features
+shopt -s progcomp                   # programmable completion
+shopt -s cdspell                    # correct dir spelling errors on cd
+shopt -s lithist                    # save multi-line commands with newlines
+shopt -s cmdhist                    # save multi-line commands in a single hist entry
 shopt -s checkwinsize               # check the window size after each command
 shopt -s no_empty_cmd_completion    # don't try to complete empty cmds
-shopt -s histappend     # append new history entries
-if [ "$UNAME" != 'Darwin' ]
-then
-    shopt -s autocd     # if a command is a dir name, cd to it
-    shopt -s checkjobs  # print warning if jobs are running on shell exit
-    shopt -s dirspell   # correct dir spelling errors on completion
-    shopt -s globstar   # ** matches all files, dirs and subdirs
+shopt -s histappend                 # append new history entries
+if [ "$UNAME" != 'Darwin' ]; then
+    shopt -s autocd                 # if a command is a dir name, cd to it
+    shopt -s checkjobs              # print warning if jobs are running on shell exit
+    shopt -s dirspell               # correct dir spelling errors on completion
+    shopt -s globstar               # ** matches all files, dirs and subdirs
 fi
 
-# coloured man pages
+# use colors
+export CLICOLOR=1
+
+# colored man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
 export LESS_TERMCAP_me=$'\E[0m'
@@ -77,9 +75,8 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-#[ -r ${HOME}/bin/lesspipe.sh ] && export LESSOPEN="|$HOME/bin/lesspipe.sh %s"
 
-# define some colours
+# define some colors
 export GREY=$'\033[1;30m'
 export RED=$'\033[1;31m'
 export GREEN=$'\033[1;32m'
@@ -115,15 +112,15 @@ else
     color_prompt=
 fi
 
-if [ "$color_prompt" == yes ]
-then 
+if [ "$color_prompt" == yes ]; then 
     if [ "$UNAME" == 'Darwin' ]
     then
         PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\$ '
     else
         PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     fi
-else PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
 # If this is an xterm set the title to user@host:dir
