@@ -55,6 +55,8 @@ The final install may be something like:
 
 ### Functions
 
+#### Notepad
+
 My `.bash_functions` embeds a simple command-line "notepad" handler to list, read and write
 some simple text notes in `txt` files stored in the `notes/` directory. A special `cheatsheets/`
 sub-dir stores my cheat-sheets as plain text.
@@ -65,6 +67,23 @@ To use it, run:
     cheatsheet      # this will show the 'cheat-sheets' help
 
 These commands work with the `NOTESDIR` env var that is defined by `.bashrc` and defaults to `$HOME/notes/`.
+
+#### Encryption
+
+My `.bash_functions` also embeds a (very) simple encryption set of functions to encrypt/decrypt strings or files.
+It uses the default UNIX [Open SSL](http://www.openssl.org/) command for encryption with a password prompted each time.
+Keep in mind that you NEED to remind your password.
+
+To use it, run:
+
+    encrypt_string "my string to encrypt"
+    decrypt_string "encrypted_string"
+    encrypt_file file-to-encrypt.ext
+    decrypt_file encrypted-file.enc
+
+This can be useful, for instance, for a mysql connection alias:
+
+    alias mysqltest='p=$(decrypt_string U2FsdGVkX19FuOPF3w3+GG8E4f3+v042BguJw7vetA8=) && mysql -uUSER -p$p DB'
 
 ### Special directories
 
