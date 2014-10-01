@@ -534,10 +534,11 @@ note(){
         return 0
     elif [ "$1" == 'vi' ]; then
         ${EDITOR} ${NOTESDIR}/${notestack}
+        return 0
     fi
     if [ "${action}" == 'read' ]; then
         if [ ! -f ${NOTESDIR}/${notestack} ]; then
-            echo "!! > not '${notestack}' inconnue!"
+            echo "!! > note '${notestack}' not found!"
             return 1
         fi
         if $(which less &> /dev/null); then
