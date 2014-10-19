@@ -91,6 +91,9 @@ export NOCOLOR=$'\033[m'
 export GREP_COLOR="1;3$((RANDOM%6+1))"
 export GREP_OPTIONS='--color=auto'
 
+# if android-sdk exists in ~/bin
+[ -e ${HOME}/bin/android-sdk ] && export PATH="${PATH}:~/bin/android-sdk/tools:~/bin/android-sdk/platform-tools"
+
 # user external files
 [ -r ${HOME}/.bash_aliases ] && source ${HOME}/.bash_aliases;           # all bash aliases
 [ -r ${HOME}/.bash_completions ] && source ${HOME}/.bash_completions;   # custom completion rules
