@@ -9,5 +9,8 @@
 [ -d /opt/local/sbin ] && export PATH="/opt/local/sbin:${PATH}";
 [ -d /opt/local/bin ] && export PATH="/opt/local/bin:${PATH}";
 
+# paht to the GNU coreutils
+[ -d /opt/local/libexec/gnubin ] && export PATH="/opt/local/libexec/gnubin:${PATH}"
+
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
