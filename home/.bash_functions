@@ -229,6 +229,14 @@ dupes() {
 }
 
 #
+# find borken links in dir and subdirs
+#
+findbrokenlinks() {
+    d="${1:-.}"
+    find "$d" -type l -! -exec test -e {} \; -print
+}
+
+#
 # read a csv file
 #
 readcsv() {
