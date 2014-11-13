@@ -1,0 +1,66 @@
+#
+# default .gitignore <http://git-scm.com/docs/gitignore>
+# by @pierowbmstr (me at e-piwi dot fr)
+# <http://github.com/piwi/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# OS & software files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon
+._*
+*~
+*~lock*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE files
+.cache
+.settings
+.project
+.buildpath
+.idea
+.tmproj
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi
+
+# any "tmp*" file or dir anywhere
+*tmp*
+
+# Composer dependencies
+composer.lock
+vendor/*
+*/vendor/*
+
+# Node dependencies
+node_modules/*
+*/node_modules/*
+
+# Bower dependencies
+bower_components/*
+*/bower_components/*
+
+### Hack to allow keeping an empty directory
+# this one HAS to keep last !!
+!.gitkeep
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
