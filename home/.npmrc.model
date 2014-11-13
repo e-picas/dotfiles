@@ -1,0 +1,24 @@
+#
+# .npmrc <https://www.npmjs.org/doc/files/npmrc.html>
+# by @pierowbmstr (me at e-piwi dot fr)
+# <http://github.com/piwi/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+#
+# 'npm' user config
+# - packages are installed in $PREFIX/lib/node_modules/
+# - binary files are linke into $PREFIX/bin/
+# - manpages are linked into $PREFIX/share/man/
+#
+
+loglevel=verbose
+editor=$EDITOR
+init.author.email=@USEREMAIL@
+init.author.name=@USERNAME@
+init.author.url=@USERURL@
+message="%s (NPM version auto-generation)"
+searchopts=""
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

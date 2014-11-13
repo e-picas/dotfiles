@@ -141,6 +141,9 @@ esac
 # special inclusion of .bashrc_git if it exists
 [ -r ${HOME}/.bashrc_git ] && source ${HOME}/.bashrc_git;
 
+# special inclusion of .bashrc_npm if it exists
+[ -r ${HOME}/.bashrc_npm ] && source ${HOME}/.bashrc_npm;
+
 ## user directories
 # to avoid their creations, define `TMPDIR=false`, `BACKUPDIR=false` and `NOTESDIR=false` in `.bashrc_alt`
 # temporary directory: TMPDIR

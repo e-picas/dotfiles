@@ -1,0 +1,45 @@
+#
+# .npmignore
+# by @pierowbmstr (me at e-piwi dot fr)
+# <http://github.com/piwi/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# OS & temp files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon
+._*
+*~
+*~lock*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*.swo
+*.vi
+
+# IDEs
+nbproject
+.cache
+.settings
+.project
+.buildpath
+.idea
+.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace
+
+# VCS internals
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
