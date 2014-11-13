@@ -24,3 +24,6 @@
 [submodule "modules/fonts.conf"]
 	path = modules/fonts.conf
 	url = https://gist.github.com/5599072.git
+[submodule "modules/phpclib"]
+	path = modules/phpclib
+	url = https://github.com/piwi/phpclib.git
