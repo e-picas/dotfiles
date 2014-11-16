@@ -2,11 +2,11 @@ dotfiles
 ========
 
 My personal *NIX dotfiles, licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
+Feel free to use these files as a base for your own dotfiles by [forking the repo](http://help.github.com/articles/fork-a-repo).
 
 This is largely inspired by <http://dotfiles.github.io/>.
 
 In addition, my personal binary scripts are hosted at <http://github.com/piwi/binaries>.
-
 
 ## How-To
 
