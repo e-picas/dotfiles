@@ -144,5 +144,8 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
+" load the pathogen plugin <https://github.com/tpope/vim-pathogen>
+execute pathogen#infect()
+
 " Endfile
 " vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
