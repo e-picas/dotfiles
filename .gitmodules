@@ -33,3 +33,6 @@
 [submodule "modules/vim-mde-syntax"]
 	path = modules/vim-mde-syntax
 	url = https://github.com/markdown-extended/vim-mde-syntax.git
+[submodule "modules/piwi-bash-library"]
+	path = modules/piwi-bash-library
+	url = https://github.com/piwi/bash-library.git
