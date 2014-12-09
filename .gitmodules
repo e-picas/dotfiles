@@ -6,7 +6,7 @@
 	url = https://github.com/piwi/markdown-extended.git
 [submodule "modules/dev-tools"]
 	path = modules/dev-tools
-	url = https://github.com/atelierspierrot/dev-tools.git
+	url = https://github.com/piwi/dev-tools.git
 [submodule "modules/binaries"]
 	path = modules/binaries
 	url = https://github.com/piwi/binaries.git
