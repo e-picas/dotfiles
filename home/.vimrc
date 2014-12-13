@@ -105,9 +105,14 @@ set listchars=tab:\|\
 set lbr
 set tw=500
 
-set ai " Auto indent
-set si " Smart indent
-set wrap " Wrap lines
+" Auto indent
+set ai
+" Smart indent
+set si
+" Wrap lines
+set wrap
+" Allow per file modeline
+set modelines=1
 
 " Always show the status line
 set laststatus=2
