@@ -40,18 +40,17 @@
     smudge = cat
 [filter "tabspace"]
     clean = expand --tabs=4 --initial
-    smudge = unexpand --tabs=4 --first-only
+#    smudge = unexpand --tabs=4 --first-only
+    clean = cat
 [filter "tabspace2"]
     smudge = unexpand --tabs=2 --first-only
-    clean = expand --tabs=2 --initial
+#    clean = expand --tabs=2 --initial
+    clean = cat
 [diff "image"]
     textconv = exif
     cachetextconv = true
 [alias]
-    co = checkout
-    ci = commit
-    st = status
-    br = branch --color --list --verbose
+    branches = branch --color --list --verbose
     hist = log --graph --oneline --date-order --decorate --color --all
     type = cat-file -t
     dump = cat-file -p
