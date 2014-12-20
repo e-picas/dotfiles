@@ -39,8 +39,8 @@
     clean = indent
     smudge = cat
 [filter "tabspace"]
-    clean = expand --tabs=4 --initial
-#    smudge = unexpand --tabs=4 --first-only
+    smudge = unexpand --tabs=4 --first-only
+#    clean = expand --tabs=4 --initial
     clean = cat
 [filter "tabspace2"]
     smudge = unexpand --tabs=2 --first-only
