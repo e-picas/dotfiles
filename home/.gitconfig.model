@@ -14,13 +14,10 @@
     token = @GITHUBTOKEN@
 [core]
     excludesfile = ~/.gitignore_global
+    attributesfile = ~/.gitattributes_global
     editor = vim
     whitespace = -trailing-space
-[credential]
-    helper = cache --timeout=3600
-[filter "media"]
-    clean = git-media-clean %f
-    smudge = git-media-smudge %f
+    autocrlf = true
 [fetch]
     recurseSubmodules = on-demand
 [grep]
@@ -36,12 +33,17 @@
     status = true
 [help]
     autocorrect = 1
-[giggle]
-     main-window-maximized = false
-     main-window-geometry = 1486x814+241+173
-     history-view-vpane-position = 276
-     main-window-view = HistoryView
-     file-view-vpane-position = 756
+[credential]
+    helper = cache --timeout=3600
+[filter "tabspace"]
+    clean = expand --tabs=4 --initial
+    smudge = unexpand --tabs=4 --first-only
+[filter "tabspace2"]
+    smudge = unexpand --tabs=2 --first-only
+    clean = expand --tabs=2 --initial
+[diff "image"]
+    textconv = exif
+    cachetextconv = true
 [alias]
     co = checkout
     ci = commit

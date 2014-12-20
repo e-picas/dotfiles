@@ -1,0 +1,84 @@
+#
+# .gitattributes_global
+# by @pierowbmstr (me at e-piwi dot fr)
+# <http://github.com/piwi/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+
+# handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
+# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
+* text=auto ident
+
+# all these should be noramlized as text (convert crlf => lf)
+.gitattributes text
+.gitignore text
+.gitmodules text
+
+# documents
+*.doc diff=astextplain
+*.docx diff=astextplain
+*.dot diff=astextplain
+*.pdf diff=astextplain
+*.rtf diff=astextplain
+*.md text
+*.adoc text
+*.tex text diff=tex
+*.textile text diff=tex
+*.mustache text
+*.csv text
+*.tab text
+*.tsv text
+
+# web
+*.php text diff=php filter=tabspace
+*.inc text diff=php filter=tabspace
+*.py text diff=python filter=tabspace
+*.rb text diff=ruby filter=tabspace
+*.c text diff=csharp filter=tabspace
+*.cs text diff=csharp filter=tabspace
+*.java text diff=java filter=tabspace
+*.pl text diff=perl filter=tabspace
+*.css text filter=tabspace
+*.js text filter=tabspace
+*.json text filter=tabspace
+*.htm text diff=html
+*.html text diff=html
+*.xml text
+*.txt text filter=tabspace
+*.ini text filter=tabspace
+*.scm text
+*.sql text filter=tabspace
+.htaccess text
+
+# these files are binary and should be left untouched
+# (binary is a macro for -text -diff)
+
+# graphics
+*.png binary diff=image
+*.jpg binary diff=image
+*.jpeg binary diff=image
+*.gif binary diff=image
+*.ico binary diff=image
+*.svg text
+*.ttf binary
+
+# media
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+
+# archives
+*.gz binary
+*.zip binary
+*.7z binary
+
+# web
+*.man binary
+*.pdf binary
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
