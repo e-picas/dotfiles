@@ -43,17 +43,15 @@
 *.mustache text
 
 # web
-*.css   text filter=tabspace
-*.js    text filter=tabspace
-*.json  text filter=tabspace
+*.css   text
 *.htm   text diff=html
 *.html  text diff=html
 *.xml   -text
 *.yml   -text
-*.txt   text filter=tabspace
-*.ini   text filter=tabspace
+*.txt   text
+*.ini   text
 *.scm   text
-*.sql   text filter=tabspace
+*.sql   text
 .htaccess text
 
 # dev
@@ -63,15 +61,17 @@
 *.hpp   text diff=csharp trailing-space space-before-tab -indent-with-non-tab
 *.py    text diff=python trailing-space space-before-tab -indent-with-non-tab
 *.java  text diff=java trailing-space space-before-tab -indent-with-non-tab
+*.js    text diff=java trailing-space space-before-tab -indent-with-non-tab
+*.json  text diff=java trailing-space space-before-tab -indent-with-non-tab
 *.pl    text diff=perl trailing-space space-before-tab -indent-with-non-tab
-*.php   text diff=php filter=tabspace trailing-space space-before-tab -indent-with-non-tab
-*.inc   text diff=php filter=tabspace trailing-space space-before-tab -indent-with-non-tab
+*.php   text diff=php trailing-space space-before-tab -indent-with-non-tab
+*.inc   text diff=php trailing-space space-before-tab -indent-with-non-tab
 *.rb    text diff=ruby trailing-space space-before-tab -indent-with-non-tab
 
 # shell scripts
-*.sh    text filter=tabspace eol=lf
-*.csh   text filter=tabspace eol=lf
-*.bash  text filter=tabspace eol=lf
+*.sh    text eol=lf trailing-space space-before-tab -indent-with-non-tab
+*.csh   text eol=lf trailing-space space-before-tab -indent-with-non-tab
+*.bash  text eol=lf trailing-space space-before-tab -indent-with-non-tab
 
 # these files are binary and should be left untouched
 
