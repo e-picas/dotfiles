@@ -8,7 +8,7 @@
 # handle line endings automatically for files detected as text
 # and leave all files detected as binary untouched.
 # http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
-* text=auto ident
+* text=auto
 
 # all these should be noramlized as text (convert crlf => lf)
 .gitattributes text
@@ -35,8 +35,8 @@
 *.inc text diff=php filter=tabspace
 *.py text diff=python filter=tabspace
 *.rb text diff=ruby filter=tabspace
-*.c text diff=csharp filter=tabspace
-*.cs text diff=csharp filter=tabspace
+*.c text diff=csharp filter=indent
+*.cs text diff=csharp filter=indent
 *.java text diff=java filter=tabspace
 *.pl text diff=perl filter=tabspace
 *.css text filter=tabspace
@@ -50,6 +50,10 @@
 *.scm text
 *.sql text filter=tabspace
 .htaccess text
+
+# shell scripts
+*.sh text filter=tabspace eol=lf whitespace=indent,trail,space
+*.bash text filter=tabspace eol=lf whitespace=indent,trail,space
 
 # these files are binary and should be left untouched
 # (binary is a macro for -text -diff)
@@ -79,6 +83,9 @@
 # web
 *.man binary
 *.pdf binary
+
+# this will export special GIT strings in any LAST_COMMIT file
+LAST_COMMIT export-subst ident
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

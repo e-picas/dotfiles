@@ -17,7 +17,7 @@
     attributesfile = ~/.gitattributes_global
     editor = vim
     whitespace = -trailing-space
-    autocrlf = true
+    autocrlf = false
 [fetch]
     recurseSubmodules = on-demand
 [grep]
@@ -35,6 +35,9 @@
     autocorrect = 1
 [credential]
     helper = cache --timeout=3600
+[filter "indent"]
+    clean = indent
+    smudge = cat
 [filter "tabspace"]
     clean = expand --tabs=4 --initial
     smudge = unexpand --tabs=4 --first-only
