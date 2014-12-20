@@ -14,9 +14,13 @@ alias .....='cd ../../../..'
 
 # interactive by default
 alias rm='rm -i'
-alias rmdir='rm -r'
+alias rmdir='rm -ir'
 alias mv='mv -i'
 alias cp='cp -i'
+
+# unix device commons
+alias shutdown='sudo shutdown –h now'
+alias restart='sudo shutdown –r now'
 
 # exclude vcs internals from grep
 alias grep='grep --color=auto --exclude-dir=\.svn  --exclude-dir=\.git'
@@ -38,12 +42,22 @@ if [ $(uname) == "Linux" ]; then
 else
     alias ls="ls -G"
 fi
-alias lll='ls -alFh'
-alias lh='ls -alFh'
+alias l='ls -CFA'
 alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias ldir='ll -d */'
+alias lh='ls -alFh'
+alias ld='ll -d */'
+alias lld='ld'
+alias le='l --sort=extension'
+alias lt='l --sort=time'
+alias lr='l -R'
+alias lle='ll --sort=extension'
+alias llt='ll --sort=time'
+alias llr='ll -R'
+alias lhe='lh --sort=extension'
+alias lht='lh --sort=time'
+alias lhr='lh -R'
+alias ldt='ld --sort=time'
+alias ldr='ld -R'
 
 # various
 alias diff='diff -u'        # use unified diff format
