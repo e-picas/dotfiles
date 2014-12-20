@@ -1,1 +1,1 @@
-../modules/dev-tools/devtools.man
+../modules/dev-tools/man/devtools.man
