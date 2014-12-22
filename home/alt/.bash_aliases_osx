@@ -11,5 +11,8 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 # OS X has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
+# a vlc command workaround
+[ -d /Applications/VLC.app ] && alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
+
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
