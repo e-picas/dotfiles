@@ -36,3 +36,6 @@
 [submodule "modules/piwi-bash-library"]
 	path = modules/piwi-bash-library
 	url = https://github.com/piwi/bash-library.git
+[submodule "modules/mde-cgi"]
+	path = modules/mde-cgi
+	url = https://github.com/piwi/mde-cgi.git
