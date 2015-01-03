@@ -1,1 +1,0 @@
-../../modules/mde-html5-quick-template/cgi-bin/mde_apacheHandler.sh
