@@ -19,7 +19,7 @@ timestamp() {
 # Run a command quietly. Suppresses all output.
 #
 quietly() {
-    "$@" > /dev/null 2>&1
+    "$@" >/dev/null 2>&1;
 }
 
 #
@@ -27,7 +27,7 @@ quietly() {
 #
 ruler() {
     PADDER=$(printf '%0.1s' "#"{1..1000})
-    printf "%*.*s\n" 0 $(tput cols) "${PADDER}";
+    printf "%*.*s\n" 0 "$(tput cols)" "${PADDER}";
 }
 
 #
@@ -35,7 +35,7 @@ ruler() {
 #
 flag(){
     _date=$(date +"%A %e %B %Y %H:%M")
-    echo -e "\033[1;36m[==============="$@"===(${_date})===============]\033[m"
+    echo -e "\033[1;36m[=============== ${*} ===(${_date})===============]\033[m"
 }
 
 #-------------------------------
@@ -58,14 +58,12 @@ get_tmp(){
 
     # make sure last char is a /
     # http://www.unix.com/shell-programming-scripting/14462-testing-last-character-string.html
-    if [[ $tmp_dir != */ ]]; then
-        tmp_dir="$tmp_dir"/
-    fi
+    [[ "$tmp_dir" != */ ]] && tmp_dir="${tmp_dir}/";
 
     # http://stackoverflow.com/questions/12283463/in-bash-how-do-i-join-n-parameters-together-as-a-string
     if [ $# -gt 0 ]; then
         IFS="/"
-        tmp_dir="$tmp_dir""$*"
+        tmp_dir="${tmp_dir}${*}"
         unset IFS
     fi
 
@@ -76,7 +74,7 @@ get_tmp(){
 # fast find, using globstar
 #
 fastfind () {
-    ls -ltr **/$@
+    ls -ltr "./**/${*}"
 }
 
 #
@@ -131,7 +129,7 @@ duplicate() {
         _copy="${_name}.copy"
         if [ "${_ext}" != '' ]; then _copy+=".${_ext}"; fi
     fi
-    cp -R $_source $_copy && echo "${_copy}" || echo "error while copying '${_source}' to '${_copy}'";
+    cp -R "$_source" "$_copy" && echo "$_copy" || echo "error while copying '${_source}' to '${_copy}'";
 }
 
 #
@@ -142,9 +140,9 @@ dobackup(){
         echo "usage: dobackup <file or dir> [<file or dir2> ...]"
         return 1
     fi
-    _date=`date +%Y%m%d-%H%M`
+    _date=$(date "+%Y%m%d-%H%M")
     for i in "$@"; do
-        cp -R ${i} "${i}.${_date}" && echo "${i}.${_date}" || echo "error while copying '${i}' to '${i}.${_date}'";
+        cp -R "${i}" "${i}.${_date}" && echo "${i}.${_date}" || echo "error while copying '${i}' to '${i}.${_date}'";
     done
 }
 
@@ -157,12 +155,12 @@ addbom(){
     fi
     _dir="$1"
     _mask="${2:-*.php}"
-    for _f in `find "${_dir}" -type f -name "${_mask}"`; do
-        _f_tmp=${_f}.tmp
-        printf '\xEF\xBB\xBF' > ${_f_tmp}
-        cat ${_f} >> ${_f_tmp}
-        rm -f ${_f} && mv ${_f_tmp} ${_f}
-        echo ${_f}
+    for _f in $(find "${_dir}" -type f -name "${_mask}"); do
+        _f_tmp="${_f}.tmp"
+        printf '\xEF\xBB\xBF' > "${_f_tmp}"
+        cat "${_f}" >> "${_f_tmp}"
+        rm -f "${_f}" && mv "${_f_tmp}" "${_f}"
+        echo "${_f}"
     done
 }
 
@@ -174,20 +172,20 @@ extract () {
        echo "usage: extract <file>"
        return 1
    fi
-   if [ -f $1 ] ; then
-       case $1 in
-           *.tar.bz2) tar -xvjf $1 ;;
-           *.tar.gz) tar -xvzf $1 ;;
-           *.bz2) bunzip2 $1 ;;
-           *.rar) unrar -x $1 ;;
-           *.gz) gunzip $1 ;;
-           *.tar) tar -xvf $1 ;;
-           *.tbz2) tar -xvjf $1 ;;
-           *.tgz) tar -xvzf $1 ;;
-           *.zip) unzip $1 ;;
-           *.war|*.jar) unzip $1 ;;
-           *.Z) uncompress $1 ;;
-           *.7z) 7z -x $1 ;;
+   if [ -f "$1" ] ; then
+       case "$1" in
+           *.tar.bz2) tar -xvjf "$1" ;;
+           *.tar.gz) tar -xvzf "$1" ;;
+           *.bz2) bunzip2 "$1" ;;
+           *.rar) unrar -x "$1" ;;
+           *.gz) gunzip "$1" ;;
+           *.tar) tar -xvf "$1" ;;
+           *.tbz2) tar -xvjf "$1" ;;
+           *.tgz) tar -xvzf "$1" ;;
+           *.zip) unzip "$1" ;;
+           *.war|*.jar) unzip "$1" ;;
+           *.Z) uncompress "$1" ;;
+           *.7z) 7z -x "$1" ;;
            *) echo "don't know how to extract '$1'..." ;;
        esac
    else
@@ -205,9 +203,9 @@ tarball () {
     fi
     FILE="$1"
     shift
-    ARGS="$@"
+    ARGS="$*"
     if [ $# -eq 0 ]; then
-       ARGS=`echo "$FILE" | cut -d'.' -f1`
+       ARGS=$(echo "$FILE" | cut -d'.' -f1)
     fi
     case "$FILE" in
         *.tar.bz2|*.tbz2) tar -cvjf "$FILE" "$ARGS" ;;
@@ -218,7 +216,7 @@ tarball () {
         *.7z) 7zr -a "$FILE" "$ARGS" ;;
         *) echo "'$FILE' cannot be rolled via tarball()" && return 1 ;;
     esac
-    echo $FILE
+    echo "$FILE"
 }
 
 #
@@ -241,12 +239,12 @@ findbrokenlinks() {
 #
 readcsv() {
     if [ $# -eq 0 ]; then
-        echo "usage: csv [delim] filename"
+        echo "usage: csv [delim] <filename>"
         exit 1
     fi
     delim=';'
     if [ $# -gt 1 ]; then
-        delimiter="$1"
+        delim="$1"
         shift
     fi
     awk -F "$delim" '{if(NR==1)split($0,arr);else for(i=1;i<=NF;i++)print arr[i]":"$i;print "";}' "$1"
@@ -261,12 +259,12 @@ readcsv() {
 #
 str_substring(){
     if [ $# -lt 2 ]; then
-        echo "usage: substring word start [length]"
+        echo "usage: substring <word> <start> [length]"
         return 1
     fi
-    if [ -z $3 ]
-    then echo ${1:$2}
-    else echo ${1:$2:$3}
+    if [ -z "$3" ]
+    then echo "${1:$2}"
+    else echo "${1:$2:$3}"
     fi
 }
 
@@ -275,7 +273,7 @@ str_substring(){
 #
 str_length(){
     if [ $# -lt 1 ]; then
-        echo "usage: length word"
+        echo "usage: length <word>"
         return 1
     fi
     echo ${#1}
@@ -286,10 +284,10 @@ str_length(){
 #
 str_replace(){
     if [ $# -ne 3 ]; then
-        echo "usage: replace string substring replacement"
+        echo "usage: replace <string> <substring> <replacement>"
         return 1
     fi
-    echo ${1/$2/$3}
+    echo "${1/$2/$3}"
 }
 
 #
@@ -297,10 +295,10 @@ str_replace(){
 #
 str_replaceall(){
     if [ $# -ne 3 ]; then
-        echo "usage: replaceall string substring replacement"
+        echo "usage: replaceall <string> <substring> <replacement>"
         return 1
     fi
-    echo ${1//$2/$3}
+    echo "${1//$2/$3}"
 }
 
 #
@@ -308,10 +306,10 @@ str_replaceall(){
 #
 str_index(){
     if [ $# -ne 2 ]; then
-        echo "usage: index string substring"
+        echo "usage: index <string> <substring>"
         return 1
     fi
-    expr index $1 $2
+    expr index "$1" "$2"
 }
 
 #
@@ -319,10 +317,10 @@ str_index(){
 #
 str_upper(){
     if [ $# -lt 1 ]; then
-        echo "usage: upper word"
+        echo "usage: upper <word>"
         return 1
     fi
-    echo ${@^^}
+    echo "${@^^}"
 }
 
 #
@@ -330,10 +328,10 @@ str_upper(){
 #
 str_lower(){
     if [ $# -lt 1 ]; then
-        echo "usage: lower word"
+        echo "usage: lower <word>"
         return 1
     fi
-    echo ${@,,}
+    echo "${@,,}"
 }
 
 #
@@ -342,11 +340,11 @@ str_lower(){
 str_surround(){
    if [ $# -ne 2 ]
    then
-     echo "usage: surround string surround-with"
+     echo "usage: surround <string> <surround-with>"
      echo "(e.g. surround hello \\\")"
      return 1
    fi
-   echo $1 | sed "s/^/$2/;s/$/$2/" ;
+   echo "$1" | sed "s/^/$2/;s/$/$2/" ;
 }
 
 #-------------------------------
@@ -360,41 +358,41 @@ str_surround(){
 #
 
 get_encryption_password () {
-    read -s -p "your encryption password: " && echo $REPLY
+    read -s -p "your encryption password: " && echo "$REPLY"
 }
 
 encrypt_string () {
     if [ $# -eq 0 ]; then
-        echo "usage: encrypt_string 'my string to encrypt'"
+        echo "usage: encrypt_string <my string to encrypt>"
         echo "(a password will be prompted)"
         return 1
     fi
     local p=$(get_encryption_password)
-    echo "$1" | openssl enc -aes-256-cbc -a -salt -pass pass:$p 2> /dev/null;
+    echo "$1" | openssl enc -aes-256-cbc -a -salt -pass "pass:$p" 2> /dev/null;
 }
 
 decrypt_string () {
     if [ $# -eq 0 ]; then
-        echo "usage: decrypt_string 'my string to decrypt'"
+        echo "usage: decrypt_string <my string to decrypt>"
         echo "(a password will be prompted)"
         return 1
     fi
     local p=$(get_encryption_password)
-    echo "$1" | openssl enc -aes-256-cbc -a -salt -d -pass pass:$p 2> /dev/null;
+    echo "$1" | openssl enc -aes-256-cbc -a -salt -d -pass "pass:$p" 2> /dev/null;
     if [ $? -ne 0 ]; then echo '! > wrong password' && return 1; fi
 }
 
 encrypt_file () {
     if [ $# -eq 0 ]; then
-        echo "usage: encrypt_file file_path_to_encrypt [encrypted_file_path]"
+        echo "usage: encrypt_file <file_path_to_encrypt> [encrypted_file_path]"
         echo "(a password will be prompted)"
         return 1
     fi
     local ifile="$1"
-    local ofile="${2:-${ifile}-`date +%s`.enc}"
+    local ofile="${2:-${ifile}-$(date '+%s').enc}"
     local p=$(get_encryption_password)
     if [ -f "$ifile" ]; then
-        openssl enc -aes-256-cbc -a -salt -pass pass:$p -in "$ifile" -out "$ofile" 2> /dev/null;
+        openssl enc -aes-256-cbc -a -salt -pass "pass:$p" -in "$ifile" -out "$ofile" 2> /dev/null;
     else
         echo "! > input file '$ifile' not found" && return 1
     fi
@@ -403,15 +401,15 @@ encrypt_file () {
 
 decrypt_file () {
     if [ $# -eq 0 ]; then
-        echo "usage: decrypt_file file_path_to_decrypt [decrypted_file_path]"
+        echo "usage: decrypt_file <file_path_to_decrypt> [decrypted_file_path]"
         echo "(a password will be prompted)"
         return 1
     fi
     local ifile="$1"
-    local ofile="${2:-${ifile}-`date +%s`.dec}"
+    local ofile="${2:-${ifile}-$(date '+%s').dec}"
     local p=$(get_encryption_password)
     if [ -f "$ifile" ]; then
-        openssl enc -aes-256-cbc -a -salt -pass pass:$p -in "$ifile" -out "$ofile" -d 2> /dev/null;
+        openssl enc -aes-256-cbc -a -salt -pass "pass:$p" -in "$ifile" -out "$ofile" -d 2> /dev/null;
         if [ $? -ne 0 ]; then rm -f "$ofile" && echo '! > wrong password' && return 1; fi
     else
         echo "! > input file '$ifile' not found" && return 1
@@ -437,7 +435,7 @@ getip () {
 # http://www.coderholic.com/invaluable-command-line-tools-for-web-developers/
 #
 getextip(){
-    if [ $(which curl &> /dev/null; echo $?) -eq 0 ]; then
+    if [ "$(which curl &> /dev/null; echo $?)" -eq 0 ]; then
         export _EIP=$(curl -s http://ifconfig.me/ip)
     else
         export _EIP=$(wget -qO- http://ifconfig.me/ip)
@@ -449,7 +447,7 @@ getextip(){
 # can take a timestamp as argument
 #
 envdate() {
-    [ ! -z ${1} ] && date -d @${1} +'%d/%m/%Y (%A) %X (UTC %z)' || date +'%d/%m/%Y (%A) %X (UTC %z)';
+    [ ! -z "$1" ] && date -d "@${1}" +'%d/%m/%Y (%A) %X (UTC %z)' || date +'%d/%m/%Y (%A) %X (UTC %z)';
 }
 
 #
@@ -459,14 +457,14 @@ getenvinfo () {
     getip;
     getextip;
     echo
-    echo -e "# `envdate`"
-    echo -e "current user:     `whoami`"
-    echo -e "system info:      `uname -n`"
-    echo -e "device info:      `uname -v`"
-    echo -e "device stats:     `uptime`"
-    echo -n "Int. IP address:  "; echo $_IP
-    echo -n "Ext. IP address:  "; echo $_EIP
-    echo -n "ISP address:      "; echo $_ISP
+    echo -e "# $(envdate)"
+    echo -e "current user:     $(whoami)"
+    echo -e "system info:      $(uname -n)"
+    echo -e "device info:      $(uname -v)"
+    echo -e "device stats:     $(uptime)"
+    echo -n "Int. IP address:  "; echo "$_IP"
+    echo -n "Ext. IP address:  "; echo "$_EIP"
+    echo -n "ISP address:      "; echo "$_ISP"
     echo -e "#"
     echo
 }
@@ -480,13 +478,13 @@ getenvinfo () {
 #
 emailme(){
     if [ $# -eq 0 ]; then
-        echo "usage: emailme [subject] [text]"
+        echo "usage: emailme <subject> [text]"
         return 1
     fi
     local subject="$1"
     shift
     [ "$USERMAIL" == '' ] && _to=$USER || _to=$USERMAIL;
-    mailx -s "${subject}" $_to <<< "$@" && echo "email sent to ${_to}" || "email NOT sent!";
+    mailx -s "${subject}" "$_to" <<< "$@" && echo "email sent to ${_to}" || "email NOT sent!";
 }
 
 #-------------------------------
@@ -495,7 +493,7 @@ emailme(){
 
 # personal notes (not under VCS) are stored in notes/perso/
 note(){
-    if [ -z $NOTESDIR ]; then
+    if [ -z "$NOTESDIR" ]; then
         echo "NOTESDIR is not defined, can't use the notepad!"
         return 1
     fi
@@ -515,7 +513,7 @@ note(){
     fi
     case $1 in
         ls) 
-            which tree &> /dev/null && tree $NOTESDIR || ls $NOTESDIR;
+            which tree &> /dev/null && tree "$NOTESDIR" || ls "$NOTESDIR";
             return 0
             ;;
         *) notestack="$1"; shift;;
@@ -523,7 +521,7 @@ note(){
     append=1
     action=read
     if [ "$notestack" == '-' ]; then
-        notestack=`date +"%d-%m-%y"`
+        notestack=$(date +"%d-%m-%y")
     fi
     if [ "$1" == '++' ]; then
         action=add
@@ -533,37 +531,38 @@ note(){
         action=add
         shift
     elif [ "$1" == '--' ]; then
-        rm ${NOTESDIR}/${notestack}
+        rm "${NOTESDIR}/${notestack}"
         echo "> note '${notestack}' deleted"
         return 0
     elif [ "$1" == '-' ]; then
-        echo '' > ${NOTESDIR}/${notestack}
+        echo '' > "${NOTESDIR}/${notestack}"
         echo "> note '${notestack}' cleared"
         return 0
     elif [ "$1" == 'vi' ]; then
-        ${EDITOR} ${NOTESDIR}/${notestack}
+        "${EDITOR}" "${NOTESDIR}/${notestack}"
         return 0
     fi
     if [ "${action}" == 'read' ]; then
-        if [ ! -f ${NOTESDIR}/${notestack} ]; then
+        if [ ! -f "${NOTESDIR}/${notestack}" ]; then
             echo "!! > note '${notestack}' not found!"
             return 1
         fi
-        if $(which less &> /dev/null); then
-            less ${NOTESDIR}/${notestack}
-        elif $(which more &> /dev/null); then
-            more ${NOTESDIR}/${notestack}
+        if which less &> /dev/null; then
+            less "${NOTESDIR}/${notestack}"
+        elif which more &> /dev/null; then
+            more "${NOTESDIR}/${notestack}"
         else
-            cat ${NOTESDIR}/${notestack};
+            cat "${NOTESDIR}/${notestack}"
         fi
     else
         takenote="$*"
-        if [ $append -eq 0 ]; then
-            echo                                  >> ${NOTESDIR}/${notestack}
-            echo "## `date '+%T, %a %d/%m/%y'`"   >> ${NOTESDIR}/${notestack}
-            echo '------------------------'       >> ${NOTESDIR}/${notestack}
+        if [ "$append" -eq 0 ]; then
+            {   echo
+                echo "## $(date '+%T, %a %d/%m/%y')"
+                echo '------------------------'
+            } >> "${NOTESDIR}/${notestack}"
         fi
-        echo "${takenote}" >> ${NOTESDIR}/${notestack}
+        echo "${takenote}" >> "${NOTESDIR}/${notestack}"
         echo "> note added to '${notestack}'"
     fi
 }
@@ -589,18 +588,18 @@ _note_completion() {
     opts="- -- + ++ vi"
     case "${prev}" in
         note|-|--|+|++|vi)
-            finalopts=$(ls ${NOTESDIR}/)
+            finalopts=$(ls "${NOTESDIR}/")
             ;;
         cheatsheet)
-            finalopts=$(ls ${NOTESDIR}/cheatsheets/)
+            finalopts=$(ls "${NOTESDIR}/cheatsheets/")
             finalopts="${finalopts//\-cheatsheet\.txt/}"
             ;;
     esac;
-    COMPREPLY=( $(compgen -W "${finalopts}" -- ${cur}) )
+    COMPREPLY=( $(compgen -W "${finalopts}" -- "${cur}") )
 }
 
 # user per-device external files
-[ -r ${HOME}/.bash_functions_alt ] && source ${HOME}/.bash_functions_alt;
+[ -r "${HOME}/.bash_functions_alt" ] && source "${HOME}/.bash_functions_alt";
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

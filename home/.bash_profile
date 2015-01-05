@@ -16,11 +16,11 @@ if [ -f ~/.profile ]; then source ~/.profile; fi
 # load .bashrc containing non-login related bash initializations
 if [ -f ~/.bashrc ]; then 
     source ~/.bashrc
-    export BASH_ENV=$HOME/.bashrc
+    export BASH_ENV="$HOME/.bashrc"
 fi
 
 # user per-device external files
-[ -r ${HOME}/.bash_profile_alt ] && source ${HOME}/.bash_profile_alt;
+[ -r "${HOME}/.bash_profile_alt" ] && source "${HOME}/.bash_profile_alt";
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

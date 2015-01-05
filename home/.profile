@@ -11,9 +11,9 @@ if [ -x /usr/libexec/path_helper ]; then
 fi
 
 # source .bashrc and infos
-if [ -n $BASH_VERSION ]; then
-    if [ -r $HOME/.bashrc ]; then
-        source $HOME/.bashrc;
+if [ -n "$BASH_VERSION" ]; then
+    if [ -r "$HOME/.bashrc" ]; then
+        source "$HOME/.bashrc";
         echo "# env:"
         echo "UNAME       = ${UNAME}"
         echo "HOME        = ${HOME}"

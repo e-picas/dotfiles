@@ -8,19 +8,19 @@
 #
 
 # the PiwiBashLib may be in `~/bin/`
-DEFAULT_BASHLIBRARY_PATH=${HOME}/bin/piwi-bash-library.sh
+DEFAULT_BASHLIBRARY_PATH="${HOME}/bin/piwi-bash-library.sh"
 
 # extract action will always show filenames
 DEFAULT_EXTRACT_SHOW_FILENAME=true
 
 # md2man : MDE may be in `~/bin/`
-DEFAULT_MD2MAN_MARKDOWN_BIN=${HOME}/bin/markdown-extended
+DEFAULT_MD2MAN_MARKDOWN_BIN="${HOME}/bin/markdown-extended"
 
 # manpage
-DEFAULT_MANPAGE_MARKDOWN_BIN=${HOME}/bin/markdown-extended
+DEFAULT_MANPAGE_MARKDOWN_BIN="${HOME}/bin/markdown-extended"
 
 # user per-device external files
-[ -r ${HOME}/.devtools_global_alt ] && source ${HOME}/.devtools_global_alt;
+[ -r "${HOME}/.devtools_global_alt" ] && source "${HOME}/.devtools_global_alt";
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

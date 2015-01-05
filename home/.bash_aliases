@@ -6,17 +6,17 @@
 #
 
 # paths
-[ -z `which home` ] && alias home='cd ~'
+[ -z "$(which home)" ] && alias home='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
 # interactive by default
-alias rm='rm -i'
-alias rmdir='rm -ir'
-alias mv='mv -i'
-alias cp='cp -i'
+alias rm='rm --interactive'
+alias rmdir='rm --interactive --recursive'
+alias mv='mv --interactive'
+alias cp='cp --interactive'
 
 # unix device commons
 alias shutdown='sudo shutdown –h now'
@@ -27,7 +27,7 @@ alias grep='grep --color=auto --exclude-dir=\.svn  --exclude-dir=\.git'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -37,33 +37,33 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
-if [ $(uname) == "Linux" ]; then
+if [ "$(uname)" = 'Linux' ]; then
     alias ls="ls --color=auto"
 else
     alias ls="ls -G"
 fi
-alias l='ls -CFA'
-alias ll='ls -alF'
-alias lh='ls -alFh'
-alias ld='ll -d */'
+alias l='ls --format=vertical --classify --almost-all'
+alias ll='ls --format=long --all --classify'
+alias lh='ls --format=long --all --human-readable --classify'
+alias ld='ll --directory */'
 alias lld='ld'
 alias le='l --sort=extension'
 alias lt='l --sort=time'
-alias lr='l -R'
+alias lr='l --recursive'
 alias lle='ll --sort=extension'
 alias llt='ll --sort=time'
-alias llr='ll -R'
+alias llr='ll --recursive'
 alias lhe='lh --sort=extension'
 alias lht='lh --sort=time'
-alias lhr='lh -R'
+alias lhr='lh --recursive'
 alias ldt='ld --sort=time'
-alias ldr='ld -R'
+alias ldr='ld --recursive'
 
 # various
-alias diff='diff -u'        # use unified diff format
-alias less='less -iMR'
+alias diff='diff --unified'
+alias less='less --ignore-case --quit-on-intr --LONG-PROMPT'
 alias _echo='echo -e'
-alias d='date +%Y%m%d-%H%M%S'
+alias d='date "+%Y%m%d-%H%M%S"'
 alias hn='hostname -a'
 alias fullps='ps -auxwww'
 
@@ -81,13 +81,13 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias showpath='echo -e ${PATH//:/\\n}'
 
 # lesspipe utility
-[ -r ${HOME}/bin/lesspipe.sh ] && alias lesspipe="$HOME/bin/lesspipe.sh "
+[ -r "${HOME}/bin/lesspipe.sh" ] && alias lesspipe='$HOME/bin/lesspipe.sh';
 
 # 'wget' emulation if it doesn't exist
-[ -z $(which wget) ] && alias wget='curl -C - -O '
+[ -z "$(command -v wget)" ] && alias wget='curl -C - -O ';
 
 # user per-device external files
-[ -r ${HOME}/.bash_aliases_alt ] && source ${HOME}/.bash_aliases_alt;
+[ -r "${HOME}/.bash_aliases_alt" ] && source "${HOME}/.bash_aliases_alt";
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

@@ -14,10 +14,10 @@
 [ -z "$PS1" ] && return
 
 # env & LC
-[ -r ${HOME}/.environment ] && source ${HOME}/.environment;
+[ -r "${HOME}/.environment" ] && source "${HOME}/.environment";
 
 # path
-[ -d ${HOME}/bin ] && export PATH="${PATH}:${HOME}/bin";
+[ -d "${HOME}/bin" ] && export PATH="${PATH}:${HOME}/bin";
 
 # global external files
 [ -r /etc/bashrc ] && source /etc/bashrc;
@@ -37,9 +37,9 @@ UNAME=$( uname -s )
 UNAME=${UNAME/CYGWIN_*/Cygwin}
 
 # history
-[ -z $HISTFILE ] && export HISTFILE="${HOME}/.history";
-[ -z $MYSQL_HISTFILE ] && export MYSQL_HISTFILE="${HOME}/.mysql_history";
-[ -z $SQLITE_HISTFILE ] && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
+[ -z "$HISTFILE" ] && export HISTFILE="${HOME}/.history";
+[ -z "$MYSQL_HISTFILE" ] && export MYSQL_HISTFILE="${HOME}/.mysql_history";
+[ -z "$SQLITE_HISTFILE" ] && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
 # ignore duplicate history lines and any command beginning by a space
 export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
@@ -92,14 +92,14 @@ export GREP_COLOR="1;3$((RANDOM%6+1))"
 export GREP_OPTIONS='--color=auto'
 
 # if android-sdk exists in ~/bin
-[ -e ${HOME}/bin/android-sdk ] && export PATH="${PATH}:~/bin/android-sdk/tools:~/bin/android-sdk/platform-tools"
+[ -e "${HOME}/bin/android-sdk" ] && export PATH="${PATH}:~/bin/android-sdk/tools:~/bin/android-sdk/platform-tools"
 
 # user external files
-[ -r ${HOME}/.bash_aliases ] && source ${HOME}/.bash_aliases;           # all bash aliases
-[ -r ${HOME}/.bash_completions ] && source ${HOME}/.bash_completions;   # custom completion rules
-[ -r ${HOME}/.bash_functions ] && source ${HOME}/.bash_functions;       # custom bash functions
-[ -r ${HOME}/.hosts ] && export HOSTFILE="${HOME}/.hosts";              # hosts definitions
-[ -r ${HOME}/.inputrc ] && export INPUTRC="${HOME}/.inputrc";           # keyboard & input rules
+[ -r "${HOME}/.bash_aliases" ] && source "${HOME}/.bash_aliases";           # all bash aliases
+[ -r "${HOME}/.bash_completions" ] && source "${HOME}/.bash_completions";   # custom completion rules
+[ -r "${HOME}/.bash_functions" ] && source "${HOME}/.bash_functions";       # custom bash functions
+[ -r "${HOME}/.hosts" ] && export HOSTFILE="${HOME}/.hosts";                # hosts definitions
+[ -r "${HOME}/.inputrc" ] && export INPUTRC="${HOME}/.inputrc";             # keyboard & input rules
 
 # bash prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -136,22 +136,22 @@ case "$TERM" in
 esac
 
 # user per-device external files
-[ -r ${HOME}/.bashrc_alt ] && source ${HOME}/.bashrc_alt;
+[ -r "${HOME}/.bashrc_alt" ] && source "${HOME}/.bashrc_alt";
 
 # special inclusion of .bashrc_git if it exists
-[ -r ${HOME}/.bashrc_git ] && source ${HOME}/.bashrc_git;
+[ -r "${HOME}/.bashrc_git" ] && source "${HOME}/.bashrc_git";
 
 # special inclusion of .bashrc_npm if it exists
-[ -r ${HOME}/.bashrc_npm ] && source ${HOME}/.bashrc_npm;
+[ -r "${HOME}/.bashrc_npm" ] && source "${HOME}/.bashrc_npm";
 
 ## user directories
 # to avoid their creations, define `TMPDIR=false`, `BACKUPDIR=false` and `NOTESDIR=false` in `.bashrc_alt`
 # temporary directory: TMPDIR
-[ -z $TMPDIR ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
+[ -z "$TMPDIR" ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
 # backup directory: BACKUPDIR
-[ -z $BACKUPDIR ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
+[ -z "$BACKUPDIR" ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
 # personal notes directory: NOTESDIR (used by the `notes` and `cheatsheet` functions)
-[ -z $NOTESDIR ] && mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
+[ -z "$NOTESDIR" ] && mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
