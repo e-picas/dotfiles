@@ -152,5 +152,8 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 " load the pathogen plugin <https://github.com/tpope/vim-pathogen>
 execute pathogen#infect()
 
+" allow the 'W' key to try to run 'sudo ...'
+command W w !sudo tee % >/dev/null
+
 " Endfile
 " vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
