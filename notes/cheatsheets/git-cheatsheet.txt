@@ -21,14 +21,18 @@ Branches/Tags
     branch  get branches info
             git branch --all : get a list of all branches, local and distant
             git branch -d [BRANCH] : delete [BRANCH]
+            git branch -m [OLD] [NAEW] : rename [OLD] to [NEW]
+            git branch --track --force local-branch origin/remote-branch
     checkout    
             git checkout [BRANCH] : switch to [BRANCH]
             git checkout -b [BRANCH] : create branch [BRANCH] & switch to it
+            git checkout --orphan [BRANCH] : create a new blank branch [BRANCH]
             git checkout -- [FILE] : get [FILE] to current repository state
             git checkout [HASH] [FILE] : get [FILE] to [HASH] commit repository state
     tag     manage tags
             git tag : list all tags
             git tag -a [NAME] -m [MSG] : create a new tag named [NAME] with commit message [MSG]
+            git tag -a [NAME] -m [MSG] -u [GPGKEY] : sign a tag
             git tag -d [NAME] : delete tag named [NAME]
 
 Commit/Sources
@@ -41,6 +45,7 @@ Commit/Sources
     commit  actually make a commit (EDITOR will be opened to write the commite message)
             git commit -m "[message]" : add a message without EDITOR
             git commit -a --amend : edit last commit
+            git commit --amend -c <SHA> : edit commit SHA
 
 History
     log     see current branch's commits history
@@ -72,3 +77,13 @@ Config
     .../.gitignore      : per-project ignore masks
     .../.gitmodules     : per-project submodules references
     git config --help   : see all configuration entries
+
+Aliases
+    # gitk emulation
+    git log --oneline --decorate --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%cN <%cE>%Creset' --graph --date-order --full-history --all --color
+    # thiner for current branch only
+    git log --oneline --decorate --pretty=tformat:'%Cred%h%Creset -%C(bold yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)%cN%Creset'
+    # changelog history
+    git log --oneline --decorate --pretty=tformat:'* %Cred%h%Creset -%C(bold yellow)%d%Creset %s (%C(bold blue)%cN <%cE>%Creset)' --first-parent --no-merges
+    # current branch
+    git rev-parse --abbrev-ref HEAD
