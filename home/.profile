@@ -47,4 +47,4 @@ if [ -d "$HOME/lib" ]; then
 fi
 
 # Endfile
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

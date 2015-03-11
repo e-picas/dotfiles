@@ -23,4 +23,4 @@ DEFAULT_MANPAGE_MARKDOWN_BIN="${HOME}/bin/markdown-extended"
 [ -r "${HOME}/.devtools_global_alt" ] && source "${HOME}/.devtools_global_alt";
 
 # Endfile
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

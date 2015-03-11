@@ -93,4 +93,4 @@ alias showpath='echo -e ${PATH//:/\\n}'
 [ -r "${HOME}/.bash_aliases_alt" ] && source "${HOME}/.bash_aliases_alt";
 
 # Endfile
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

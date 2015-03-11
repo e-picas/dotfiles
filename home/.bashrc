@@ -154,4 +154,4 @@ esac
 [ -z "$NOTESDIR" ] && mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
 
 # Endfile
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

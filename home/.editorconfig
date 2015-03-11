@@ -20,4 +20,4 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 # Endfile
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=ini
