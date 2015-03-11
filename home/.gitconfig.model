@@ -18,6 +18,8 @@
     editor = vim
     whitespace = -trailing-space
     autocrlf = false
+[push]
+    default = simple
 [fetch]
     recurseSubmodules = on-demand
 [grep]
