@@ -70,6 +70,9 @@ alias fullps='ps -auxwww'
 # sudo with current user env
 alias sudome='sudo -sE'
 
+# special grep for PHP packages
+alias grepcomposer='grep --exclude-dir=vendor --exclude-dir=phpdoc --exclude-dir=.idea'
+
 # summary of LXC with IPs and status
 alias lxc-list='sudo lxc-ls -1f'
 
