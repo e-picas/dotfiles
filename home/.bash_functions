@@ -581,21 +581,38 @@ cheatsheet() {
 }
 
 _note_completion() {
-    local cur prev opts
+    local cur prev opts finalopts otheropts
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts="- -- + ++ vi"
     case "${prev}" in
         note|-|--|+|++|vi)
-            finalopts=$(ls "${NOTESDIR}/")
+            basedir="${NOTESDIR}"
             ;;
         cheatsheet)
-            finalopts=$(ls "${NOTESDIR}/cheatsheets/")
-            finalopts="${finalopts//\-cheatsheet\.txt/}"
+            basedir="${NOTESDIR}/cheatsheets"
             ;;
     esac;
+    if [ -z "$cur" ]; then
+        finalopts=$(cd "${basedir}" && find * -maxdepth 0 -print)
+    else
+        curdir=$(dirname "$cur")
+        curfile=$(basename "$cur")
+        if [ "$curdir" == '.' -o -z "curdir" ]; then
+            curdir=''
+            curfile="$cur"
+        elif [ -d "${basedir}/${cur}" ]; then
+            cur="${cur}/"
+            curdir="$cur"
+            curfile=''
+        fi
+        finalopts=$(cd "${basedir}/${curdir}" && find * -name "${curfile}*" -maxdepth 1 -print)
+    fi
+    finalopts=$(echo "$finalopts" | sed "s:${basedir}::" | sed 's://*$:/:')
+    [ "$prev" == 'cheatsheet' ] && finalopts=$(echo "$finalopts" | sed 's:-cheatsheet.txt::')
     COMPREPLY=( $(compgen -W "${finalopts}" -- "${cur}") )
+    return 0
 }
 
 # user per-device external files
