@@ -96,8 +96,8 @@ export GREP_OPTIONS='--color=auto'
 
 # user external files
 [ -r "${HOME}/.bash_aliases" ] && source "${HOME}/.bash_aliases";           # all bash aliases
-[ -r "${HOME}/.bash_completions" ] && source "${HOME}/.bash_completions";   # custom completion rules
 [ -r "${HOME}/.bash_functions" ] && source "${HOME}/.bash_functions";       # custom bash functions
+[ -r "${HOME}/.bash_completions" ] && source "${HOME}/.bash_completions";   # custom completion rules
 [ -r "${HOME}/.hosts" ] && export HOSTFILE="${HOME}/.hosts";                # hosts definitions
 [ -r "${HOME}/.inputrc" ] && export INPUTRC="${HOME}/.inputrc";             # keyboard & input rules
 
