@@ -21,9 +21,6 @@
 [submodule "modules/fonts.conf"]
 	path = modules/fonts.conf
 	url = https://gist.github.com/5599072.git
-[submodule "modules/phpclib"]
-	path = modules/phpclib
-	url = https://github.com/piwi/phpclib.git
 [submodule "modules/vim-pathogen"]
 	path = modules/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
@@ -42,3 +39,6 @@
 [submodule "modules/atelierspierrot"]
 	path = modules/atelierspierrot
 	url = https://github.com/atelierspierrot/atelierspierrot.git
+[submodule "modules/php-quick-lib"]
+	path = modules/php-quick-lib
+	url = https://github.com/piwi/php-quick-lib.git
