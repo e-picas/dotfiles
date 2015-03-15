@@ -57,7 +57,7 @@
     type = cat-file -t
     dump = cat-file -p
     # see <https://gist.github.com/piwi/10463831>
-    k = log --graph --full-history --all --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%cN <%cE>%Creset'
+    k = log --graph --full-history --all --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)%cN <%cE>%Creset'
     ll = log --oneline --abbrev-commit --decorate --pretty=format:'%Cred%h%Creset -%C(bold yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)%cN%Creset'
     mybranch = rev-parse --abbrev-ref HEAD
     save = stash save
