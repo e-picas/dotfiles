@@ -62,6 +62,12 @@
     mybranch = rev-parse --abbrev-ref HEAD
     save = stash save
     pop = stash pop --index
+    # merge without fast-forward and auto-commit ignoring all spaces conflicts
+    mergebranch = merge --no-ff --no-commit -Xignore-space-change
+    # open all conflict files in EDITOR (https://gist.github.com/jacobvosmaer/3187346)
+    fix = "!$EDITOR `git diff --name-only --diff-filter=U`"
+    # add all conflict files to git
+    fixed = "!git add `git diff --name-only --diff-filter=U`"
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
