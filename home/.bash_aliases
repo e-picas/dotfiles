@@ -22,9 +22,6 @@ alias cp='cp --interactive'
 alias shutdown='sudo shutdown –h now'
 alias restart='sudo shutdown –r now'
 
-# exclude vcs internals from grep
-alias grep='grep --color=auto --exclude-dir=\.svn  --exclude-dir=\.git'
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -70,8 +67,20 @@ alias fullps='ps -auxwww'
 # sudo with current user env
 alias sudome='sudo -sE'
 
+# exclude vcs and IDEs internals from grep
+alias grep='grep --color=auto --exclude-dir=\.svn  --exclude-dir=\.git --exclude-dir=\.idea --exclude-dir=\.settings --exclude=\*\.project --exclude=\*\.sublime\-\* '
+alias egrep='grep -E'
+alias fgrep='grep -F'
+alias rgrep='grep -R'
+
+# special grep for all dev projects
+alias grepdev='grep --exclude=\*modules/\* --exclude=\*vendor/\* --exclude=\*components/\*'
 # special grep for PHP packages
-alias grepcomposer='grep --exclude-dir=vendor --exclude-dir=phpdoc --exclude-dir=.idea'
+alias grepcomposer='grep --exclude-dir=vendor --exclude-dir=phpdoc'
+# special grep for Node packages
+alias grepnode='grep --exclude-dir=node_modules --exclude-dir=jsdoc'
+# special grep for Bower packages
+alias grepbower='grep --exclude-dir=bower_components'
 
 # summary of LXC with IPs and status
 alias lxc-list='sudo lxc-ls -1f'
