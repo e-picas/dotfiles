@@ -31,8 +31,7 @@ nbproject
 .idea
 .tmproj
 *.esproj
-*.sublime-project
-*.sublime-workspace
+*.sublime-*
 
 # VCS internals
 *.diff
@@ -40,6 +39,10 @@ nbproject
 *.orig
 *.log
 *.rej
+
+# WIP files
+*.bak
+*.tmp
 
 # Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
