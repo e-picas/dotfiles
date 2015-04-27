@@ -16,7 +16,7 @@
 # env & LC
 [ -r "${HOME}/.environment" ] && source "${HOME}/.environment";
 
-# path
+# user binaries path
 [ -d "${HOME}/bin" ] && export PATH="${PATH}:${HOME}/bin";
 
 # global external files
@@ -33,8 +33,6 @@ which less &> /dev/null && export MANPAGER="$(which less) -X"; # don't clear the
 
 # user land
 UNAME=$( uname -s )
-# strip OS type and version under Cygwin (e.g. CYGWIN_NT-5.1 => Cygwin)
-UNAME=${UNAME/CYGWIN_*/Cygwin}
 
 # history
 [ -z "$HISTFILE" ] && export HISTFILE="${HOME}/.history";
@@ -48,7 +46,6 @@ export HISTIGNORE="ls:l:la:ll:clear:pwd:hist:history:tree"
 
 # terminal & env settings
 set -o notify                       # report status of terminated bg jobs immediately
-set -o emacs                        # emacs-style editing
 shopt -s extglob                    # extended pattern matching features
 shopt -s progcomp                   # programmable completion
 shopt -s cdspell                    # correct dir spelling errors on cd
