@@ -347,6 +347,13 @@ str_surround(){
    echo "$1" | sed "s/^/$2/;s/$/$2/" ;
 }
 
+#
+# generate a random pass string (for salt tokens for instance)
+#
+randpw () {
+    env LC_CTYPE=C tr -dc "A-Za-z0-9-+=_\\/\$\*\{\}\(\)\!?,;:.\`£€^%#@'\"& " < /dev/urandom | head -c"${1:-32}"; echo;
+}
+
 #-------------------------------
 # Quick encryption library
 #-------------------------------
