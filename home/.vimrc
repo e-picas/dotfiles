@@ -4,6 +4,7 @@
 " <http://github.com/piwi/dotfiles.git>
 " (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 "
+" Read more about Vim and configuration at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/vimrc.html
 
 " Sets how many lines of history VIM has to remember
 set history=700
@@ -68,7 +69,6 @@ set tm=500
 
 " Enable syntax highlighting
 syntax enable
-
 colorscheme desert
 set background=dark
 
@@ -116,6 +116,9 @@ set modelines=1
 
 " Always show the status line
 set laststatus=2
+
+" Enable file types plugin
+filetype plugin on
 
 " Format the status line
 set statusline=

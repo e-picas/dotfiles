@@ -4,6 +4,7 @@
 # <http://github.com/piwi/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
+# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
 
 # Personal environment variables and startup programs should go in
 # `$HOME/.bash_profile`.  System wide environment variables and startup

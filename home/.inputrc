@@ -4,6 +4,7 @@
 # <http://github.com/piwi/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
+# Read more about Readline init file at: http://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 
 set bell-style none
 set completion-ignore-case on

@@ -42,3 +42,6 @@
 [submodule "modules/php-quick-lib"]
 	path = modules/php-quick-lib
 	url = https://github.com/piwi/php-quick-lib.git
+[submodule "modules/vim-editorconfig"]
+	path = modules/vim-editorconfig
+	url = https://github.com/editorconfig/editorconfig-vim.git
