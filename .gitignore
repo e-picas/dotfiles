@@ -45,9 +45,6 @@ nbproject
 # exclusion of the 'dev/' subdir
 dev/*
 
-# exclusion of the niximp symlink
-niximp.sh
-
 # any devtools config file
 .devtools
 
@@ -55,12 +52,11 @@ niximp.sh
 notes/perso/*
 
 # www packages sources
-www/carte-blanche/*
 www/docbook/*
-www/dependencies/*
-!www/dependencies/composer.json
+www/node_modules/*
+www/bower_components/*
+www/composer.lock
 www/projects/*
-!www/projects/composer.json
 
 # Hack to allow keeping an empty directory
 # this one HAS to keep last !!

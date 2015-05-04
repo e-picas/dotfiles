@@ -1,0 +1,34 @@
+{
+    "name": "dev-env-npm",
+    "description": "Development environment.",
+    "homepage": "http://github.com/piwi/dotfiles",
+    "dependencies": {
+        "moment": "^2.9.0",
+        "nunjucks": "*",
+        "nunjucks-date-filter": "^0.1.0",
+        "grunt": ">=0.4.1",
+        "grunt-markdown": "^0.7.0",
+        "grunt-nunjucks-render": "^0.4.0",
+        "marked": "^0.3.3",
+        "nopt": "^3.0.1",
+        "rimraf": "^2.3.2"
+    },
+    "devDependencies": {
+        "chai": "^2.1.2",
+        "mocha": "^2.2.1",
+        "grunt-contrib-jshint": "^0.10.0",
+        "grunt-contrib-nodeunit": "^0.4.1"
+    },
+    "engines": {
+        "node": ">= 0.10.0"
+    },
+    "directories": {
+        "lib": "lib",
+        "bin": "bin",
+        "doc": "doc",
+        "man": "bin"
+    },
+    "scripts": {
+        "test": "grunt test"
+    }
+}
