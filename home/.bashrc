@@ -12,7 +12,7 @@
 # in `/etc/bashrc`.
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[ -z "${PS1:-}" ] && return
 
 # env & LC
 [ -r "${HOME}/.environment" ] && source "${HOME}/.environment";
@@ -23,6 +23,8 @@
 # global external files
 [ -r /etc/bashrc ] && source /etc/bashrc;
 [ -r /etc/bash_completion ] && ! shopt -oq posix && source /etc/bash_completion;
+[ -d /usr/local/etc/bash_completion.d/ ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
+[ -d /opt/local/etc/bash_completion.d/ ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
 
 # force shell on bash
 which bash &> /dev/null && export SHELL="$(which bash)";
