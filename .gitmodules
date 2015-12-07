@@ -35,7 +35,7 @@
 	url = https://github.com/piwi/bash-library.git
 [submodule "modules/mde-cgi"]
 	path = modules/mde-cgi
-	url = https://github.com/piwi/mde-cgi.git
+	url = https://github.com/markdown-extended/mde-cgi.git
 [submodule "modules/atelierspierrot"]
 	path = modules/atelierspierrot
 	url = https://github.com/atelierspierrot/atelierspierrot.git
