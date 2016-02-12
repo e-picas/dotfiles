@@ -1,22 +1,22 @@
 [submodule "modules/html5-quick-template"]
 	path = modules/html5-quick-template
-	url = https://github.com/piwi/html5-quick-template.git
+	url = https://github.com/e-picas/html5-quick-template.git
 [submodule "modules/markdown-extended"]
 	path = modules/markdown-extended
-	url = https://github.com/piwi/markdown-extended.git
+	url = https://github.com/e-picas/markdown-extended.git
 [submodule "modules/dev-tools"]
 	path = modules/dev-tools
-	url = https://github.com/piwi/dev-tools.git
+	url = https://github.com/e-picas/dev-tools.git
 [submodule "modules/binaries"]
 	path = modules/binaries
-	url = https://github.com/piwi/binaries.git
+	url = https://github.com/e-picas/binaries.git
 [submodule "modules/lesspipe"]
 	path = modules/lesspipe
-	url = https://github.com/piwi/dotfiles.git
+	url = https://github.com/e-picas/dotfiles.git
 	branch = lesspipe
 [submodule "modules/mde-html5-quick-template"]
 	path = modules/mde-html5-quick-template
-	url = https://github.com/piwi/html5-quick-template.git
+	url = https://github.com/e-picas/html5-quick-template.git
 	branch = mde-master
 [submodule "modules/fonts.conf"]
 	path = modules/fonts.conf
@@ -32,7 +32,7 @@
 	url = https://github.com/markdown-extended/vim-mde-syntax.git
 [submodule "modules/piwi-bash-library"]
 	path = modules/piwi-bash-library
-	url = https://github.com/piwi/bash-library.git
+	url = https://github.com/e-picas/bash-library.git
 [submodule "modules/mde-cgi"]
 	path = modules/mde-cgi
 	url = https://github.com/markdown-extended/mde-cgi.git

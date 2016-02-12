@@ -6,7 +6,7 @@ Feel free to use these files as a base for your own dotfiles by [forking the rep
 
 This is largely inspired by <http://dotfiles.github.io/>.
 
-In addition, my personal binary scripts are hosted at <http://github.com/piwi/binaries>.
+In addition, my personal binary scripts are hosted at <http://github.com/e-picas/binaries>.
 
 ## How-To
 
@@ -14,7 +14,7 @@ In addition, my personal binary scripts are hosted at <http://github.com/piwi/bi
 
 Clone the repo:
 
-    git clone https://github.com/piwi/dotfiles.git ~/dotfiles
+    git clone https://github.com/e-picas/dotfiles.git ~/dotfiles
 
 Launch installer (fully interactive):
 
@@ -118,8 +118,8 @@ sourced itself, if it is found at `$HOME/.bashrc_git`, by my global `.bashrc`.
 
 ----
 
-Author: Pierre Cassat - @pierowbmstr (me at e-piwi dot fr)
+Author: Pierre Cassat - @picas (me at picas dot fr)
 
-Original sources: <http://github.com/piwi/dotfiles.git>
+Original sources: <http://github.com/e-picas/dotfiles.git>
 
 License: CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
