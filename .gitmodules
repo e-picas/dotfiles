@@ -41,7 +41,7 @@
 	url = https://github.com/atelierspierrot/atelierspierrot.git
 [submodule "modules/php-quick-lib"]
 	path = modules/php-quick-lib
-	url = https://github.com/piwi/php-quick-lib.git
+	url = https://e-picas@gitlab.com/e-picas/php-quick-lib.git
 [submodule "modules/vim-editorconfig"]
 	path = modules/vim-editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim.git
