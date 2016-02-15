@@ -106,4 +106,3 @@
 # this will export special GIT strings in any LAST_COMMIT file
 LAST_COMMIT export-subst ident
 
-# Endfile

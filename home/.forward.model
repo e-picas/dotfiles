@@ -6,5 +6,4 @@
 #
 # Read more about .forward file at: https://help.ubuntu.com/community/PostfixBasicSetupHowto#Per_User_.forward_Files
 @USEREMAIL@
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

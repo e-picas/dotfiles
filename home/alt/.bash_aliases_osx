@@ -14,5 +14,4 @@ command -v sha1sum > /dev/null || alias sha1sum="shasum"
 # a vlc command workaround
 [ -d /Applications/VLC.app ] && alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

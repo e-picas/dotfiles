@@ -8,5 +8,4 @@
 
 #machine <hostname> login <username> password <password>
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

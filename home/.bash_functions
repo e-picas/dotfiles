@@ -4,7 +4,9 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash programming at: http://www.gnu.org/software/bash/manual/bash.html
+# Read more about GNU CoreUtils at: http://www.gnu.org/software/coreutils/manual/coreutils.html
 
 #
 # get a timestamp
@@ -28,15 +30,12 @@ quietly() {
 #
 ruler() {
     PADDER=$(printf '%0.1s' "#"{1..1000})
-    printf "%*.*s\n" 0 "$(tput cols)" "${PADDER}";
-}
-
-#
-# Prints out a long line. Useful for setting a visual flag in your terminal.
-#
-flag(){
-    _date=$(date +"%A %e %B %Y %H:%M")
-    echo -e "\033[1;36m[=============== ${*} ===(${_date})===============]\033[m"
+    if [ $# -gt 0 ]; then
+        _date=$(date +"%A %e %B %Y %H:%M")
+        echo -e "\033[1;36m[=============== ${*} ===(${_date})===============]\033[m"
+    else
+        printf "%*.*s\n" 0 "$(tput cols)" "${PADDER}";
+    fi
 }
 
 #-------------------------------
@@ -69,13 +68,6 @@ get_tmp(){
     fi
 
     echo "$tmp_dir"
-}
-
-#
-# fast find, using globstar
-#
-fastfind () {
-    ls -ltr "./**/${*}"
 }
 
 #
@@ -251,108 +243,15 @@ readcsv() {
     awk -F "$delim" '{if(NR==1)split($0,arr);else for(i=1;i<=NF;i++)print arr[i]":"$i;print "";}' "$1"
 }
 
-#-------------------------------
-# String manipulation functions
-#-------------------------------
-
 #
-# substring word start [length]
+# Create an HTML file to bookmark a page
 #
-str_substring(){
+makebookmark() {
     if [ $# -lt 2 ]; then
-        echo "usage: substring <word> <start> [length]"
-        return 1
+        echo "usage: makebookmark <file_path> <url>"
+        exit 1
     fi
-    if [ -z "$3" ]
-    then echo "${1:$2}"
-    else echo "${1:$2:$3}"
-    fi
-}
-
-#
-# length of string
-#
-str_length(){
-    if [ $# -lt 1 ]; then
-        echo "usage: length <word>"
-        return 1
-    fi
-    echo ${#1}
-}
-
-#
-# replace part of string with another
-#
-str_replace(){
-    if [ $# -ne 3 ]; then
-        echo "usage: replace <string> <substring> <replacement>"
-        return 1
-    fi
-    echo "${1/$2/$3}"
-}
-
-#
-# replace all parts of a string with another
-#
-str_replaceall(){
-    if [ $# -ne 3 ]; then
-        echo "usage: replaceall <string> <substring> <replacement>"
-        return 1
-    fi
-    echo "${1//$2/$3}"
-}
-
-#
-# find index of specified string
-#
-str_index(){
-    if [ $# -ne 2 ]; then
-        echo "usage: index <string> <substring>"
-        return 1
-    fi
-    expr index "$1" "$2"
-}
-
-#
-# Upper-case
-#
-str_upper(){
-    if [ $# -lt 1 ]; then
-        echo "usage: upper <word>"
-        return 1
-    fi
-    echo "${@^^}"
-}
-
-#
-# Lower-case
-#
-str_lower(){
-    if [ $# -lt 1 ]; then
-        echo "usage: lower <word>"
-        return 1
-    fi
-    echo "${@,,}"
-}
-
-#
-# surround string with quotes, for example.
-#
-str_surround(){
-   if [ $# -ne 2 ]
-   then
-     echo "usage: surround <string> <surround-with>"
-     echo "(e.g. surround hello \\\")"
-     return 1
-   fi
-   echo "$1" | sed "s/^/$2/;s/$/$2/" ;
-}
-
-#
-# generate a random pass string (for salt tokens for instance)
-#
-randpw () {
-    env LC_CTYPE=C tr -dc "A-Za-z0-9-+=_\\/\$\*\{\}\(\)\!?,;:.\`£€^%#@'\"& " < /dev/urandom | head -c"${1:-32}"; echo;
+    echo "<html><head><meta http-equiv=\"refresh\" content=\"0; url=$2\" /></head></html>" > $1
 }
 
 #-------------------------------
@@ -436,6 +335,7 @@ getip () {
     _IP=$(ifconfig | awk '/inet / { print $2 } ' | sed -e s/addr:// 2>&-)
     export _IP="${_IP//127\.0\.0\.1/}"
     export _ISP=$(ifconfig | awk '/P-t-P/ { print $3 } ' | sed -e s/P-t-P:// 2>&-)
+    echo "$_IP"
 }
 
 #
@@ -448,6 +348,7 @@ getextip(){
     else
         export _EIP=$(wget -qO- http://ifconfig.me/ip)
     fi
+    echo "$_EIP"
 }
 
 #
@@ -626,5 +527,4 @@ _note_completion() {
 # user per-device external files
 [ -r "${HOME}/.bash_functions_alt" ] && source "${HOME}/.bash_functions_alt";
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

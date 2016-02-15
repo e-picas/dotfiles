@@ -18,7 +18,7 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM=auto
 
-[ -f ~/.git-completion ] && source ~/.git-completion
+[ -f "${HOME}/.git-completion" ] && source "${HOME}/.git-completion";
 
 if [ "$color_prompt" = yes ]
 then 
@@ -32,5 +32,4 @@ else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(__git_ps1 " (%s)")\$ '
 fi
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

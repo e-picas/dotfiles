@@ -4,12 +4,14 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash programming at: http://www.gnu.org/software/bash/manual/bash.html
+# Read more about Bash completion at: http://www.tldp.org/LDP/abs/html/tabexpansion.html
 
-# Turn on extended globbing and programmable completion
+# turn on extended globbing and programmable completion
 shopt -s extglob progcomp
 
-# Make directory commands see only directories
+# make directory commands see only directories
 complete -d pushd
 
 # personal completions
@@ -35,5 +37,4 @@ fi
 # user per-device external files
 [ -r "${HOME}/.bash_completions_alt" ] && source "${HOME}/.bash_completions_alt";
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

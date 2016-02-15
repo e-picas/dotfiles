@@ -5,6 +5,7 @@
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
 # Read more about Readline init file at: http://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
+# Read the official Readline manual page at: http://man7.org/linux/man-pages/man3/readline.3.html
 
 set bell-style none
 set completion-ignore-case on
@@ -41,5 +42,4 @@ $include /etc/inputrc
 # Include per-device .inputrc_alt
 $include ~/.inputrc_alt
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

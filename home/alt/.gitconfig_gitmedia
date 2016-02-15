@@ -10,5 +10,4 @@
     clean = git-media-clean %f
     smudge = git-media-smudge %f
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

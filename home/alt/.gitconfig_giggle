@@ -1,5 +1,5 @@
 #
-# .gitconfig <http://www.git-scm.com/book/ch7-1.html>
+# .gitconfig_giggle <http://www.git-scm.com/book/ch7-1.html>
 # by @picas (me at picas dot fr)
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
@@ -13,5 +13,4 @@
     main-window-view = HistoryView
     file-view-vpane-position = 756
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

@@ -23,5 +23,4 @@ caption always "%{= KW}%-Lw%{= wb}%n %t %{= KW}%+Lw %-=| ${USER}@%H | %M%d %c%{-
 # %H          hostname.
 # %M%d %s     month and day (MmmDD) and current time (HH:MM).
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

@@ -4,12 +4,7 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
-
-# MacOSX special for completion
-if [ -x /usr/libexec/path_helper ]; then
-    eval `/usr/libexec/path_helper -s`;
-fi
+# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
 
 # source .bashrc and infos
 if [ -n "$BASH_VERSION" ]; then
@@ -47,5 +42,9 @@ if [ -d "$HOME/lib" ]; then
     export LD_RUN_PATH="$LD_RUN_PATH:$HOME/lib";
 fi
 
-# Endfile
+# special inclusion of other .profile_XXX files if they exists
+for f in .profile_osx .profile_alt; do
+    [ -r "${HOME}/${f}" ] && source "${HOME}/${f}";
+done
+
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

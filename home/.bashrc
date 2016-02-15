@@ -4,7 +4,9 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read the official Bash programming manual at: http://www.gnu.org/software/bash/manual/bash.html
+# Read the official Bash manual page at: http://man7.org/linux/man-pages/man1/bash.1.html
 
 # Personal environment variables and startup programs should go in
 # `$HOME/.bash_profile`.  System wide environment variables and startup
@@ -27,20 +29,21 @@
 [ -d /opt/local/etc/bash_completion.d/ ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
 
 # force shell on bash
-which bash &> /dev/null && export SHELL="$(which bash)";
-which less &> /dev/null && export PAGER="$(which less) -i";
-which vim &> /dev/null && export EDITOR="$(which vim)";
-which emacs &> /dev/null && export VISUAL="$(which emacs)";
-which lynx &> /dev/null && export BROWSER="$(which lynx)";
-which less &> /dev/null && export MANPAGER="$(which less) -X"; # don't clear the screen after a manpage
+command -v bash > /dev/null     && export SHELL="$(which bash)";
+command -v less > /dev/null     && export PAGER="$(which less) -i";
+command -v vim > /dev/null      && export EDITOR="$(which vim)";
+command -v emacs > /dev/null    && export VISUAL="$(which emacs)";
+command -v lynx > /dev/null     && export BROWSER="$(which lynx)";
+command -v less > /dev/null     && export MANPAGER="$(which less) -X"; # don't clear the screen after a manpage
 
 # user land
-UNAME=$( uname -s )
+UNAME="$(uname -s)"
 
 # history
-[ -z "$HISTFILE" ] && export HISTFILE="${HOME}/.history";
-[ -z "$MYSQL_HISTFILE" ] && export MYSQL_HISTFILE="${HOME}/.mysql_history";
-[ -z "$SQLITE_HISTFILE" ] && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
+[ -z "$HISTFILE" ]          && export HISTFILE="${HOME}/.history";
+[ -z "$MYSQL_HISTFILE" ]    && export MYSQL_HISTFILE="${HOME}/.mysql_history";
+[ -z "$SQLITE_HISTFILE" ]   && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
+
 # ignore duplicate history lines and any command beginning by a space
 export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
@@ -91,21 +94,16 @@ export NOCOLOR=$'\033[m'
 export GREP_COLOR="1;3$((RANDOM%6+1))"
 export GREP_OPTIONS='--color=auto'
 
-# if android-sdk exists in ~/bin
-[ -e "${HOME}/bin/android-sdk" ] && export PATH="${PATH}:~/bin/android-sdk/tools:~/bin/android-sdk/platform-tools"
-
 # user external files
-[ -r "${HOME}/.bash_aliases" ] && source "${HOME}/.bash_aliases";           # all bash aliases
-[ -r "${HOME}/.bash_functions" ] && source "${HOME}/.bash_functions";       # custom bash functions
-[ -r "${HOME}/.bash_completions" ] && source "${HOME}/.bash_completions";   # custom completion rules
-[ -r "${HOME}/.hosts" ] && export HOSTFILE="${HOME}/.hosts";                # hosts definitions
-[ -r "${HOME}/.inputrc" ] && export INPUTRC="${HOME}/.inputrc";             # keyboard & input rules
+[ -r "${HOME}/.bash_aliases" ]      && source "${HOME}/.bash_aliases";          # all bash aliases
+[ -r "${HOME}/.bash_functions" ]    && source "${HOME}/.bash_functions";        # custom bash functions
+[ -r "${HOME}/.bash_completions" ]  && source "${HOME}/.bash_completions";      # custom completion rules
+[ -r "${HOME}/.hosts" ]             && export HOSTFILE="${HOME}/.hosts";        # hosts definitions
+[ -r "${HOME}/.inputrc" ]           && export INPUTRC="${HOME}/.inputrc";       # keyboard & input rules
 
 # bash prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
 [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ] && debian_chroot=$(cat /etc/debian_chroot);
-
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
     # We have color support; assume it's compliant with Ecma-48
     # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
@@ -114,7 +112,6 @@ if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 else
     color_prompt=
 fi
-
 if [ "$color_prompt" == yes ]; then 
     if [ "$UNAME" == 'Darwin' ]
     then
@@ -125,7 +122,6 @@ if [ "$color_prompt" == yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
-
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
     xterm*|rxvt*)
@@ -135,23 +131,9 @@ case "$TERM" in
     *);;
 esac
 
-# user per-device external files
-[ -r "${HOME}/.bashrc_alt" ] && source "${HOME}/.bashrc_alt";
+# special inclusion of other .bashrc_XXX files if they exists
+for f in .bashrc_git .bashrc_osx .bashrc_npm .bashrc_alt; do
+    [ -r "${HOME}/${f}" ] && source "${HOME}/${f}";
+done
 
-# special inclusion of .bashrc_git if it exists
-[ -r "${HOME}/.bashrc_git" ] && source "${HOME}/.bashrc_git";
-
-# special inclusion of .bashrc_npm if it exists
-[ -r "${HOME}/.bashrc_npm" ] && source "${HOME}/.bashrc_npm";
-
-## user directories
-# to avoid their creations, define `TMPDIR=false`, `BACKUPDIR=false` and `NOTESDIR=false` in `.bashrc_alt`
-# temporary directory: TMPDIR
-[ -z "$TMPDIR" ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
-# backup directory: BACKUPDIR
-[ -z "$BACKUPDIR" ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
-# personal notes directory: NOTESDIR (used by the `notes` and `cheatsheet` functions)
-[ -z "$NOTESDIR" ] && mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
-
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

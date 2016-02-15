@@ -21,5 +21,4 @@ init.author.url=@USERURL@
 message="%s (NPM version auto-generation)"
 searchopts=""
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

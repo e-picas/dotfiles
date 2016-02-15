@@ -4,7 +4,8 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash programming at: http://www.gnu.org/software/bash/manual/bash.html
 
 # Personal environment variables and startup programs should go in
 # `$HOME/.bash_profile`.  System wide environment variables and startup
@@ -12,16 +13,15 @@
 # in `/etc/bashrc`.
 
 # load .profile containing login, non-bash related initializations
-if [ -f ~/.profile ]; then source ~/.profile; fi
+[ -f "${HOME}/.profile" ] && source "${HOME}/.profile";
  
 # load .bashrc containing non-login related bash initializations
-if [ -f ~/.bashrc ]; then 
-    source ~/.bashrc
-    export BASH_ENV="$HOME/.bashrc"
+if [ -f "${HOME}/.bashrc" ]; then 
+    source "${HOME}/.bashrc"
+    export BASH_ENV="${HOME}/.bashrc"
 fi
 
 # user per-device external files
 [ -r "${HOME}/.bash_profile_alt" ] && source "${HOME}/.bash_profile_alt";
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
