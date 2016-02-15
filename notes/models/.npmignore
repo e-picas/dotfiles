@@ -58,5 +58,4 @@ node_modules/*
 bower_components/*
 */bower_components/*
 
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
