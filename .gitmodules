@@ -45,3 +45,6 @@
 [submodule "modules/vim-editorconfig"]
 	path = modules/vim-editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim.git
+[submodule "modules/bash-utils"]
+	path = modules/bash-utils
+	url = https://piwi@gitlab.com/piwi/bash-utils.git
