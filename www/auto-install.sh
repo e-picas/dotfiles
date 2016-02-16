@@ -22,29 +22,29 @@ WEBROOT_DIR=`pwd`
 # the composer binary
 _COMPOSER=$(which composer)
 if [ "${_COMPOSER}" == '' ]; then
-    $_VERBOSE && echo "> installing the 'composer.phar' binary ..."
-    cd $WEBROOT_DIR
-    ./getcomposer.sh
-    _COMPOSER="${WEBROOT_DIR}/composer.phar"
+	$_VERBOSE && echo "> installing the 'composer.phar' binary ..."
+	cd $WEBROOT_DIR
+	./getcomposer.sh
+	_COMPOSER="${WEBROOT_DIR}/composer.phar"
 fi
 
 # temporary directory
 WEBTMP_DIR="${TARGET_DIR}/tmp/"
 if [ ! -d $WEBTMP_DIR ]; then
-    $_VERBOSE && echo "> creating 'tmp' sub-directory ..."
-    mkdir -p $WEBTMP_DIR
+	$_VERBOSE && echo "> creating 'tmp' sub-directory ..."
+	mkdir -p $WEBTMP_DIR
 fi
 
 # Third-party dependencies installed in 'dependencies/'
 DEPTS_DIR="${TARGET_DIR}/dependencies/"
 $_VERBOSE && echo "> installing dependencies in '${DEPTS_DIR}' ..."
 if [ ! -d $DEPTS_DIR ]; then
-    ln -s "`pwd`/dependencies" $TARGET_DIR/
+	ln -s "`pwd`/dependencies" $TARGET_DIR/
 fi
 if [ ! -f $DEPTS_DIR/composer.lock ]; then
-    cd $DEPTS_DIR && ${_COMPOSER} -v install --no-dev
+	cd $DEPTS_DIR && ${_COMPOSER} -v install --no-dev
 else
-    cd $DEPTS_DIR && ${_COMPOSER} -v update --no-dev
+	cd $DEPTS_DIR && ${_COMPOSER} -v update --no-dev
 fi
 cd $WEBROOT_DIR
 
@@ -52,12 +52,12 @@ cd $WEBROOT_DIR
 PROJECTS_DIR="${TARGET_DIR}/projects/"
 $_VERBOSE && echo "> installing projects in '${PROJECTS_DIR}' ..."
 if [ ! -d $PROJECTS_DIR ]; then
-    ln -s "`pwd`/projects" $TARGET_DIR/
+	ln -s "`pwd`/projects" $TARGET_DIR/
 fi
 if [ ! -f $PROJECTS_DIR/composer.lock ]; then
-    cd $PROJECTS_DIR && ${_COMPOSER} -v install --no-dev
+	cd $PROJECTS_DIR && ${_COMPOSER} -v install --no-dev
 else
-    cd $PROJECTS_DIR && ${_COMPOSER} -v update --no-dev
+	cd $PROJECTS_DIR && ${_COMPOSER} -v update --no-dev
 fi
 cd $WEBROOT_DIR
 
@@ -66,26 +66,26 @@ DOCBOOK_DIR="${TARGET_DIR}/docbook/"
 DOCBOOK_VERSION="1.3.*@dev"
 $_VERBOSE && echo "> installing docbook in '${DOCBOOK_DIR}' ..."
 if [ ! -d $DOCBOOK_DIR ]; then
-    ln -s "`pwd`/docbook" $TARGET_DIR/
-    ${_COMPOSER} create-project atelierspierrot/docbook $DOCBOOK_DIR $DOCBOOK_VERSION --no-dev
+	ln -s "`pwd`/docbook" $TARGET_DIR/
+	${_COMPOSER} create-project atelierspierrot/docbook $DOCBOOK_DIR $DOCBOOK_VERSION --no-dev
 fi
 
 # DocBook contents
 declare -a DOCBOOK_CONTENTS=(
-    'https://github.com/piwi/mydocbook.git'
-    'https://github.com/atelierspierrot/atelierspierrot.git'
-    'https://bitbucket.org/pierowbmstr/private-docbook.git'
+	'https://github.com/piwi/mydocbook.git'
+	'https://github.com/atelierspierrot/atelierspierrot.git'
+	'https://bitbucket.org/pierowbmstr/private-docbook.git'
 );
 $_VERBOSE && echo "> installing docbook contents ..."
 for _repo in "${DOCBOOK_CONTENTS[@]}"; do
-    tmpdir="$DOCBOOK_DIR/www/`basename ${_repo}`"
-    if [ ! -d $tmpdir ]; then
-        cd $DOCBOOK_DIR/www/ && git clone "${_repo}"
-    else
-        cd $tmpdir && \
-            git stash save "automatic stashing before auto-update" \
-            git pull --rebase ;
-    fi
+	tmpdir="$DOCBOOK_DIR/www/`basename ${_repo}`"
+	if [ ! -d $tmpdir ]; then
+		cd $DOCBOOK_DIR/www/ && git clone "${_repo}"
+	else
+		cd $tmpdir && \
+			git stash save "automatic stashing before auto-update" \
+			git pull --rebase ;
+	fi
 done
 
 

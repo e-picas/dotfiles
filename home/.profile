@@ -1,50 +1,30 @@
-#
-# .profile
-# by @picas (me at picas dot fr)
-# <http://github.com/e-picas/dotfiles.git>
-# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
-#
-# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
 
-# source .bashrc and infos
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+umask 077
+
+# if running bash
 if [ -n "$BASH_VERSION" ]; then
-    if [ -r "$HOME/.bashrc" ]; then
-        source "$HOME/.bashrc";
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    	. "$HOME/.bashrc"
         echo "# env:"
-        echo "UNAME       = ${UNAME}"
-        echo "HOME        = ${HOME}"
-        echo "TMPDIR      = ${TMPDIR}"
-        echo "PATH        = ${PATH}"
+        echo "UNAME = ${UNAME}"
+        echo "PITHOME = ${PITHOME}"
+        echo "TMPDIR = ${TMPDIR}"
+        echo "PATH = ${PATH}"
         echo "HISTCONTROL = ${HISTCONTROL}"
         echo "# aliases:"
         alias
-        echo "# server date:"
-        date
-    else
-        echo "!! .bashrc not found!"
     fi
 fi
 
 # set PATH so it includes user's private bin if it exists
-[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH";
-
-# files base perms: 666  (- 022 = 644)
-# dirs base perms:  777  (- 022 = 755)
-umask 022
-
-# be sure to have '$HOME/bin/lib' and '$HOME/lib' in '$LD_LIBRARY_PATH' and '$LD_RUN_PATH'
-if [ -d "$HOME/bin/lib" ]; then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/bin/lib";
-    export LD_RUN_PATH="$LD_RUN_PATH:$HOME/bin/lib";
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
 fi
-if [ -d "$HOME/lib" ]; then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib";
-    export LD_RUN_PATH="$LD_RUN_PATH:$HOME/lib";
-fi
-
-# special inclusion of other .profile_XXX files if they exists
-for f in .profile_osx .profile_alt; do
-    [ -r "${HOME}/${f}" ] && source "${HOME}/${f}";
-done
-
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

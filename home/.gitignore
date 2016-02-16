@@ -1,0 +1,42 @@
+# Read more about .gitignore file at: http://git-scm.com/docs/gitignore
+
+# OS & temp files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon
+._*
+*~
+*~lock*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*.swo
+*.vi
+
+# IDEs
+nbproject
+.cache
+.settings
+.project
+.buildpath
+.idea
+.tmproj
+*.esproj
+*.sublime-*
+
+# VCS internals
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+
+# WIP files
+*.bak
+*.tmp
+
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

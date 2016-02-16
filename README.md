@@ -8,9 +8,8 @@ This is largely inspired by <http://dotfiles.github.io/>.
 
 In addition, my personal binary scripts are hosted at <http://github.com/e-picas/binaries>.
 
-## How-To
-
-### Installation
+Installation
+------------
 
 Clone the repo:
 
@@ -24,102 +23,57 @@ To see installer usage, run:
 
     ./path/to/clone/install.sh -h
 
-### Usage
+Usage
+-----
 
-The rules are quite simple:
+List of different filesystem treatments:
 
--   all "dotfiles" are stored in the `home/` directory and are to be symlinked or copied
-    in the UNIX user's `$HOME`
--   when it is possible, any dotfile will try to include a `_alt` suffixed same file used
-    for "per-device" configurations
--   any file with a `.model` suffix contains masks like `@MASK@` that needs to be filled 
-    with a value (tokens mostly)
--   all binaries of the `bin/` directory are to be copied or symlinked in the UNIX user's
-    `$HOME/bin/` and are themselves symlinks to git submodules stored in the `modules/`
-    directory (so I can always be up-to-date)
--   the `notes/` directory stores my personal notes, handled by the `note` bash function
+`<filename>.model`
+:   this identifies a file containing some tags or fields to full fill ; this kind of file is
+    hard copied in its final place and then opened in an editor to let you fill required tags
 
-The final install may be something like:
+`<filename>.enc`
+:   this identifies an encrypted file ; this kind of file is hard copied to its final place and
+    then decrypted with your password (prompted each time)
 
-    [$HOME]
-    |
-    | .dotfile      -> as a symlink to path/to/clone/home/.dotfile
-    | .dotfile      -> as a hard copy of path/to/clone/home/.dotfile.model
-    |
-    | bin/cmd       -> as a symlink to path/to/clone/bin/cmd
-    |
-    | notes/        -> as a symlink to path/to/clone/notes/
-    |
+`<dirname>.dir`
+:   this indifies a directory that must be treated "as-is" ; it will be linked or copied (with
+    its contents of course) without analyzing its contents
 
-## Special features
-
-### Functions
-
-#### Notepad
-
-My `.bash_functions` embeds a simple command-line "notepad" handler to list, read and write
-some simple text notes in `txt` files stored in the `notes/` directory. A special `cheatsheets/`
-sub-dir stores my cheat-sheets as plain text.
-
-To use it, run:
-
-    note            # this will show the 'notes' help
-    cheatsheet      # this will show the 'cheat-sheets' help
-
-These commands work with the `NOTESDIR` env var that is defined by `.bashrc` and defaults to `$HOME/notes/`.
-
-#### Encryption
-
-My `.bash_functions` also embeds a (very) simple encryption set of functions to encrypt/decrypt strings or files.
-It uses the default UNIX [Open SSL](http://www.openssl.org/) command for encryption with a password prompted each time.
-Keep in mind that you NEED to remind your password.
-
-To use it, run:
-
-    encrypt_string "my string to encrypt"
-    decrypt_string "encrypted_string"
-    encrypt_file file-to-encrypt.ext
-    decrypt_file encrypted-file.enc
-
-This can be useful, for instance, for a mysql connection alias:
-
-    alias mysqltest='p=$(decrypt_string U2FsdGVkX19FuOPF3w3+GG8E4f3+v042BguJw7vetA8=) && mysql -uUSER -p$p DB'
-
-### Special directories
-
-My `.bashrc` will (always) try to create the following directories:
-
-    $HOME/backups/  : loaded in `BACKUPDIR` env var
-    $HOME/tmp/      : created only if the `TMPDIR` env var is not defined
+`<filename>`
+:   any other file is treated following the default action in use (link or hard copy)
 
 
-## Notes
+List of local directories and their handling:
 
-I use the [lesspipe](http://www-zeuthen.desy.de/~friebel/unix/lesspipe.html) tool by *Wolfgang Friebel*
-to view some special files with `less`. As the original repository is under SVN and hosted by 
-[SourceForge](http://sourceforge.net/projects/lesspipe/), I use the internal `git-svn` command
-to track the original SVN sources on branch `lesspipe` of this actual (GIT) package and define
-this branch as a submodule. Corresponding SVN config (for fresh clones):
+`home/`
+:   the place for the *dotfiles* ; they are finally linked or copied at the root of the `<target>/`
+    directory
 
-    [svn-remote "svn"]
-        url = svn://svn.code.sf.net/p/lesspipe/code
-        fetch = trunk:refs/remotes/trunk
-        branches = branches/*:refs/remotes/*
-        tags = tags/*:refs/remotes/tags/*
+`bin/`
+:   the place for the binary scripts ; they are finally linked or copied to the `<target>/bin/`
+    directory
 
+`keys/`
+:   the place for the various personal keys you use ; they should be stored encrypted and will
+    be finally copied and decrypted in the relative sub-directory of the `<target>/` directory ;
+    the contents of this directory are considered "per-file", which means that only files are
+    copied, in the path constructed relative to `<target>/` (`keys/.ssh/my_rsa_key.encrypted`
+    will be copied into `<target>/.ssh/my_rsa_key`)
 
-I mostly followed this tutorial to build the git branch tracking the svn repo and use it 
-as a submodule: <http://fredericiana.com/2010/01/12/using-svn-repositories-as-git-submodules/>.
+`data/`
+:   the place for any other contents ; they are finally linked or copied to concerned `<target>/<path>/`
+    directory ; to link or copy a whole directory, use the `.dir` suffix ; examples:
+    -   `data/toughts/my-thought.txt` will be linked to `<target>/toughts/my-thought.txt`
+    -   `data/notes.dir/` will be linked to `<target>/notes/`
 
-I also include a hard copy of the `git-completion` script written by [*Shawn O. Pearce*](http://spearce.org).
-His script is included in recent GIT official distributions but I used to include it as a
-dotfile at `$HOME/.git-completion`. It is sourced by my `.bashrc_git` (stored in `home/alt/`)
-sourced itself, if it is found at `$HOME/.bashrc_git`, by my global `.bashrc`.
+Best practices
+--------------
 
-----
+The best practice is to use GIT submodules to store your binaries (and any other stuff you need). This
+way, if you linked interesting contents somewhere in your clone, you are able to be fully updated without
+modifying anything in your clone byt the submodule revision.
 
-Author: Pierre Cassat - @picas (me at picas dot fr)
+Another best practice for *dotfiles* is to make each of them include a `<dotfile>_alt` file (if it is present)
+to allow "per-device" customizations.
 
-Original sources: <http://github.com/e-picas/dotfiles.git>
-
-License: CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>

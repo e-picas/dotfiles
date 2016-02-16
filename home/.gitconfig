@@ -1,0 +1,23 @@
+[user]
+	name = "$GIT_USERNAME"
+	email = "$USEREMAIL"
+[core]
+	editor = vim
+[credential]
+    helper = cache --timeout=3600
+[color]
+	ui = auto
+    branch = true
+    diff = true
+    status = true
+[log]
+	abbrevCommit = true
+[status]
+	submoduleSummary = true
+[grep]
+    extendedRegexp = true
+[alias]
+    k = log --graph --full-history --all --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)%cN <%cE>%Creset'
+    ll = log --oneline --abbrev-commit --decorate --pretty=format:'%Cred%h%Creset -%C(bold yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)%cN%Creset'
+
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off

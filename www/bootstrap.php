@@ -14,7 +14,6 @@ $basedir = dirname(__FILE__);
 // Are we in command-line environment
 define('IS_CLI', (bool) (strpos(php_sapi_name(),'cli')!==false));
 
-//*/
 // PHP default settings
 @error_reporting(E_ALL | E_STRICT);
 @ini_set('display_errors', 1);
@@ -27,41 +26,36 @@ if (IS_CLI) {
         xdebug_disable();
     }
 }
-//*/
 
-//*/
 // initial settings
-_settings('BASEPATH', $basedir);
-_settings('CWD', getcwd());
-//*/
+_settings('BASEPATH',   $basedir);
+_settings('CWD',        getcwd());
 
-//*/
 // load user env
 $env_file = _getPath(array($basedir, '.env'));
-if (file_exists($env_file)) _loadUserEnv($env_file);
-//*/
+if (@file_exists($env_file)) {
+    _loadUserEnv($env_file);
+}
 
-//*/
 // Set the sources path in PHP global 'include_path' ...
 set_include_path( get_include_path().PATH_SEPARATOR.$basedir );
-if (@file_exists(($a = $basedir.'/src'))) {
+if (@file_exists(($a = _getPath(array($basedir, 'src')))) {
 	set_include_path( get_include_path().PATH_SEPARATOR.$a );
 }
-if (@file_exists(($b = $basedir.'/projects'))) {
+if (@file_exists(($b = _getPath(array($basedir, 'projects')))) {
 	set_include_path( get_include_path().PATH_SEPARATOR.$b );
 }
-//*/
 
-//*/
 // include the Composer autoloader if COMPOSER_AUTOLOADER is `true` ...
-if (defined('COMPOSER_AUTOLOADER') || COMPOSER_AUTOLOADER===true) {
+if (defined('COMPOSER_AUTOLOADER') && COMPOSER_AUTOLOADER===true) {
 	if (@file_exists($autoloader = _getPath(array($basedir, 'src', 'autoload.php')))) {
-		require_once($autoloader);
+		require $autoloader;
+    } elseif (@file_exists($autoloader = _getPath(array($basedir, 'vendor', 'autoload.php')))) {
+        require $autoloader;
 	} else {
 		trigger_error(sprintf('The Composer autoloader can not be found (searching "%s")!', $autoloader), E_USER_ERROR);
 	}
 }
-//*/
 
 /**
  * App settings setter/getter
@@ -72,6 +66,11 @@ if (defined('COMPOSER_AUTOLOADER') || COMPOSER_AUTOLOADER===true) {
  *      _settings( (array)var )                     : set 'var' keys on 'var' values
  *      _settings()                                 : get the full current settings array
  *
+ * You can use a `%VAR%` mask to use the `VAR` setting value ; i.e.:
+ *
+ *      VAR='base_dir'
+ *      MYVAR='%VAR%/my_dir/'
+ *
  * @param null|string $name
  * @param null|mixed $value
  * @param null|array $params
@@ -79,7 +78,11 @@ if (defined('COMPOSER_AUTOLOADER') || COMPOSER_AUTOLOADER===true) {
  */
 function _settings($name = null, $value = null, array $params = null)
 {
-    static $settings = array();
+    static $settings    = array();
+    $replace_masks      = function($m) use ($settings) {
+        return isset($settings[$m[1]]) ? $settings[$m[1]] : '';
+    };
+
     if (is_array($name)) {
         $settings = array_merge($settings, $name);
     } elseif (!empty($name) && !empty($value)) {
@@ -89,9 +92,14 @@ function _settings($name = null, $value = null, array $params = null)
         if (!empty($val) && is_callable($val) && !empty($params)) {
             $val = call_user_func_array($val, $params);
         }
-        return $val;
+        return preg_replace_callback('/%([^%]+)%/', $replace_masks, $val);
     }
-    return $settings;
+
+    $settings_tmp = $settings;
+    foreach ($settings_tmp as $var=>$val) {
+        $settings_tmp[$var] = preg_replace_callback('/%([^%]+)%/', $replace_masks, $val);
+    }
+    return $settings_tmp;
 }
 
 /**
@@ -111,15 +119,15 @@ function _getPath($parts)
 /**
  * Load '.env' file variables in current environment
  *
+ * @param string $env_file The file path to load
  * @param bool $putenv Use 'putenv()' or 'settings()'
  * @return array
  */
-function _loadUserEnv($filepath = null, $putenv = true)
+function _loadUserEnv($env_file, $putenv = true)
 {
     $vars   = array();
-    $env    = _getPath(array(dirname(dirname(__FILE__)), '.env'));
-    if (file_exists($filepath)) {
-        $vars = @parse_ini_file($filepath, true);
+    if (file_exists($env_file)) {
+        $vars = @parse_ini_file($env_file, true);
         if (!empty($vars)) {
             foreach ($vars as $var=>$val) {
                 if ($putenv) putenv($var.'='.$val);
@@ -127,9 +135,23 @@ function _loadUserEnv($filepath = null, $putenv = true)
             }
         }
     } else {
-        trigger_error(sprintf('Environment file "%s" not found', $filepath), E_USER_ERROR);
+        trigger_error(
+            sprintf('Environment file "%s" not found', $env_file),
+            E_USER_ERROR
+        );
     }
     return $vars;
+}
+
+/**
+ * Get a setting value for current environment
+ *
+ * @param string $name
+ * @return array|null
+ */
+function _envSetting($name)
+{
+    return _settings($name . '_' . _settings('_ENV_'));
 }
 
 /**

@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+
+#
+# auto-install.sh | auto-installer
+# 
+# This script will be called like:
+#
+#       mkdir TARGET_INSTLLATION_DIRECTORY_PATH/subdir
+#       cd subdir
+#       ./auto-install.sh TARGET_INSTALLATION_DIRECTORY_PATH/subdir
+#
+
+# do nothing if no argument (may be an error)
+[ $# -eq 0 ] && return 0;
+
+# the target directory is the only argument
+TARGET_DIR=$1
+
+# global web directory
+WEBROOT_DIR=`pwd`
+
+# flags for dev
+PROCESS_DEPENDENCIES=true
+#PROCESS_DEPENDENCIES=false
+PROCESS_PROJECTS=true
+#PROCESS_PROJECTS=false
+PROCESS_DOCBOOK=true
+#PROCESS_DOCBOOK=false
+PROCESS_CARTEBLANCHE=true
+#PROCESS_CARTEBLANCHE=false
+
+# the composer binary
+_COMPOSER=$(which composer)
+if [ "${_COMPOSER}" == '' ]; then
+    $_VERBOSE && echo "> installing the 'composer.phar' binary ..."
+    cd $WEBROOT_DIR
+    ./getcomposer.sh
+    _COMPOSER="${WEBROOT_DIR}/composer.phar"
+fi
+
+# temporary directory
+WEBTMP_DIR="${TARGET_DIR}/tmp/"
+if [ ! -d $WEBTMP_DIR ]; then
+    $_VERBOSE && echo "> creating 'tmp' sub-directory ..."
+    mkdir -p $WEBTMP_DIR
+fi
+
+# Third-party dependencies installed in 'dependencies/'
+if $PROCESS_DEPENDENCIES; then
+    DEPTS_DIR="${TARGET_DIR}/dependencies/"
+    $_VERBOSE && echo "> installing dependencies in '${DEPTS_DIR}' ..."
+    if [ ! -d $DEPTS_DIR ]; then
+        cp -R "dependencies" $TARGET_DIR/
+    fi
+    if [ ! -f $DEPTS_DIR/composer.lock ]; then
+        cd $DEPTS_DIR && ${_COMPOSER} -v install --no-dev
+    else
+        cd $DEPTS_DIR && ${_COMPOSER} -v update --no-dev
+    fi
+    cd $WEBROOT_DIR
+fi
+
+# GitHub projects installed in 'projects/'
+if $PROCESS_PROJECTS; then
+    PROJECTS_DIR="${TARGET_DIR}/projects/"
+    $_VERBOSE && echo "> installing projects in '${PROJECTS_DIR}' ..."
+    if [ ! -d $PROJECTS_DIR ]; then
+        cp -R "projects" $TARGET_DIR/
+    fi
+    if [ ! -f $PROJECTS_DIR/composer.lock ]; then
+    #    cd $PROJECTS_DIR && ${_COMPOSER} -v install --no-plugins --no-dev
+        cd $PROJECTS_DIR && ${_COMPOSER} -v install --no-dev
+    else
+    #    cd $PROJECTS_DIR && ${_COMPOSER} -v update --no-plugins --no-dev
+        cd $PROJECTS_DIR && ${_COMPOSER} -v update --no-dev
+    fi
+    # symlink demos in 'www/demos/'
+    cd $PROJECTS_DIR
+    if [ ! -d $PROJECTS_DIR/www/demos ]; then
+        mkdir $PROJECTS_DIR/www/demos
+    fi
+    for f in $(find * -name demo -type d); do
+        n=$(basename $(dirname $f))
+        ln -s "../../$f" $PROJECTS_DIR/www/demos/$n
+    done
+    cd $WEBROOT_DIR
+fi
+
+# CarteBlanche installed in 'carte-blanche/'
+if $PROCESS_CARTEBLANCHE; then
+    CARTEBLANCHE_DIR="${TARGET_DIR}/carte-blanche/"
+    $_VERBOSE && echo "> installing carte-blanche in '${CARTEBLANCHE_DIR}' ..."
+    if [ ! -d $CARTEBLANCHE_DIR ]; then
+        mkdir -p $CARTEBLANCHE_DIR/
+        ${_COMPOSER} create-project carte-blanche/carte-blanche $CARTEBLANCHE_DIR --no-dev -s dev
+    fi
+fi
+
+# DocBook installed in 'docbook/'
+if $PROCESS_DOCBOOK; then
+    DOCBOOK_DIR="${TARGET_DIR}/docbook/"
+    DOCBOOK_VERSION="1.3.*@dev"
+    $_VERBOSE && echo "> installing docbook in '${DOCBOOK_DIR}' ..."
+    if [ ! -d $DOCBOOK_DIR ]; then
+        mkdir -p $TARGET_DIR/
+        ${_COMPOSER} create-project atelierspierrot/docbook $DOCBOOK_DIR $DOCBOOK_VERSION --no-dev
+    fi
+
+    # DocBook contents
+    declare -a DOCBOOK_CONTENTS=(
+        'https://piwi@github.com/piwi/mydocbook.git|perso'
+        'https://piwi@github.com/atelierspierrot/atelierspierrot.git'
+        'https://pierowbmstr@bitbucket.org/pierowbmstr/private-docbook.git'
+    );
+    $_VERBOSE && echo "> installing docbook contents ..."
+    for _repo in "${DOCBOOK_CONTENTS[@]}"; do
+        IFS='|' read -ra INFOS <<< "$_repo"
+        _repoaddr="${INFOS[0]}"
+        _branch="${INFOS[1]:-NULL}"
+        tmpdir="$DOCBOOK_DIR/www/`basename ${_repoaddr}`"
+        if [ ! -d $tmpdir ]; then
+            if [ "${_branch}" != 'NULL' ]; then
+                cd $DOCBOOK_DIR/www/ && git clone "${_repoaddr}" -b "${_branch}"
+            else
+                cd $DOCBOOK_DIR/www/ && git clone "${_repoaddr}"
+            fi
+        else
+            cd $tmpdir && \
+                git stash save "automatic stashing before auto-update" \
+                git pull --rebase ;
+        fi
+    done
+fi
+
+# DEBUG
+echo "WEBROOT_DIR=  ${WEBROOT_DIR}"
+echo "WEBTMP_DIR=   ${WEBTMP_DIR}"
+echo "DEPTS_DIR=    ${DEPTS_DIR}"
+echo "PROJECTS_DIR= ${PROJECTS_DIR}"
+echo "DOCBOOK_DIR=  ${DOCBOOK_DIR}"
+
+# Endfile
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

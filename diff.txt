@@ -1,0 +1,599 @@
+Only in /Users/piwi/Sites/projects/piwi/dotfiles/: .DS_Store
+Only in .: diff.txt
+Only in ./home: .DS_Store
+diff --unified -r --exclude=.git --exclude=.idea ./home/.bash_aliases /Users/piwi/Sites/projects/piwi/dotfiles/home/.bash_aliases
+--- ./home/.bash_aliases	2015-12-07 19:29:18.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/.bash_aliases	2015-12-07 20:53:15.000000000 +0100
+@@ -5,17 +5,41 @@
+ # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+ #
+ # Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
++# Read more about '.bash_aliases' at: http://ss64.com/bash/syntax-bashrc.html
++# Read more about Bash aliases at: http://tldp.org/LDP/abs/html/aliases.html
+ 
+ # paths
+ [ -z "$(which home)" ] && alias home='cd ~'
++alias ..='cd ..'
++alias ...='cd ../..'
++alias ....='cd ../../..'
++alias .....='cd ../../../..'
+ 
+-# interactive filesystem actions by default
++# interactive by default
+ alias rm='rm --interactive'
+ alias rmdir='rm --interactive --recursive'
+ alias mv='mv --interactive'
+ alias cp='cp --interactive'
+ 
+-# playing with filesystem renderers
++# unix device commons
++alias shutdown='sudo shutdown –h now'
++alias restart='sudo shutdown –r now'
++
++# enable color support of ls and also add handy aliases
++if [ -x /usr/bin/dircolors ]; then
++    [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
++    alias ls='ls --color=auto'
++    alias grep='grep --color=auto'
++    alias fgrep='fgrep --color=auto'
++    alias egrep='egrep --color=auto'
++fi
++
++# some more ls aliases
++if [ "$(uname)" = 'Linux' ]; then
++    alias ls="ls --color=auto"
++else
++    alias ls="ls -G"
++fi
+ alias l='ls --format=vertical --classify --almost-all'
+ alias ll='ls --format=long --all --human-readable --classify'
+ alias ld='ll --directory */'
+@@ -32,40 +56,41 @@
+ alias ldt='ld --sort=time'
+ alias ldr='ld --recursive'
+ 
+-# unix device commons
++# various
+ alias diff='diff --unified'
+ alias less='less --ignore-case --quit-on-intr --LONG-PROMPT'
+-# current date | run: $ mydate
+-alias mydate='date +"%Y%m%d-%H%M%S"'
+-# be sudo as yourself | run: $ sudome
+-alias sudome='sudo -sE'
+-# use recursion with grep | run: $ rgrep ...
+-alias rgrep='grep -R'
+-# visualize all `PATH` entries | run: $ showpath
+-alias showpath='echo -e ${PATH//:/\\n}'
+-alias shutdown='sudo shutdown –h now'
+-alias restart='sudo shutdown –r now'
++alias _echo='echo -e'
++alias d='date "+%Y%m%d-%H%M%S"'
++alias hn='hostname -a'
++alias fullps='ps -fauxwww'
+ 
+-# enable color support of ls and also add handy aliases
+-if [ -x /usr/bin/dircolors ]; then
+-    [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+-    alias ls='ls --color=auto'
+-    alias grep='grep --color=auto'
+-    alias fgrep='fgrep --color=auto'
+-    alias egrep='egrep --color=auto'
+-    alias rgrep='rgrep --color=auto'
+-fi
+-# some more ls aliases
+-if [ "$(uname)" = 'Linux' ]; then
+-    alias ls="ls --color=auto"
+-else
+-    alias ls="ls -G"
+-fi
++# sudo with current user env
++alias sudome='sudo -sE'
+ 
+ # exclude vcs and IDEs internals from grep
+-alias grep='grep --exclude-dir=\.svn --exclude-dir=\.git --exclude-dir=\.idea --exclude-dir=\.settings --exclude=\*\.project --exclude=\*\.sublime\-\* ';
++alias grep='grep --color=auto --exclude-dir=\.svn  --exclude-dir=\.git --exclude-dir=\.idea --exclude-dir=\.settings --exclude=\*\.project --exclude=\*\.sublime\-\* '
++alias egrep='grep -E'
++alias fgrep='grep -F'
++alias rgrep='grep -R'
++
+ # special grep for all dev projects
+-alias grepdev='grep --exclude=\*modules/\* --exclude=\*node_modules/\* --exclude=\*vendor/\* --exclude=\*bower_components/\* --exclude=\*components/\* ';
++alias grepdev='grep --exclude=\*modules/\* --exclude=\*vendor/\* --exclude=\*components/\*'
++# special grep for PHP packages
++alias grepcomposer='grep --exclude-dir=vendor --exclude-dir=phpdoc'
++# special grep for Node packages
++alias grepnode='grep --exclude-dir=node_modules --exclude-dir=jsdoc'
++# special grep for Bower packages
++alias grepbower='grep --exclude-dir=bower_components'
++
++# summary of LXC with IPs and status
++alias lxc-list='sudo lxc-ls -1f'
++
++# Add an "alert" alias for long running commands
++# usage: sleep 10; alert
++alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
++
++# visualize all `PATH` entries
++alias showpath='echo -e ${PATH//:/\\n}'
+ 
+ # lesspipe utility
+ [ -r "${HOME}/bin/lesspipe.sh" ] && alias lesspipe='$HOME/bin/lesspipe.sh';
+diff --unified -r --exclude=.git --exclude=.idea ./home/.bash_functions /Users/piwi/Sites/projects/piwi/dotfiles/home/.bash_functions
+--- ./home/.bash_functions	2015-11-22 23:22:46.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/.bash_functions	2015-12-07 20:53:15.000000000 +0100
+@@ -1,3 +1,4 @@
++#!/usr/bin/env bash
+ #
+ # .bash_functions
+ # by @pierowbmstr (me at e-piwi dot fr)
+@@ -251,17 +252,6 @@
+     awk -F "$delim" '{if(NR==1)split($0,arr);else for(i=1;i<=NF;i++)print arr[i]":"$i;print "";}' "$1"
+ }
+ 
+-#
+-# Create an HTML file to bookmark a page
+-#
+-makebookmark() {
+-    if [ $# -lt 2 ]; then
+-        echo "usage: makebookmark <file_path> <url>"
+-        exit 1
+-    fi
+-    echo "<html><head><meta http-equiv=\"refresh\" content=\"0; url=$2\" /></head></html>" > $1
+-}
+-
+ #-------------------------------
+ # String manipulation functions
+ #-------------------------------
+diff --unified -r --exclude=.git --exclude=.idea ./home/.bash_profile /Users/piwi/Sites/projects/piwi/dotfiles/home/.bash_profile
+--- ./home/.bash_profile	2015-11-11 22:38:24.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/.bash_profile	2015-05-04 13:05:01.000000000 +0200
+@@ -25,12 +25,3 @@
+ 
+ # Endfile
+ # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
+-
+-##
+-# Your previous /Users/piwi/.bash_profile file was backed up as /Users/piwi/.bash_profile.macports-saved_2015-11-11_at_22:38:22
+-##
+-
+-# MacPorts Installer addition on 2015-11-11_at_22:38:22: adding an appropriate PATH variable for use with MacPorts.
+-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+-# Finished adapting your PATH environment variable for use with MacPorts.
+-
+diff --unified -r --exclude=.git --exclude=.idea ./home/.bashrc /Users/piwi/Sites/projects/piwi/dotfiles/home/.bashrc
+--- ./home/.bashrc	2015-08-12 07:59:17.000000000 +0200
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/.bashrc	2015-12-07 20:53:15.000000000 +0100
+@@ -5,6 +5,7 @@
+ # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+ #
+ # Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
++# Read more about '.bashrc' at: http://ss64.com/bash/syntax-bashrc.html
+ 
+ # Personal environment variables and startup programs should go in
+ # `$HOME/.bash_profile`.  System wide environment variables and startup
+Only in ./home: .gnupg
+Only in ./home/.vim: .netrwhist
+Only in ./home/.vim/bundle/vim-editorconfig: .editorconfig
+Only in ./home/.vim/bundle/vim-editorconfig: .gitignore
+Only in ./home/.vim/bundle/vim-editorconfig: .gitmodules
+Only in ./home/.vim/bundle/vim-editorconfig: .travis.yml
+Only in ./home/.vim/bundle/vim-editorconfig: CONTRIBUTORS
+Only in ./home/.vim/bundle/vim-editorconfig: LICENSE
+Only in ./home/.vim/bundle/vim-editorconfig: README.md
+Only in ./home/.vim/bundle/vim-editorconfig: autoload
+Only in ./home/.vim/bundle/vim-editorconfig: doc
+Only in ./home/.vim/bundle/vim-editorconfig: mkzip.sh
+Only in ./home/.vim/bundle/vim-editorconfig: plugin
+Only in ./home/.vim/bundle/vim-editorconfig: tests
+Only in ./home/.vim/bundle/vim-nerdtree/doc: tags
+Only in ./home: .xsessionrc
+diff --unified -r --exclude=.git --exclude=.idea ./home/alt/.bash_aliases_osx /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bash_aliases_osx
+--- ./home/alt/.bash_aliases_osx	2015-03-11 19:38:42.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bash_aliases_osx	2015-12-07 20:53:15.000000000 +0100
+@@ -4,6 +4,9 @@
+ # <http://github.com/piwi/dotfiles.git>
+ # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+ #
++# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
++# Read more about '.bash_aliases' at: http://ss64.com/bash/syntax-bashrc.html
++# Read more about Bash aliases at: http://tldp.org/LDP/abs/html/aliases.html
+ 
+ # OS X has no `md5sum`, so use `md5` as a fallback
+ command -v md5sum > /dev/null || alias md5sum="md5"
+diff --unified -r --exclude=.git --exclude=.idea ./home/alt/.bashrc_git /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bashrc_git
+--- ./home/alt/.bashrc_git	2015-03-11 19:38:42.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bashrc_git	2015-12-07 20:53:15.000000000 +0100
+@@ -4,6 +4,9 @@
+ # <http://github.com/piwi/dotfiles.git>
+ # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+ #
++# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
++# Read more about '.bashrc' at: http://ss64.com/bash/syntax-bashrc.html
++
+ # Special `.bashrc` file to embed the GIT completion tools below:
+ # Copyright (C) 2006,2007 Shawn O. Pearce <spearce@spearce.org>
+ # Conceptually based on gitcompletion (http://gitweb.hawaga.org.uk/).
+@@ -11,7 +14,6 @@
+ #
+ # To use this file, copy the `git-completion` script at ~/.git-completion
+ # The command line prompt is redraw but REQUIRES to include the common `home/.bashrc`
+-#
+ 
+ export GIT_PS1_SHOWDIRTYSTATE=1
+ export GIT_PS1_SHOWSTASHSTATE=1
+diff --unified -r --exclude=.git --exclude=.idea ./home/alt/.bashrc_npm /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bashrc_npm
+--- ./home/alt/.bashrc_npm	2015-03-11 19:38:42.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bashrc_npm	2015-12-07 20:53:15.000000000 +0100
+@@ -4,9 +4,10 @@
+ # <http://github.com/piwi/dotfiles.git>
+ # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+ #
+-# Special `.bashrc` file to configure node usage
+-#
++# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
++# Read more about '.bashrc' at: http://ss64.com/bash/syntax-bashrc.html
+ 
++# Special `.bashrc` file to configure node usage
+ #
+ # 'npm' user config
+ # - packages are installed in $NODE_PREFIX/lib/node_modules/
+diff --unified -r --exclude=.git --exclude=.idea ./home/alt/.bashrc_osx /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bashrc_osx
+--- ./home/alt/.bashrc_osx	2015-03-11 19:38:42.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.bashrc_osx	2015-12-07 20:53:15.000000000 +0100
+@@ -4,6 +4,8 @@
+ # <http://github.com/piwi/dotfiles.git>
+ # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+ #
++# Read more about Bash dotfiles at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
++# Read more about '.bashrc' at: http://ss64.com/bash/syntax-bashrc.html
+ 
+ # path to use MacPorts
+ [ -d /opt/local/sbin ] && export PATH="/opt/local/sbin:${PATH}";
+diff --unified -r --exclude=.git --exclude=.idea ./home/alt/.gitconfig_giggle /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.gitconfig_giggle
+--- ./home/alt/.gitconfig_giggle	2014-12-20 14:37:16.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.gitconfig_giggle	2015-12-07 20:53:15.000000000 +0100
+@@ -1,17 +1,18 @@
+-#
+-# .gitconfig <http://www.git-scm.com/book/ch7-1.html>
+-# by @pierowbmstr (me at e-piwi dot fr)
+-# <http://github.com/piwi/dotfiles.git>
+-# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+-#
+-# see <https://wiki.gnome.org/action/show/Apps/giggle> to learn more about Giggle
+-
+-[giggle]
+-    main-window-maximized = false
+-    main-window-geometry = 1486x814+241+173
+-    history-view-vpane-position = 276
+-    main-window-view = HistoryView
+-    file-view-vpane-position = 756
+-
+-# Endfile
+-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
++#
++# .gitconfig <http://www.git-scm.com/book/ch7-1.html>
++# by @pierowbmstr (me at e-piwi dot fr)
++# <http://github.com/piwi/dotfiles.git>
++# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
++#
++# Read more about .gitconfig file at: http://git-scm.com/docs/git-config
++# see <https://wiki.gnome.org/action/show/Apps/giggle> to learn more about Giggle
++
++[giggle]
++    main-window-maximized = false
++    main-window-geometry = 1486x814+241+173
++    history-view-vpane-position = 276
++    main-window-view = HistoryView
++    file-view-vpane-position = 756
++
++# Endfile
++# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+diff --unified -r --exclude=.git --exclude=.idea ./home/alt/.gitconfig_gitmedia /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.gitconfig_gitmedia
+--- ./home/alt/.gitconfig_gitmedia	2014-12-20 14:37:16.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/home/alt/.gitconfig_gitmedia	2015-12-07 20:53:15.000000000 +0100
+@@ -1,14 +1,15 @@
+-#
+-# .gitconfig_gitmedia <http://www.git-scm.com/book/ch7-1.html>
+-# by @pierowbmstr (me at e-piwi dot fr)
+-# <http://github.com/piwi/dotfiles.git>
+-# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+-#
+-# see <https://github.com/alebedev/git-media> for information about GIT-media
+-
+-[filter "media"]
+-    clean = git-media-clean %f
+-    smudge = git-media-smudge %f
+-
+-# Endfile
+-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
++#
++# .gitconfig_gitmedia <http://www.git-scm.com/book/ch7-1.html>
++# by @pierowbmstr (me at e-piwi dot fr)
++# <http://github.com/piwi/dotfiles.git>
++# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
++#
++# Read more about .gitconfig file at: http://git-scm.com/docs/git-config
++# see <https://github.com/alebedev/git-media> for information about GIT-media
++
++[filter "media"]
++    clean = git-media-clean %f
++    smudge = git-media-smudge %f
++
++# Endfile
++# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+Only in ./modules/vim-editorconfig: .editorconfig
+Only in ./modules/vim-editorconfig: .gitignore
+Only in ./modules/vim-editorconfig: .gitmodules
+Only in ./modules/vim-editorconfig: .travis.yml
+Only in ./modules/vim-editorconfig: CONTRIBUTORS
+Only in ./modules/vim-editorconfig: LICENSE
+Only in ./modules/vim-editorconfig: README.md
+Only in ./modules/vim-editorconfig: autoload
+Only in ./modules/vim-editorconfig: doc
+Only in ./modules/vim-editorconfig: mkzip.sh
+Only in ./modules/vim-editorconfig: plugin
+Only in ./modules/vim-editorconfig: tests
+Only in ./modules/vim-nerdtree/doc: tags
+diff --unified -r --exclude=.git --exclude=.idea ./notes/models/.gitattributes /Users/piwi/Sites/projects/piwi/dotfiles/notes/models/.gitattributes
+--- ./notes/models/.gitattributes	2014-12-20 14:37:16.000000000 +0100
++++ /Users/piwi/Sites/projects/piwi/dotfiles/notes/models/.gitattributes	2014-12-20 14:21:16.000000000 +0100
+@@ -1,68 +1,68 @@
+-#
+-# default .gitattributes <http://git-scm.com/docs/gitignore>
+-# by @pierowbmstr (me at e-piwi dot fr)
+-# <http://github.com/piwi/dotfiles.git>
+-# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+-#
+-
+-# handle line endings automatically for files detected as text
+-# and leave all files detected as binary untouched.
+-# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
+-* text=auto
+-
+-# documents
+-*.doc diff=astextplain
+-*.docx diff=astextplain
+-*.dot diff=astextplain
+-*.pdf diff=astextplain
+-*.rtf diff=astextplain
+-*.md text
+-*.adoc text
+-*.textile text
+-*.mustache text
+-*.csv text
+-*.tab text
+-*.tsv text
+-
+-# web
+-*.php text
+-*.css text
+-*.js text
+-*.json text
+-*.htm text
+-*.html text
+-*.xml text
+-*.txt text
+-*.ini text
+-*.inc text
+-*.scm text
+-*.sql text
+-.htaccess text
+-
+-# these files are binary and should be left untouched
+-# (binary is a macro for -text -diff)
+-
+-# graphics
+-*.png binary
+-*.jpg binary
+-*.jpeg binary
+-*.gif binary
+-*.ico binary
+-*.svg text
+-*.ttf binary
+-
+-# media
+-*.mov binary
+-*.mp4 binary
+-*.mp3 binary
+-*.flv binary
+-*.fla binary
+-*.swf binary
+-
+-# archives
+-*.gz binary
+-*.zip binary
+-*.7z binary
+-
+-# Endfile
+-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
++#
++# default .gitattributes <http://git-scm.com/docs/gitignore>
++# by @pierowbmstr (me at e-piwi dot fr)
++# <http://github.com/piwi/dotfiles.git>
++# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
++#
++
++# handle line endings automatically for files detected as text
++# and leave all files detected as binary untouched.
++# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
++* text=auto
++
++# documents
++*.doc diff=astextplain
++*.docx diff=astextplain
++*.dot diff=astextplain
++*.pdf diff=astextplain
++*.rtf diff=astextplain
++*.md text
++*.adoc text
++*.textile text
++*.mustache text
++*.csv text
++*.tab text
++*.tsv text
++
++# web
++*.php text
++*.css text
++*.js text
++*.json text
++*.htm text
++*.html text
++*.xml text
++*.txt text
++*.ini text
++*.inc text
++*.scm text
++*.sql text
++.htaccess text
++
++# these files are binary and should be left untouched
++# (binary is a macro for -text -diff)
++
++# graphics
++*.png binary
++*.jpg binary
++*.jpeg binary
++*.gif binary
++*.ico binary
++*.svg text
++*.ttf binary
++
++# media
++*.mov binary
++*.mp4 binary
++*.mp3 binary
++*.flv binary
++*.fla binary
++*.swf binary
++
++# archives
++*.gz binary
++*.zip binary
++*.7z binary
++
++# Endfile
++# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
+diff --unified -r --exclude=.git --exclude=.idea ./www/auto-install.sh /Users/piwi/Sites/projects/piwi/dotfiles/www/auto-install.sh
+--- ./www/auto-install.sh	2015-05-28 14:43:01.000000000 +0200
++++ /Users/piwi/Sites/projects/piwi/dotfiles/www/auto-install.sh	2014-12-06 21:16:48.000000000 +0100
+@@ -22,29 +22,29 @@
+ # the composer binary
+ _COMPOSER=$(which composer)
+ if [ "${_COMPOSER}" == '' ]; then
+-	$_VERBOSE && echo "> installing the 'composer.phar' binary ..."
+-	cd $WEBROOT_DIR
+-	./getcomposer.sh
+-	_COMPOSER="${WEBROOT_DIR}/composer.phar"
++    $_VERBOSE && echo "> installing the 'composer.phar' binary ..."
++    cd $WEBROOT_DIR
++    ./getcomposer.sh
++    _COMPOSER="${WEBROOT_DIR}/composer.phar"
+ fi
+ 
+ # temporary directory
+ WEBTMP_DIR="${TARGET_DIR}/tmp/"
+ if [ ! -d $WEBTMP_DIR ]; then
+-	$_VERBOSE && echo "> creating 'tmp' sub-directory ..."
+-	mkdir -p $WEBTMP_DIR
++    $_VERBOSE && echo "> creating 'tmp' sub-directory ..."
++    mkdir -p $WEBTMP_DIR
+ fi
+ 
+ # Third-party dependencies installed in 'dependencies/'
+ DEPTS_DIR="${TARGET_DIR}/dependencies/"
+ $_VERBOSE && echo "> installing dependencies in '${DEPTS_DIR}' ..."
+ if [ ! -d $DEPTS_DIR ]; then
+-	ln -s "`pwd`/dependencies" $TARGET_DIR/
++    ln -s "`pwd`/dependencies" $TARGET_DIR/
+ fi
+ if [ ! -f $DEPTS_DIR/composer.lock ]; then
+-	cd $DEPTS_DIR && ${_COMPOSER} -v install --no-dev
++    cd $DEPTS_DIR && ${_COMPOSER} -v install --no-dev
+ else
+-	cd $DEPTS_DIR && ${_COMPOSER} -v update --no-dev
++    cd $DEPTS_DIR && ${_COMPOSER} -v update --no-dev
+ fi
+ cd $WEBROOT_DIR
+ 
+@@ -52,12 +52,12 @@
+ PROJECTS_DIR="${TARGET_DIR}/projects/"
+ $_VERBOSE && echo "> installing projects in '${PROJECTS_DIR}' ..."
+ if [ ! -d $PROJECTS_DIR ]; then
+-	ln -s "`pwd`/projects" $TARGET_DIR/
++    ln -s "`pwd`/projects" $TARGET_DIR/
+ fi
+ if [ ! -f $PROJECTS_DIR/composer.lock ]; then
+-	cd $PROJECTS_DIR && ${_COMPOSER} -v install --no-dev
++    cd $PROJECTS_DIR && ${_COMPOSER} -v install --no-dev
+ else
+-	cd $PROJECTS_DIR && ${_COMPOSER} -v update --no-dev
++    cd $PROJECTS_DIR && ${_COMPOSER} -v update --no-dev
+ fi
+ cd $WEBROOT_DIR
+ 
+@@ -66,26 +66,26 @@
+ DOCBOOK_VERSION="1.3.*@dev"
+ $_VERBOSE && echo "> installing docbook in '${DOCBOOK_DIR}' ..."
+ if [ ! -d $DOCBOOK_DIR ]; then
+-	ln -s "`pwd`/docbook" $TARGET_DIR/
+-	${_COMPOSER} create-project atelierspierrot/docbook $DOCBOOK_DIR $DOCBOOK_VERSION --no-dev
++    ln -s "`pwd`/docbook" $TARGET_DIR/
++    ${_COMPOSER} create-project atelierspierrot/docbook $DOCBOOK_DIR $DOCBOOK_VERSION --no-dev
+ fi
+ 
+ # DocBook contents
+ declare -a DOCBOOK_CONTENTS=(
+-	'https://github.com/piwi/mydocbook.git'
+-	'https://github.com/atelierspierrot/atelierspierrot.git'
+-	'https://bitbucket.org/pierowbmstr/private-docbook.git'
++    'https://github.com/piwi/mydocbook.git'
++    'https://github.com/atelierspierrot/atelierspierrot.git'
++    'https://bitbucket.org/pierowbmstr/private-docbook.git'
+ );
+ $_VERBOSE && echo "> installing docbook contents ..."
+ for _repo in "${DOCBOOK_CONTENTS[@]}"; do
+-	tmpdir="$DOCBOOK_DIR/www/`basename ${_repo}`"
+-	if [ ! -d $tmpdir ]; then
+-		cd $DOCBOOK_DIR/www/ && git clone "${_repo}"
+-	else
+-		cd $tmpdir && \
+-			git stash save "automatic stashing before auto-update" \
+-			git pull --rebase ;
+-	fi
++    tmpdir="$DOCBOOK_DIR/www/`basename ${_repo}`"
++    if [ ! -d $tmpdir ]; then
++        cd $DOCBOOK_DIR/www/ && git clone "${_repo}"
++    else
++        cd $tmpdir && \
++            git stash save "automatic stashing before auto-update" \
++            git pull --rebase ;
++    fi
+ done
+ 
+ 
+Only in ./www: auto-install.sh.back
+diff --unified -r --exclude=.git --exclude=.idea ./www/composer.json /Users/piwi/Sites/projects/piwi/dotfiles/www/composer.json
+--- ./www/composer.json	2015-05-04 12:57:45.000000000 +0200
++++ /Users/piwi/Sites/projects/piwi/dotfiles/www/composer.json	2015-12-07 20:53:15.000000000 +0100
+@@ -74,7 +74,7 @@
+ 		"piwi/html5-quick-template": "dev-master",
+ 		"piwi/bootstrap-companion": "dev-master",
+ 		"piwi/markdown-extended": "dev-master",
+-		"piwi/mde-service": "dev-master",
++		"markdown-extended/mde-service": "dev-master",
+ 		"piwi/php-quick-lib": "dev-master",
+ 		"wdbo/webdocbook": "dev-master",
+ 		"carte-blanche/carte-blanche": "dev-master",
+Only in ./www: tmp
+diff --unified -r --exclude=.git --exclude=.idea ./www/vhosts/vhosts_macro.conf /Users/piwi/Sites/projects/piwi/dotfiles/www/vhosts/vhosts_macro.conf
+--- ./www/vhosts/vhosts_macro.conf	2015-07-13 22:29:12.000000000 +0200
++++ /Users/piwi/Sites/projects/piwi/dotfiles/www/vhosts/vhosts_macro.conf	2015-05-04 13:05:02.000000000 +0200
+@@ -106,7 +106,6 @@
+             # any environment variable beginning with `MDE_` will be fetched to the app
+             <IfModule mod_php5.c>
+                 <IfModule env_module>
+-                    #SetEnv MDE_BIN /Users/piwi/Sites/projects/piwi/markdown-extended/bin/markdown-extended
+                     #SetEnv MDE_TPL /path/to/user/template.html
+                     #SetEnv MDE_CHARSET iso-8859-11
+                     #SetEnv MDE_CONSOLE_OPTIONS --extract
