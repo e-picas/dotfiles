@@ -36,6 +36,9 @@ nbproject
 *.zip
 *.vi
 
+# the .env file
+.env
+
 # any _alt file
 *_alt
 
@@ -44,19 +47,6 @@ nbproject
 
 # exclusion of the 'dev/' subdir
 dev/*
-
-# any devtools config file
-.devtools
-
-# exclusion of personal notes
-notes/perso/*
-
-# www packages sources
-www/docbook/*
-www/node_modules/*
-www/bower_components/*
-www/composer.lock
-www/projects/*
 
 # Hack to allow keeping an empty directory
 # this one HAS to keep last !!
