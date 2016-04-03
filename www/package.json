@@ -1,7 +1,7 @@
 {
     "name": "dev-env-npm",
     "description": "Development environment.",
-    "homepage": "http://github.com/piwi/dotfiles",
+    "homepage": "http://github.com/e-picas/dotfiles",
     "dependencies": {
         "moment": "^2.9.0",
         "nunjucks": "*",

@@ -1,7 +1,7 @@
 {
     "name": "dev-env-bower",
 	"description": "Development environment.",
-	"homepage": "http://github.com/piwi/dotfiles",
+	"homepage": "http://github.com/e-picas/dotfiles",
     "dependencies": {
         "epiceditor": "~0.2.3",
         "mde-editor": "*",

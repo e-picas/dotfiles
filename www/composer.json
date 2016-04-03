@@ -1,7 +1,7 @@
 {
 	"name": "dev-env-composer",
 	"description": "Development environment.",
-	"homepage": "http://github.com/piwi/dotfiles",
+	"homepage": "http://github.com/e-picas/dotfiles",
     "require": {
         "php": ">=5.3.2",
         "lib-curl": "*",
@@ -107,10 +107,10 @@
 		{ "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-galleries" },
 		{ "type": "vcs", "url": "https://github.com/php-carteblanche/tools" },
 		{ "type": "vcs", "url": "https://github.com/php-carteblanche/tool-form" },
-		{ "type": "vcs", "url": "https://github.com/piwi/html5-quick-template" },
-		{ "type": "vcs", "url": "https://github.com/piwi/bootstrap-companion" },
-		{ "type": "vcs", "url": "https://pierowbmstr@bitbucket.org/pierowbmstr/project-init" },
-		{ "type": "vcs", "url": "https://pierowbmstr@bitbucket.org/pierowbmstr/project-init-wordpress" }
+		{ "type": "vcs", "url": "https://github.com/e-picas/html5-quick-template" },
+		{ "type": "vcs", "url": "https://github.com/e-picas/bootstrap-companion" },
+		{ "type": "vcs", "url": "https://gitlab.com/atelierspierrot/project-init" },
+		{ "type": "vcs", "url": "https://gitlab.com/atelierspierrot/project-init-wordpress" }
     ],
     "autoload-dev": {
         "files": [ "bootstrap.php" ]
@@ -119,7 +119,7 @@
 	"archive": {
 		"exclude": [ "*build", "*dev", "*phpdoc", "*tmp*" ]
 	},
-    "scripts": { 
+    "scripts": {
         "post-autoload-dump": [
             "Assets\\Composer\\TemplateEngineInstaller::postAutoloadDump"
         ],
