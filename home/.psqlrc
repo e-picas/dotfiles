@@ -1,0 +1,21 @@
+--
+-- .psqlrc
+-- by @picas (me at picas dot fr)
+-- <http://github.com/e-picas/dotfiles.git>
+-- (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+--
+-- Read more about PostgreSQL configuration file at: http://www.postgresql.org/docs/9.3/static/app-psql.html
+
+\set PROMPT1 '%M %n@%/%R%#%x '
+\set PROMPT2 '%M %n@%/%R %# '
+\pset border 1
+\pset format wrapped
+\pset null NULL
+\timing
+\x auto
+\set COMP_KEYWORD_CASE upper
+\set HISTSIZE 2000
+\set VERBOSITY verbose
+
+\set version 'SELECT version();'
+\set extensions 'select * from pg_available_extensions;'
