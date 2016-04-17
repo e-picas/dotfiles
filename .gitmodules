@@ -48,3 +48,6 @@
 [submodule "modules/bash-utils"]
 	path = modules/bash-utils
 	url = https://e-picas@gitlab.com/e-picas/bash-utils.git
+[submodule "modules/ftpsync"]
+	path = modules/ftpsync
+	url = git://git.savannah.gnu.org/ftpsync.git
