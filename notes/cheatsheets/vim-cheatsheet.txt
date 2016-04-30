@@ -129,3 +129,10 @@ Tabs
     :tabc               close the current tab and all its windows
     :tabonly
     :tabo
+
+Settings:
+    :set nu             show line numbers
+    :set nonu           don't show line numbers
+    :set paste          paste a copied text "as is"
+    :set nopaste        disable paste "as is" mode
+    
