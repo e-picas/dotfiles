@@ -92,7 +92,8 @@ export NOCOLOR=$'\033[m'
 
 # random grep color
 export GREP_COLOR="1;3$((RANDOM%6+1))"
-export GREP_OPTIONS='--color=auto'
+# the GREP_OPTIONS is deprecated, this one is defined as an alias in .bash_alias
+#export GREP_OPTIONS='--color=auto'
 
 # user external files
 [ -r "${HOME}/.bash_aliases" ]      && source "${HOME}/.bash_aliases";          # all bash aliases
@@ -135,5 +136,9 @@ esac
 for f in .bashrc_git .bashrc_osx .bashrc_npm .bashrc_alt; do
     [ -r "${HOME}/${f}" ] && source "${HOME}/${f}";
 done
+
+# remove duplicates in PATH
+PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
+export PATH
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
