@@ -67,11 +67,6 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" Enable syntax highlighting
-syntax enable
-colorscheme desert
-set background=dark
-
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -118,7 +113,14 @@ set modelines=1
 set laststatus=2
 
 " Enable file types plugin
+filetype on
 filetype plugin on
+filetype indent on
+
+" Enable syntax highlighting
+syntax enable
+colorscheme desert
+set background=dark
 
 " Format the status line
 set statusline=
@@ -158,5 +160,4 @@ execute pathogen#infect()
 " allow the 'W' key to try to run 'sudo ...'
 command W w !sudo tee % >/dev/null
 
-" Endfile
 " vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=off
