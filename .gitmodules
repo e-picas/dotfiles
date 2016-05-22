@@ -1,9 +1,6 @@
 [submodule "modules/html5-quick-template"]
 	path = modules/html5-quick-template
 	url = https://github.com/e-picas/html5-quick-template.git
-[submodule "modules/markdown-extended"]
-	path = modules/markdown-extended
-	url = https://github.com/e-picas/markdown-extended.git
 [submodule "modules/dev-tools"]
 	path = modules/dev-tools
 	url = https://github.com/e-picas/dev-tools.git
@@ -36,18 +33,9 @@
 [submodule "modules/mde-cgi"]
 	path = modules/mde-cgi
 	url = https://github.com/markdown-extended/mde-cgi.git
-[submodule "modules/atelierspierrot"]
-	path = modules/atelierspierrot
-	url = https://github.com/atelierspierrot/atelierspierrot.git
 [submodule "modules/php-quick-lib"]
 	path = modules/php-quick-lib
 	url = https://e-picas@gitlab.com/e-picas/php-quick-lib.git
 [submodule "modules/vim-editorconfig"]
 	path = modules/vim-editorconfig
 	url = https://github.com/editorconfig/editorconfig-vim.git
-[submodule "modules/bash-utils"]
-	path = modules/bash-utils
-	url = https://e-picas@gitlab.com/e-picas/bash-utils.git
-[submodule "modules/ftpsync"]
-	path = modules/ftpsync
-	url = git://git.savannah.gnu.org/ftpsync.git

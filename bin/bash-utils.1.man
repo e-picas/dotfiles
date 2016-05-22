@@ -1,1 +1,1 @@
-../modules/bash-utils/man/bash-utils.1.man
+../modules/binaries/bash-utils.1.man

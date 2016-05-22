@@ -1,1 +1,1 @@
-../modules/markdown-extended/man/markdown-extended.3.man
+../modules/binaries/markdown-extended.3.man
