@@ -39,10 +39,22 @@
         "phpunit/phpunit": "@stable",
         "phpmd/phpmd" : "@stable",
         "composer/composer": "1.*",
-		"phing/phing": "@stable",
-		"pdepend/pdepend": "@stable",
-		"squizlabs/php_codesniffer": "@stable",
+        "phing/phing": "@stable",
+        "pdepend/pdepend": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "phpdocumentor/phpdocumentor": "2.*",
         "fabpot/php-cs-fixer": "@stable",
+        "behat/behat": "@stable",
+        "behat/mink-extension": "@stable",
+        "behat/mink-goutte-driver": "@stable",
+        "guzzle/guzzle": "@stable",
+        "guzzle/plugin": "@stable",
+        "symfony/var-dumper": "@stable",
+        "symfony/debug": "@stable",
+        "mockery/mockery": "@stable",
+        "robmorgan/phinx": "@stable",
+        "phpspec/phpspec": "@stable",
+        "henrikbjorn/phpspec-code-coverage": "@stable",
 		"atelierspierrot/patterns": "1.*",
 		"atelierspierrot/library": "1.*",
 		"atelierspierrot/validators": "1.*",
@@ -141,8 +153,8 @@
 		"optimize-autoloader": true,
 		"discard-changes": "stash",
 		"cache-dir": "tmp/cache/",
-		"vendor-dir": "projects",
-		"bin-dir": "bin"
+		"bin-dir": "bin",
+        "secure-http": false
 	},
     "extra": {
 		"assets-dir": "www",
@@ -153,6 +165,6 @@
         "document-root": ".",
         "local-dirs": "projects",
         "local-packages": {},
-        "local-vendors": [ "atelierspierrot", "piwi", "wdbo", "markdown-extended", "php-carteblanche" ]
+        "local-vendors": [ "atelierspierrot", "e-picas", "piwi", "wdbo", "markdown-extended", "php-carteblanche" ]
     }
 }
