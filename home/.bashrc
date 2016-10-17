@@ -25,8 +25,8 @@
 # global external files
 [ -r /etc/bashrc ] && source /etc/bashrc;
 [ -r /etc/bash_completion ] && ! shopt -oq posix && source /etc/bash_completion;
-[ -d /usr/local/etc/bash_completion.d/ ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
-[ -d /opt/local/etc/bash_completion.d/ ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
+[ -d /usr/local/etc/bash_completion.d/ ] && [ "$(ls /usr/local/etc/bash_completion.d/)" ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
+[ -d /opt/local/etc/bash_completion.d/ ] && [ "$(ls /opt/local/etc/bash_completion.d/)" ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
 
 # force shell on bash
 command -v bash > /dev/null     && export SHELL="$(which bash)";
@@ -99,8 +99,8 @@ export GREP_COLOR="1;3$((RANDOM%6+1))"
 [ -r "${HOME}/.bash_aliases" ]      && source "${HOME}/.bash_aliases";          # all bash aliases
 [ -r "${HOME}/.bash_functions" ]    && source "${HOME}/.bash_functions";        # custom bash functions
 [ -r "${HOME}/.bash_completions" ]  && source "${HOME}/.bash_completions";      # custom completion rules
-[ -r "${HOME}/.hosts" ]             && export HOSTFILE="${HOME}/.hosts";        # hosts definitions
-[ -r "${HOME}/.inputrc" ]           && export INPUTRC="${HOME}/.inputrc";       # keyboard & input rules
+[ -z "$HOSTFILE" ] && [ -r "${HOME}/.hosts" ]   && export HOSTFILE="${HOME}/.hosts";        # hosts definitions
+[ -z "$INPUTRC" ] && [ -r "${HOME}/.inputrc" ]  && export INPUTRC="${HOME}/.inputrc";       # keyboard & input rules
 
 # bash prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"

@@ -13,13 +13,16 @@
 # The command line prompt is redraw but REQUIRES to include the common `home/.bashrc`
 #
 
+# GIT settings
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM=auto
 
+# include completion
 [ -f "${HOME}/.git-completion" ] && source "${HOME}/.git-completion";
 
+# add GIT status of current directory in terminal prompt
 if [ "$color_prompt" = yes ]
 then 
     if [ "$UNAME" = 'Darwin' ]

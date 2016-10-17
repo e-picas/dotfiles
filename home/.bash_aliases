@@ -40,7 +40,7 @@ alias mydate='date +"%Y%m%d-%H%M%S"'
 # be sudo as yourself | run: $ sudome
 alias sudome='sudo -sE'
 # use recursion with grep | run: $ rgrep ...
-alias rgrep='grep -R'
+alias rgrep='grep --recursive'
 # visualize all `PATH` entries | run: $ showpath
 alias showpath='echo -e ${PATH//:/\\n}'
 alias shutdown='sudo shutdown –h now'
@@ -59,7 +59,7 @@ fi
 if [ "$(uname)" = 'Linux' ]; then
     alias ls="ls --color=auto"
 else
-    alias ls="ls -G"
+    alias ls="ls --no-group"
 fi
 
 # exclude vcs and IDEs internals from grep
@@ -71,7 +71,7 @@ alias grepdev='grep --exclude=\*modules/\* --exclude=\*node_modules/\* --exclude
 [ -r "${HOME}/bin/lesspipe.sh" ] && alias lesspipe='$HOME/bin/lesspipe.sh';
 
 # 'wget' emulation if it doesn't exist
-[ -z "$(command -v wget)" ] && alias wget='curl -C - -O ';
+[ -z "$(command -v wget)" ] && alias wget='curl --continue-at - --remote-name ';
 
 # special inclusion of other .bashrc_XXX files if they exists
 for f in .bash_aliases_osx .bash_aliases_alt; do
