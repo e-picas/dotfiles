@@ -25,8 +25,8 @@
 # global external files
 [ -r /etc/bashrc ] && source /etc/bashrc;
 [ -r /etc/bash_completion ] && ! shopt -oq posix && source /etc/bash_completion;
-[ -d /usr/local/etc/bash_completion.d/ ] && [ "$(ls /usr/local/etc/bash_completion.d/)" ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
-[ -d /opt/local/etc/bash_completion.d/ ] && [ "$(ls /opt/local/etc/bash_completion.d/)" ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
+[ -d /usr/local/etc/bash_completion.d/ ] && [ "$(ls /usr/local/etc/bash_completion.d/ 2>/dev/null)" ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
+[ -d /opt/local/etc/bash_completion.d/ ] && [ "$(ls /opt/local/etc/bash_completion.d/ 2>/dev/null)" ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
 
 # force shell on bash
 command -v bash > /dev/null     && export SHELL="$(which bash)";
