@@ -31,8 +31,8 @@ if (IS_CLI) {
 
 //*/
 // initial settings
-_settings('BASEPATH', $basedir);
-_settings('CWD', getcwd());
+_settings('BASEPATH',   $basedir);
+_settings('CWD',        getcwd());
 //*/
 
 //*/
@@ -45,21 +45,21 @@ if (file_exists($env_file)) _loadUserEnv($env_file);
 // Set the sources path in PHP global 'include_path' ...
 set_include_path( get_include_path().PATH_SEPARATOR.$basedir );
 if (@file_exists(($a = $basedir.'/src'))) {
-	set_include_path( get_include_path().PATH_SEPARATOR.$a );
+    set_include_path( get_include_path().PATH_SEPARATOR.$a );
 }
 if (@file_exists(($b = $basedir.'/projects'))) {
-	set_include_path( get_include_path().PATH_SEPARATOR.$b );
+    set_include_path( get_include_path().PATH_SEPARATOR.$b );
 }
 //*/
 
 //*/
 // include the Composer autoloader if COMPOSER_AUTOLOADER is `true` ...
-if (defined('COMPOSER_AUTOLOADER') || COMPOSER_AUTOLOADER===true) {
-	if (@file_exists($autoloader = _getPath(array($basedir, 'src', 'autoload.php')))) {
-		require_once($autoloader);
-	} else {
-		trigger_error(sprintf('The Composer autoloader can not be found (searching "%s")!', $autoloader), E_USER_ERROR);
-	}
+if (defined('COMPOSER_AUTOLOADER') && COMPOSER_AUTOLOADER===true) {
+    if (@file_exists($autoloader = _getPath(array($basedir, 'src', 'autoload.php')))) {
+        require_once $autoloader;
+    } else {
+        trigger_error(sprintf('The Composer autoloader can not be found (searching "%s")!', $autoloader), E_USER_ERROR);
+    }
 }
 //*/
 
@@ -72,6 +72,11 @@ if (defined('COMPOSER_AUTOLOADER') || COMPOSER_AUTOLOADER===true) {
  *      _settings( (array)var )                     : set 'var' keys on 'var' values
  *      _settings()                                 : get the full current settings array
  *
+ * You can use a `%VAR%` mask to use the `VAR` setting value ; i.e.:
+ *
+ *      VAR='base_dir'
+ *      MYVAR='%VAR%/my_dir/'
+ *
  * @param null|string $name
  * @param null|mixed $value
  * @param null|array $params
@@ -79,7 +84,26 @@ if (defined('COMPOSER_AUTOLOADER') || COMPOSER_AUTOLOADER===true) {
  */
 function _settings($name = null, $value = null, array $params = null)
 {
-    static $settings = array();
+    static $settings    = array();
+    $replace_tags       = function($m) use ($settings) {
+        return isset($settings[$m[1]]) ? $settings[$m[1]] : '';
+    };
+    $replace_arrays     = function($m) {
+        return array_filter(explode(' ', $m[1]));
+    };
+    $transform_setting  = function($m) use ($replace_arrays, $replace_tags) {
+        if (is_string($m)) {
+            $m = preg_replace_callback('/%([^%]+)%/',   $replace_tags, $m);
+        }
+        if (is_string($m) && preg_match('/^\((.*)\)$/',  $m, $matches)) {
+            $m = call_user_func($replace_arrays, $matches);
+        }
+        if (is_string($m)) {
+            $m = trim($m, '"\'');
+        }
+        return $m;
+    };
+
     if (is_array($name)) {
         $settings = array_merge($settings, $name);
     } elseif (!empty($name) && !empty($value)) {
@@ -89,9 +113,14 @@ function _settings($name = null, $value = null, array $params = null)
         if (!empty($val) && is_callable($val) && !empty($params)) {
             $val = call_user_func_array($val, $params);
         }
-        return $val;
+        return call_user_func($transform_setting, $val);
     }
-    return $settings;
+
+    $settings_tmp = $settings;
+    foreach ($settings_tmp as $var=>$val) {
+        $settings_tmp[$var] = call_user_func($transform_setting, $val);
+    }
+    return $settings_tmp;
 }
 
 /**
@@ -111,15 +140,17 @@ function _getPath($parts)
 /**
  * Load '.env' file variables in current environment
  *
+ * @param string $env_file The file path to load
  * @param bool $putenv Use 'putenv()' or 'settings()'
  * @return array
  */
-function _loadUserEnv($filepath = null, $putenv = true)
+function _loadUserEnv($env_file, $putenv = true)
 {
     $vars   = array();
-    $env    = _getPath(array(dirname(dirname(__FILE__)), '.env'));
-    if (file_exists($filepath)) {
-        $vars = @parse_ini_file($filepath, true);
+    if (file_exists($env_file) && is_readable($env_file)) {
+        $ini    = file_get_contents($env_file);
+        $ini    = preg_replace('/#.*/i', '', $ini);
+        $vars   = parse_ini_string($ini, true, INI_SCANNER_RAW);
         if (!empty($vars)) {
             foreach ($vars as $var=>$val) {
                 if ($putenv) putenv($var.'='.$val);
@@ -127,9 +158,23 @@ function _loadUserEnv($filepath = null, $putenv = true)
             }
         }
     } else {
-        trigger_error(sprintf('Environment file "%s" not found', $filepath), E_USER_ERROR);
+        trigger_error(
+            sprintf('Environment file "%s" not found or not readable', $env_file),
+            E_USER_ERROR
+        );
     }
     return $vars;
+}
+
+/**
+ * Get a setting value for current environment
+ *
+ * @param string $name
+ * @return array|null
+ */
+function _envSetting($name)
+{
+    return _settings($name . '_' . _settings('_ENV_')) ?: _settings($name);
 }
 
 /**
