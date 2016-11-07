@@ -8,9 +8,9 @@
 
 #######################################################################
 # script infos
-declare -rx VERSION="1.0.1"
-declare -rx NAME="piwi/dotfiles"
-declare -rx REPO="http://github.com/piwi/dotfiles"
+declare -rx VERSION="1.1.0"
+declare -rx NAME="picas/dotfiles"
+declare -rx REPO="http://github.com/e-picas/dotfiles"
 declare -rx USAGE=$(cat <<EOT
 ## ${NAME} installer & updater
 
@@ -40,8 +40,8 @@ EOT
 );
 declare -x _FORCED=false
 declare -x _VERBOSE=false
-declare -rx DEFUSERDIR=$(cd ~ && pwd)
-declare -rx HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+declare -rx DEFUSERDIR="$(cd ~ && pwd)"
+declare -rx HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 declare -rx AUTOINSTALLER='auto-install.sh'
 #######################################################################
 
@@ -71,11 +71,11 @@ fi
 
 # install directory
 declare -x INSTALLDIR="${1:-${DEFUSERDIR}}"
-if [ ! -d ${INSTALLDIR} ]
+if [ ! -d "$INSTALLDIR" ]
 then
     echo "!! > unknown installation directory '${INSTALLDIR}'!"
     echo
-    echo "${USAGE}"
+    echo "$USAGE"
     exit 1
 fi
 
@@ -98,16 +98,16 @@ else
 fi
 
 # go to the clone directory
-cd "${HERE}"
+cd "$HERE"
 
 # test if we are in a GIT clone
 if [ ! -d .git ]
 then
     export INSTALLMODE='hard-copies'
-    echo "!! > current directory doesn't seem to be a clone of a GIT repository ... Installation mode automatically set on 'hard-copies'."
+    echo "!! > current directory doesn't seem to be a clone of a GIT repository ... Installation mode has been automatically set on 'hard-copies'."
     read -p "do you want to continue ? [N/y] " _resp
     _resp="${_resp:-N}"
-    if [ "${_resp}" != 'y' ]&&[ "${_resp}" != 'Y' ]
+    if [ "${_resp}" != 'y' ] && [ "${_resp}" != 'Y' ]
     then
         echo "_ abort"
         exit 0
@@ -125,15 +125,16 @@ then
 fi
 
 # update of submodules
-if [ -d .git ]
+if [ -d .git ] && [ -f .gitmodules ]
 then
     $_VERBOSE && echo "> updating git sub-modules ..."
-    git submodule init
-    git submodule update
+    git submodule --recursive init
+    git submodule --recursive sync
+    git submodule --recursive update
 fi
 
 # installation of dotfiles
-if [ "${INSTALLTYPE}" == 'dotfiles' ]||[ "${INSTALLTYPE}" == 'home' ]||[ "${INSTALLTYPE}" == 'all' ]
+if [ "$INSTALLTYPE" == 'dotfiles' ]||[ "$INSTALLTYPE" == 'home' ]||[ "$INSTALLTYPE" == 'all' ]
 then
     $_VERBOSE && echo "> installing dotfiles in '${INSTALLDIR}/' ..."
     # symlink all but models
@@ -141,9 +142,9 @@ then
     do
         if [ "${INSTALLMODE}" == 'hard-copies' ]
         then
-            cp ${CPOPTS} ${f} ${INSTALLDIR}/
+            cp ${CPOPTS} ${f} "${INSTALLDIR}/"
         else
-            ln ${LNOPTS} ${f} ${INSTALLDIR}/
+            ln ${LNOPTS} ${f} "${INSTALLDIR}/"
         fi
     done
     # copy and edit models
@@ -152,51 +153,50 @@ then
     do
         ofn=`basename $f`
         tfn="${ofn/.model}"
-        cp ${CPOPTS} ${f} ${INSTALLDIR}/${tfn} && vim ${INSTALLDIR}/${tfn}
+        cp ${CPOPTS} ${f} "${INSTALLDIR}/${tfn}" && vim "${INSTALLDIR}/${tfn}";
     done
 fi
 
 # installation of binaries
-if [ "${INSTALLTYPE}" == 'bin' ]||[ "${INSTALLTYPE}" == 'binaries' ]||[ "${INSTALLTYPE}" == 'all' ]
+if [ "$INSTALLTYPE" == 'bin' ]||[ "$INSTALLTYPE" == 'binaries' ]||[ "$INSTALLTYPE" == 'all' ]
 then
     $_VERBOSE && echo "> installing binaries in '${INSTALLDIR}/bin/' ..."
     for f in $(find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} echo {} \;)
     do
-        [ ! -d ${INSTALLDIR}/bin ] && mkdir -p ${INSTALLDIR}/bin;
-        if [ "${INSTALLMODE}" == 'hard-copies' ]
+        [ ! -d "${INSTALLDIR}/bin" ] && mkdir -p "${INSTALLDIR}/bin";
+        if [ "$INSTALLMODE" == 'hard-copies' ]
         then
-            cp ${CPOPTS} ${f} ${INSTALLDIR}/bin/
+            cp ${CPOPTS} ${f} "${INSTALLDIR}/bin/"
         else
-            ln ${LNOPTS} ${f} ${INSTALLDIR}/bin/
+            ln ${LNOPTS} ${f} "${INSTALLDIR}/bin/"
         fi
     done
 fi
 
 # installation of sub-directories
-if [ "${INSTALLTYPE}" == 'subdirs' ]||[ "${INSTALLTYPE}" == 'subdirs' ]||[ "${INSTALLTYPE}" == 'all' ]
+if [ "$INSTALLTYPE" == 'subdirs' ]||[ "$INSTALLTYPE" == 'subdirs' ]||[ "$INSTALLTYPE" == 'all' ]
 then
     $_VERBOSE && echo "> linking sub-directory in '${INSTALLDIR}/%s' ..."
-    for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
+    for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "etc" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
     do
-        odn=`basename $d`
+        odn="$(basename "$d")"
         installer="${d}/${AUTOINSTALLER}"
-        if [ ! -f "${installer}" ]
+        if [ ! -f "$installer" ]
         then
             $_VERBOSE && echo "> linking '${odn}' directory in '${INSTALLDIR}/${odn}/' ..."
-            if [ "${INSTALLMODE}" == 'hard-copies' ]
+            if [ "$INSTALLMODE" == 'hard-copies' ]
             then
-                cp ${CPOPTS} -r "${HERE}/${odn}" ${INSTALLDIR}/
+                cp ${CPOPTS} -r "${HERE}/${odn}" "${INSTALLDIR}/"
             else
-                ln ${LNOPTS} "${HERE}/${odn}" ${INSTALLDIR}/
+                ln ${LNOPTS} "${HERE}/${odn}" "${INSTALLDIR}/"
             fi
         else
             $_VERBOSE && echo "> calling internal installer in '${odn}' directory ..."
-            mkdir -p ${INSTALLDIR}/${odn} && cd ${odn} && ${installer} "${INSTALLDIR}/${odn}";
+            mkdir -p "${INSTALLDIR}/${odn}" && cd "${odn}" && ${installer} "${INSTALLDIR}/${odn}";
         fi
     done
 fi
 
+echo "## finished : well done bro' :)"
 exit 0
-
-# Endfile
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
