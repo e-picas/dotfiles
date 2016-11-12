@@ -20,7 +20,7 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM=auto
 
 # include completion
-[ -f "${HOME}/.git-completion" ] && source "${HOME}/.git-completion";
+[ -f git-completion ] && source git-completion;
 
 # add GIT status of current directory in terminal prompt
 if [ "$color_prompt" = yes ]

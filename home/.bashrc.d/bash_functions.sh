@@ -9,6 +9,13 @@
 # Read more about GNU CoreUtils at: http://www.gnu.org/software/coreutils/manual/coreutils.html
 
 #
+# see all current environment variables
+#
+show_env() {
+    ( set -o posix ; set ) | less
+}
+
+#
 # get a timestamp
 #
 timestamp() {
@@ -523,8 +530,5 @@ _note_completion() {
     COMPREPLY=( $(compgen -W "${finalopts}" -- "${cur}") )
     return 0
 }
-
-# user per-device external files
-[ -r "${HOME}/.bash_functions_alt" ] && source "${HOME}/.bash_functions_alt";
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

@@ -34,7 +34,4 @@ if [ "$(type -t _note_completion)" = 'function' ]; then
     complete -o nospace -F _note_completion cheatsheet
 fi
 
-# user per-device external files
-[ -r "${HOME}/.bash_completions_alt" ] && source "${HOME}/.bash_completions_alt";
-
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

@@ -6,45 +6,85 @@
 #
 # Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
 
-# source .bashrc and infos
-if [ -n "$BASH_VERSION" ]; then
-    if [ -r "$HOME/.bashrc" ]; then
-        source "$HOME/.bashrc";
-        echo "# env:"
-        echo "UNAME       = ${UNAME}"
-        echo "HOME        = ${HOME}"
-        echo "TMPDIR      = ${TMPDIR}"
-        echo "PATH        = ${PATH}"
-        echo "HISTCONTROL = ${HISTCONTROL}"
-        echo "# aliases:"
-        alias
-        echo "# server date:"
-        date
-    else
-        echo "!! .bashrc not found!"
-    fi
+# system binaries path
+if [ -d /usr/local/bin ]; then
+    PATH=/usr/local/bin:$PATH;
+fi
+if [ -d /usr/local/sbin ]; then
+    PATH=/usr/local/sbin:$PATH;
 fi
 
-# set PATH so it includes user's private bin if it exists
-[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH";
+# user binaries path
+if [ -d $HOME/bin ]; then
+    PATH=$HOME/bin:$PATH;
+fi
+if [ -d $HOME/.local/bin ]; then
+    PATH=$HOME/.local/bin:$PATH;
+fi
 
-# files base perms: 666  (- 022 = 644)
-# dirs base perms:  777  (- 022 = 755)
-umask 022
+# system manpages path
+if [ -d /usr/local/man ]; then
+    MANPATH=/usr/local/man:$MANPATH;
+fi
+if [ -d /usr/local/share/man ]; then
+    MANPATH=/usr/local/share/man:$MANPATH;
+fi
 
 # be sure to have '$HOME/bin/lib' and '$HOME/lib' in '$LD_LIBRARY_PATH' and '$LD_RUN_PATH'
-if [ -d "$HOME/bin/lib" ]; then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/bin/lib";
-    export LD_RUN_PATH="$LD_RUN_PATH:$HOME/bin/lib";
+if [ -d $HOME/bin/lib ]; then
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/bin/lib;
+    LD_RUN_PATH=$LD_RUN_PATH:$HOME/bin/lib;
 fi
-if [ -d "$HOME/lib" ]; then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib";
-    export LD_RUN_PATH="$LD_RUN_PATH:$HOME/lib";
+if [ -d $HOME/lib ]; then
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/lib;
+    LD_RUN_PATH=$LD_RUN_PATH:$HOME/lib;
 fi
 
-# special inclusion of other .profile_XXX files if they exists
-for f in .profile_osx .profile_alt; do
-    [ -r "${HOME}/${f}" ] && source "${HOME}/${f}";
-done
+# user 'cd' path
+if [ -z $CDPATH ]; then
+    CDPATH=~:/mnt:/usr/lib:/usr/local:/software
+fi
+if [ -d $HOME/Documents ]; then
+    CDPATH=$CDPATH:$HOME/Documents;
+fi
+if [ -d $HOME/www ]; then
+    CDPATH=$CDPATH:$HOME/www;
+fi
+
+# export all variables
+export PATH
+export MANPATH
+export CDPATH
+export LD_LIBRARY_PATH
+export LD_RUN_PATH
+
+# source .bashrc and infos
+if [ -n $BASH_VERSION ]; then
+    [ -r "$HOME/.bashrc" ] && source "$HOME/.bashrc";
+    if [ ! -z "${PS1:-}" ]; then
+        if [ -r "$HOME/.bashrc" ]; then
+            echo "# env:"
+            echo "USER        = ${USER}"
+            echo "SHELL       = ${SHELL}"
+            echo "UNAME       = ${UNAME}"
+            echo "HOME        = ${HOME}"
+            echo "TMPDIR      = ${TMPDIR}"
+            echo "PATH        = ${PATH}"
+            echo "MANPATH     = ${MANPATH}"
+            echo "CDPATH      = ${CDPATH}"
+            echo "HISTCONTROL = ${HISTCONTROL}"
+            echo "PAGER       = ${PAGER}"
+            echo "EDITOR      = ${EDITOR}"
+            echo "VISUAL      = ${VISUAL}"
+            echo "BROWSER     = ${BROWSER}"
+            echo "# aliases:"
+            alias
+            echo "# server date:"
+            date
+        else
+            echo "!! .bashrc not found!"
+        fi
+    fi
+fi
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
