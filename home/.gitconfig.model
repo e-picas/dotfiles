@@ -10,9 +10,6 @@
 [user]
     name = @USERNAME@
     email = @USEREMAIL@
-[github]
-    user = @USERNAME@
-    token = @GITHUBTOKEN@
 [core]
     excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes_global

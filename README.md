@@ -8,6 +8,8 @@ This is largely inspired by <http://dotfiles.github.io/>.
 
 In addition, my personal binary scripts are hosted at <http://github.com/e-picas/binaries>.
 
+A set of various documentations is proposed in the `docs/` directory of this package.
+
 ## How-To
 
 ### Installation
@@ -34,6 +36,9 @@ The rules are quite simple:
     for "per-device" configurations
 -   any file with a `.model` suffix contains masks like `@MASK@` that needs to be filled 
     with a value (tokens mostly)
+-   a collection of dotfiles are loaded from the `$HOME/.bashrc.d/` directory as shell scripts ;
+    they must be named like `<filename>.sh` and are loaded by the default `.bashrc` file of
+    this package
 -   all binaries of the `bin/` directory are to be copied or symlinked in the UNIX user's
     `$HOME/bin/` and are themselves symlinks to git submodules stored in the `modules/`
     directory (so I can always be up-to-date)
@@ -45,6 +50,9 @@ The final install may be something like:
     |
     | .dotfile      -> as a symlink to path/to/clone/home/.dotfile
     | .dotfile      -> as a hard copy of path/to/clone/home/.dotfile.model
+    |
+    | .bashrc.d/dotfile.sh      -> as a symlink to path/to/clone/home/.bashrc.d/dotfile.sh
+    | .bashrc.d/dotfile.sh      -> as a hard copy of path/to/clone/home/.bashrc.d/dotfile.sh.model
     |
     | bin/cmd       -> as a symlink to path/to/clone/bin/cmd
     |
@@ -93,7 +101,7 @@ My `.bashrc` will (always) try to create the following directories:
     $HOME/tmp/      : created only if the `TMPDIR` env var is not defined
 
 
-## Notes
+### Notes
 
 I use the [lesspipe](http://www-zeuthen.desy.de/~friebel/unix/lesspipe.html) tool by *Wolfgang Friebel*
 to view some special files with `less`. As the original repository is under SVN and hosted by 
@@ -113,8 +121,8 @@ as a submodule: <http://fredericiana.com/2010/01/12/using-svn-repositories-as-gi
 
 I also include a hard copy of the `git-completion` script written by [*Shawn O. Pearce*](http://spearce.org).
 His script is included in recent GIT official distributions but I used to include it as a
-dotfile at `$HOME/.git-completion`. It is sourced by my `.bashrc_git` (stored in `home/alt/`)
-sourced itself, if it is found at `$HOME/.bashrc_git`, by my global `.bashrc`.
+dotfile at `$HOME/.bashrc.d/git-completion`. It is sourced by my `bashrc_git.sh` (stored in `home/alt/`)
+sourced itself by my global `.bashrc`.
 
 ----
 

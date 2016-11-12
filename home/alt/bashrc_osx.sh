@@ -1,9 +1,16 @@
 #
-# .bashrc_aliases_osx
+# .bashrc_osx
 # by @picas (me at picas dot fr)
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
+
+# path to use MacPorts
+[ -d /opt/local/sbin ]  && export PATH="/opt/local/sbin:${PATH}";
+[ -d /opt/local/bin ]   && export PATH="/opt/local/bin:${PATH}";
+
+# paht to the GNU coreutils
+[ -d /opt/local/libexec/gnubin ] && export PATH="/opt/local/libexec/gnubin:${PATH}"
 
 # OS X has no `md5sum`, so use `md5` as a fallback
 command -v md5sum > /dev/null || alias md5sum="md5"

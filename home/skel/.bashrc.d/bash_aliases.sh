@@ -1,0 +1,1 @@
+../../.bashrc.d/bash_aliases.sh

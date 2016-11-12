@@ -7,19 +7,15 @@
 # Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
 
 # defaults may be:
-# USERLC = fr_FR.UTF-8
-# USERNAME = ...
-# USEREMAIL = ...
-export LC_NUMERIC="@USERLC@"
-export LC_TIME="@USERLC@"
-export LC_MONETARY="@USERLC@"
-export LC_PAPER="@USERLC@"
-export LC_IDENTIFICATION="@USERLC@"
-export LC_NAME="@USERLC@"
-export LC_ADDRESS="@USERLC@"
-export LC_TELEPHONE="@USERLC@"
-export LC_MEASUREMENT="@USERLC@"
-export USERNAME="@USERNAME@"
-export USEREMAIL="@USEREMAIL@"
+# LC_... = fr_FR.UTF-8
+LC_NUMERIC="@USERLC@"
+LC_TIME="@USERLC@"
+LC_MONETARY="@USERLC@"
+LC_PAPER="@USERLC@"
+LC_IDENTIFICATION="@USERLC@"
+LC_NAME="@USERLC@"
+LC_ADDRESS="@USERLC@"
+LC_TELEPHONE="@USERLC@"
+LC_MEASUREMENT="@USERLC@"
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

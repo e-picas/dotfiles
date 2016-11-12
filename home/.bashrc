@@ -8,30 +8,21 @@
 # Read the official Bash programming manual at: http://www.gnu.org/software/bash/manual/bash.html
 # Read the official Bash manual page at: http://man7.org/linux/man-pages/man1/bash.1.html
 
-# Personal environment variables and startup programs should go in
-# `$HOME/.bash_profile`.  System wide environment variables and startup
-# programs are in `/etc/profile`.  System wide aliases and functions are
-# in `/etc/bashrc`.
-
 # If not running interactively, don't do anything
 [ -z "${PS1:-}" ] && return
 
-# env & LC
-[ -r "${HOME}/.environment" ] && source "${HOME}/.environment";
-
-# user binaries path
-[ -d "${HOME}/bin" ] && export PATH="${PATH}:${HOME}/bin";
-
-# global external files
+# global system files
 [ -r /etc/bashrc ] && source /etc/bashrc;
+[ -r /etc/bash.bashrc ] && source /etc/bash.bashrc;
 [ -r /etc/bash_completion ] && ! shopt -oq posix && source /etc/bash_completion;
 [ -d /usr/local/etc/bash_completion.d/ ] && [ "$(ls /usr/local/etc/bash_completion.d/ 2>/dev/null)" ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
 [ -d /opt/local/etc/bash_completion.d/ ] && [ "$(ls /opt/local/etc/bash_completion.d/ 2>/dev/null)" ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
 
 # force shell on bash
-command -v bash > /dev/null     && export SHELL="$(which bash)";
+[ -z "$SHELL" ] && command -v bash > /dev/null && export SHELL="$(which bash)";
 command -v less > /dev/null     && export PAGER="$(which less) -i";
 command -v vim > /dev/null      && export EDITOR="$(which vim)";
+command -v gedit > /dev/null    && export VISUAL="$(which gedit)";
 command -v emacs > /dev/null    && export VISUAL="$(which emacs)";
 command -v lynx > /dev/null     && export BROWSER="$(which lynx)";
 command -v less > /dev/null     && export MANPAGER="$(which less) -X"; # don't clear the screen after a manpage
@@ -96,15 +87,12 @@ export GREP_COLOR="1;3$((RANDOM%6+1))"
 #export GREP_OPTIONS='--color=auto'
 
 # user external files
-[ -r "${HOME}/.bash_aliases" ]      && source "${HOME}/.bash_aliases";          # all bash aliases
-[ -r "${HOME}/.bash_functions" ]    && source "${HOME}/.bash_functions";        # custom bash functions
-[ -r "${HOME}/.bash_completions" ]  && source "${HOME}/.bash_completions";      # custom completion rules
 [ -z "$HOSTFILE" ] && [ -r "${HOME}/.hosts" ]   && export HOSTFILE="${HOME}/.hosts";        # hosts definitions
 [ -z "$INPUTRC" ] && [ -r "${HOME}/.inputrc" ]  && export INPUTRC="${HOME}/.inputrc";       # keyboard & input rules
 
 # bash prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-[ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ] && debian_chroot=$(cat /etc/debian_chroot);
+[ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ] && debian_chroot="$(cat /etc/debian_chroot)";
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
     # We have color support; assume it's compliant with Ecma-48
     # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
@@ -123,6 +111,7 @@ if [ "$color_prompt" == yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
     xterm*|rxvt*)
@@ -132,13 +121,24 @@ case "$TERM" in
     *);;
 esac
 
-# special inclusion of other .bashrc_XXX files if they exists
-for f in .bashrc_git .bashrc_osx .bashrc_npm .bashrc_alt; do
-    [ -r "${HOME}/${f}" ] && source "${HOME}/${f}";
+# files base perms: 666  (- 022 = 644)
+# dirs base perms:  777  (- 022 = 755)
+umask 022
+
+# Other definitions and customizations.
+# You may want to put all your additions into separate files instead of adding them here directly.
+# This will load any *.sh file present in the $HOME/.bashrc.d/ directory.
+for f in $HOME/.bashrc.d/*.sh!(*~); do
+    [ -r "${f}" ] && source "${f}";
 done
 
+# remove duplicates in MANPATH
+export MANPATH="$(printf "%s" "${MANPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
+
+# remove duplicates in CDPATH
+export CDPATH="$(printf "%s" "${CDPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
+
 # remove duplicates in PATH
-PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
-export PATH
+export PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
