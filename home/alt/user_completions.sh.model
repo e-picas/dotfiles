@@ -1,0 +1,22 @@
+#
+# .bash_completions_user
+#
+# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about Bash programming at: http://www.gnu.org/software/bash/manual/bash.html
+# Read more about Bash completion at: http://www.tldp.org/LDP/abs/html/tabexpansion.html
+
+# personal completions
+_perso()
+{
+    local cur prev
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    MYCOMPLETIONS=()
+
+    COMPREPLY=( $(compgen -W "${MYCOMPLETIONS[@]}" -- "$cur") )
+}
+complete -F _perso perso
+
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

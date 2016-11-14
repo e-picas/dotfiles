@@ -19,7 +19,7 @@ show_env() {
 # get a timestamp
 #
 timestamp() {
-    case $UNAME in
+    case "$(uname -s)" in
         Darwin) date +"%s" ;;
         *) date +"%T" ;;
     esac

@@ -7,6 +7,10 @@
 # Read more about Readline init file at: http://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 # Read the official Readline manual page at: http://man7.org/linux/man-pages/man3/readline.3.html
 
+# Include system wide settings which are ignored
+# by default if one has their own .inputrc
+$include /etc/inputrc
+
 set bell-style none
 set completion-ignore-case on
 set echo-control-characters off
@@ -34,10 +38,6 @@ set visible-stats on
 #"\e\e[D": backward-word
 
 "\M-r": forward-search-history
-
-# Include system wide settings which are ignored
-# by default if one has their own .inputrc
-$include /etc/inputrc
 
 # Include per-device .inputrc_alt
 $include ~/.inputrc_alt

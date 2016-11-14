@@ -13,26 +13,28 @@
 # The command line prompt is redraw but REQUIRES to include the common `home/.bashrc`
 #
 
-# GIT settings
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM=auto
+if [ -f "$BASHRCDIR/git-completion" ]; then
+    # GIT settings
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWUPSTREAM=auto
 
-# include completion
-[ -f git-completion ] && source git-completion;
+    # include completion
+    source "$BASHRCDIR/git-completion";
 
-# add GIT status of current directory in terminal prompt
-if [ "$color_prompt" = yes ]
-then 
-    if [ "$UNAME" = 'Darwin' ]
+    # add GIT status of current directory in terminal prompt
+    if [ "$color_prompt" = yes ]
     then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[01;31m\] $(__git_ps1 " (%s)")\[\033[00m\]\$ '
+        if [ "$(uname -s)" = 'Darwin' ]
+        then
+            PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[01;31m\] $(__git_ps1 " (%s)")\[\033[00m\]\$ '
+        else
+            PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\] $(__git_ps1 " (%s)")\[\033[00m\]\$ '
+        fi
     else
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\] $(__git_ps1 " (%s)")\[\033[00m\]\$ '
+        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(__git_ps1 " (%s)")\$ '
     fi
-else 
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(__git_ps1 " (%s)")\$ '
 fi
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

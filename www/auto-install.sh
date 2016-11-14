@@ -16,7 +16,18 @@
 TARGET_DIR="$1"
 
 # global web directory
-WEBROOT_DIR="$(pwd)"
+get_absolute_path() {
+    local cwd="$(pwd)"
+    local path="$1"
+    while [ -n "$path" ]; do
+        cd "${path%/*}" 2>/dev/null;
+        local name="${path##*/}"
+        path="$($(type -p greadlink readlink | head -1) "$name" || true)"
+    done
+    pwd
+    cd "$cwd"
+}
+WEBROOT_DIR="$(get_absolute_path "${BASH_SOURCE[0]}")"
 
 # the PHP binary
 _PHP="$(which php) -d memory_limit=-1"

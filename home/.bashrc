@@ -18,29 +18,6 @@
 [ -d /usr/local/etc/bash_completion.d/ ] && [ "$(ls /usr/local/etc/bash_completion.d/ 2>/dev/null)" ] && ! shopt -oq posix && { for f in /usr/local/etc/bash_completion.d/*; do source $f; done; };
 [ -d /opt/local/etc/bash_completion.d/ ] && [ "$(ls /opt/local/etc/bash_completion.d/ 2>/dev/null)" ] && ! shopt -oq posix && { for f in /opt/local/etc/bash_completion.d/*; do source $f; done; };
 
-# force shell on bash
-[ -z "$SHELL" ] && command -v bash > /dev/null && export SHELL="$(which bash)";
-command -v less > /dev/null     && export PAGER="$(which less) -i";
-command -v vim > /dev/null      && export EDITOR="$(which vim)";
-command -v gedit > /dev/null    && export VISUAL="$(which gedit)";
-command -v emacs > /dev/null    && export VISUAL="$(which emacs)";
-command -v lynx > /dev/null     && export BROWSER="$(which lynx)";
-command -v less > /dev/null     && export MANPAGER="$(which less) -X"; # don't clear the screen after a manpage
-
-# user land
-UNAME="$(uname -s)"
-
-# history
-[ -z "$HISTFILE" ]          && export HISTFILE="${HOME}/.history";
-[ -z "$MYSQL_HISTFILE" ]    && export MYSQL_HISTFILE="${HOME}/.mysql_history";
-[ -z "$SQLITE_HISTFILE" ]   && export SQLITE_HISTFILE="${HOME}/.sqlite_history";
-
-# ignore duplicate history lines and any command beginning by a space
-export HISTCONTROL=ignoreboth
-export HISTSIZE=1000
-export HISTFILESIZE=5000
-export HISTIGNORE="ls:l:la:ll:clear:pwd:hist:history:tree"
-
 # terminal & env settings
 set -o notify                       # report status of terminated bg jobs immediately
 shopt -s extglob                    # extended pattern matching features
@@ -51,7 +28,7 @@ shopt -s cmdhist                    # save multi-line commands in a single hist 
 shopt -s checkwinsize               # check the window size after each command
 shopt -s no_empty_cmd_completion    # don't try to complete empty cmds
 shopt -s histappend                 # append new history entries
-if [ "$UNAME" != 'Darwin' ]; then
+if [ "$(uname -s)" != 'Darwin' ]; then
     shopt -s autocd                 # if a command is a dir name, cd to it
     shopt -s checkjobs              # print warning if jobs are running on shell exit
     shopt -s dirspell               # correct dir spelling errors on completion
@@ -86,10 +63,6 @@ export GREP_COLOR="1;3$((RANDOM%6+1))"
 # the GREP_OPTIONS is deprecated, this one is defined as an alias in .bash_alias
 #export GREP_OPTIONS='--color=auto'
 
-# user external files
-[ -z "$HOSTFILE" ] && [ -r "${HOME}/.hosts" ]   && export HOSTFILE="${HOME}/.hosts";        # hosts definitions
-[ -z "$INPUTRC" ] && [ -r "${HOME}/.inputrc" ]  && export INPUTRC="${HOME}/.inputrc";       # keyboard & input rules
-
 # bash prompt
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ] && debian_chroot="$(cat /etc/debian_chroot)";
@@ -102,7 +75,7 @@ else
     color_prompt=
 fi
 if [ "$color_prompt" == yes ]; then 
-    if [ "$UNAME" == 'Darwin' ]
+    if [ "$(uname -s)" == 'Darwin' ]
     then
         PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\$ '
     else
@@ -125,20 +98,16 @@ esac
 # dirs base perms:  777  (- 022 = 755)
 umask 022
 
-# Other definitions and customizations.
+## Other definitions and customizations
+
 # You may want to put all your additions into separate files instead of adding them here directly.
-# This will load any *.sh file present in the $HOME/.bashrc.d/ directory.
-for f in $HOME/.bashrc.d/*.sh!(*~); do
-    [ -r "${f}" ] && source "${f}";
-done
-
-# remove duplicates in MANPATH
-export MANPATH="$(printf "%s" "${MANPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
-
-# remove duplicates in CDPATH
-export CDPATH="$(printf "%s" "${CDPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
-
-# remove duplicates in PATH
-export PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
+# This will load any `*.sh` file present in the `$HOME/.bashrc.d/` directory.
+# You can control the order of that loading by using numerical prefixes in file names.
+export BASHRCDIR="$HOME/.bashrc.d"
+if [ -d "$BASHRCDIR" ]; then
+    for f in $BASHRCDIR/*.sh!(*~); do
+        [ -r "${f}" ] && source "${f}";
+    done
+fi
 
 # vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

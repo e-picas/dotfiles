@@ -10,7 +10,7 @@
 #
 # 'npm' user config
 # - packages are installed in $NODE_PREFIX/lib/node_modules/
-# - binary files are linke into $NODE_PREFIX/bin/
+# - binary files are linked into $NODE_PREFIX/bin/
 # - manpages are linked into $NODE_PREFIX/share/man/
 #
 if [ -d /usr/local/lib/node_modules/ ]; then

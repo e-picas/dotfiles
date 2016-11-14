@@ -14,20 +14,6 @@ shopt -s extglob progcomp
 # make directory commands see only directories
 complete -d pushd
 
-# personal completions
-_perso()
-{
-    local cur prev
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    prev="${COMP_WORDS[COMP_CWORD-1]}"
-
-    MYCOMPLETIONS=()
-
-    COMPREPLY=( $(compgen -W "${MYCOMPLETIONS[@]}" -- "$cur") )
-}
-complete -F _perso perso
-
 # the note/cheatsheet completions
 if [ "$(type -t _note_completion)" = 'function' ]; then
     complete -o nospace -F _note_completion note
