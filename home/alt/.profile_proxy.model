@@ -1,0 +1,24 @@
+#
+# .profile_proxy
+# Read more about shells startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+#
+
+# to use a proxy, fill in the four first variables:
+HTTP_PROXY=''
+HTTPS_PROXY=''
+FTP_PROXY=''
+NO_PROXY=''
+http_proxy="$HTTP_PROXY"
+https_proxy="$HTTPS_PROXY"
+ftp_proxy="$FTP_PROXY"
+no_proxy="$NO_PROXY"
+export HTTP_PROXY
+export http_proxy
+export HTTPS_PROXY
+export https_proxy
+export FTP_PROXY
+export ftp_proxy
+export NO_PROXY
+export no_proxy
+
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

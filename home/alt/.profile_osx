@@ -1,8 +1,6 @@
 #
 # .profile_osx
-# by @pierowbmstr (me at e-piwi dot fr)
-# <http://github.com/piwi/dotfiles.git>
-# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+# Read more about shells startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
 #
 
 # MacOSX special for completion

@@ -29,7 +29,7 @@ arguments:
                                 - 'symlinks' to symlink files from repository
                                 - 'hard-copies' to copy files as new hard files
 
-options:
+options (must be used in alphabetical order if multiple):
     -f|--force      : force installing all files (NOT interactive)
     -v|--verbose    : increase script verbosity
     -h|--help       : get this help information
@@ -43,17 +43,51 @@ declare -x _VERBOSE=false
 declare -rx DEFUSERDIR="$(cd ~ && pwd)"
 declare -rx HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 declare -rx AUTOINSTALLER='auto-install.sh'
+declare -rx BASHRCDIR='.bashrc.d'
+declare -rx MODELSGLOB="*.model"
+declare -a EXCLUDEDDIRS=( .idea .git bin dev docs etc home modules )
+#######################################################################
+
+# get_absolute_path()
+get_absolute_path() {
+    local cwd="$(pwd)"
+    local path="$1"
+    while [ -n "$path" ]; do
+        cd "${path%/*}" 2>/dev/null;
+        local name="${path##*/}"
+        path="$($(type -p greadlink readlink | head -1) "$name" || true)"
+    done
+    pwd
+    cd "$cwd"
+}
+# usage ()
+usage () {
+    echo "${USAGE}"
+}
+# version ()
+version () {
+    echo "${NAME} ${VERSION} (${REPO})"
+}
+# error ( str='' )
+error () {
+    {   echo "> $*"
+        echo '---'
+        usage
+    } >&2
+    exit 1
+}
+
 #######################################################################
 
 if [ "$1" == '-h' ]||[ "$1" == '--help' ]||[ "$1" == 'help' ]
 then
-    echo "${USAGE}"
+    usage
     exit 0
 fi
 
 if [ "$1" == '-V' ]||[ "$1" == '--version' ]||[ "$1" == 'version' ]
 then
-    echo "${NAME} ${VERSION} (${REPO})"
+    version
     exit 0
 fi
 
@@ -73,10 +107,7 @@ fi
 declare -x INSTALLDIR="${1:-${DEFUSERDIR}}"
 if [ ! -d "$INSTALLDIR" ]
 then
-    echo "!! > unknown installation directory '${INSTALLDIR}'!"
-    echo
-    echo "$USAGE"
-    exit 1
+    error "unknown installation directory '${INSTALLDIR}'!"
 fi
 
 # type of installation
@@ -96,6 +127,15 @@ then
 else
     FINDEXECTYPE='-ok '
 fi
+
+# list of excluded directories for sub-directories
+ARGEXCLUDED=''
+counter=1
+for _d in "${EXCLUDEDDIRS[@]}"; do
+    ARGEXCLUDED+=" -name $_d"
+    [ $counter -lt ${#EXCLUDEDDIRS[@]} ] && ARGEXCLUDED+=" -o";
+    let counter+=1
+done
 
 # go to the clone directory
 cd "$HERE"
@@ -128,17 +168,17 @@ fi
 if [ -d .git ] && [ -f .gitmodules ]
 then
     $_VERBOSE && echo "> updating git sub-modules ..."
-    git submodule --recursive init
-    git submodule --recursive sync
-    git submodule --recursive update
+    git submodule init
+    git submodule sync --recursive
+    git submodule update --recursive
 fi
 
 # installation of dotfiles
 if [ "$INSTALLTYPE" == 'dotfiles' ]||[ "$INSTALLTYPE" == 'home' ]||[ "$INSTALLTYPE" == 'all' ]
 then
-    $_VERBOSE && echo "> installing dotfiles in '${INSTALLDIR}/' ..."
     # symlink all but models
-    for f in $(find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -o -type f ${FINDEXECTYPE} echo {} \;)
+    $_VERBOSE && echo "> installing dotfiles in '${INSTALLDIR}/' ..."
+    for f in $(find "$(cd ${HERE}/home; pwd)" -maxdepth 1 -name "$MODELSGLOB" -prune -o -type f ${FINDEXECTYPE} echo {} \;)
     do
         if [ "${INSTALLMODE}" == 'hard-copies' ]
         then
@@ -149,19 +189,64 @@ then
     done
     # copy and edit models
     $_VERBOSE && echo "> installing dotfiles models in '${INSTALLDIR}/': first choose models to install then edit them ..."
-    for f in $(find "$(cd home; pwd)" -maxdepth 1 -name "*.model" -prune -type f ${FINDEXECTYPE} echo {} \;)
+    for f in $(find "$(cd ${HERE}/home; pwd)" -maxdepth 1 -name "$MODELSGLOB" -prune -type f ${FINDEXECTYPE} echo {} \;)
     do
         ofn=`basename $f`
         tfn="${ofn/.model}"
         cp ${CPOPTS} ${f} "${INSTALLDIR}/${tfn}" && vim "${INSTALLDIR}/${tfn}";
     done
+
+    # create the $BASHRCDIR dir
+    $_VERBOSE && echo "> creating directory '${INSTALLDIR}/${BASHRCDIR}/' ..."
+    mkdir -p "${INSTALLDIR}/${BASHRCDIR}"
+    # symlink all but models
+    $_VERBOSE && echo "> installing shell scripts dotfiles in '${INSTALLDIR}/${BASHRCDIR}/' ..."
+    for f in $(find "$(cd ${HERE}/home/${BASHRCDIR}; pwd)" -maxdepth 1 -name "$MODELSGLOB" -prune -o -type f ${FINDEXECTYPE} echo {} \;)
+    do
+        if [ "${INSTALLMODE}" == 'hard-copies' ]
+        then
+            cp ${CPOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/"
+        else
+            ln ${LNOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/"
+        fi
+    done
+    $_VERBOSE && echo "> installing shell scripts dotfiles alternatives in '${INSTALLDIR}/${BASHRCDIR}/' ..."
+    for f in $(find "$(cd ${HERE}/home/alt; pwd)" -maxdepth 1 -name "$MODELSGLOB" -prune -o -name "*.sh" -prune -type f ${FINDEXECTYPE} echo {} \;)
+    do
+        if [ "${INSTALLMODE}" == 'hard-copies' ]
+        then
+            cp ${CPOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/"
+        else
+            ln ${LNOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/"
+        fi
+    done
+    # copy and edit models
+    $_VERBOSE && echo "> installing shell scripts models in '${INSTALLDIR}/${BASHRCDIR}/': first choose models to install then edit them ..."
+    for f in $(find "$(cd ${HERE}/home/${BASHRCDIR}; pwd)" -maxdepth 1 -name "$MODELSGLOB" -prune -type f ${FINDEXECTYPE} echo {} \;)
+    do
+        ofn=`basename $f`
+        tfn="${ofn/.model}"
+        cp ${CPOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/${tfn}" && vim "${INSTALLDIR}/${BASHRCDIR}/${tfn}";
+    done
+    $_VERBOSE && echo "> installing shell scripts models alternatives in '${INSTALLDIR}/${BASHRCDIR}/': first choose models to install then edit them ..."
+    for f in $(find "$(cd ${HERE}/home/alt; pwd)" -maxdepth 1 -name "*.sh.model" -prune -type f ${FINDEXECTYPE} echo {} \;)
+    do
+        ofn=`basename $f`
+        tfn="${ofn/.model}"
+        cp ${CPOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/${tfn}" && vim "${INSTALLDIR}/${BASHRCDIR}/${tfn}";
+    done
+
+    $_VERBOSE && echo
+    echo "Dotfiles successfully installed."
+    echo "You may want to add alternatives you can find at '$(cd home/alt; pwd)' ..."
+    $_VERBOSE && echo
 fi
 
 # installation of binaries
 if [ "$INSTALLTYPE" == 'bin' ]||[ "$INSTALLTYPE" == 'binaries' ]||[ "$INSTALLTYPE" == 'all' ]
 then
     $_VERBOSE && echo "> installing binaries in '${INSTALLDIR}/bin/' ..."
-    for f in $(find "$(cd bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "*.model" -prune \) -o ${FINDEXECTYPE} echo {} \;)
+    for f in $(find "$(cd ${HERE}/bin; pwd)" -maxdepth 1 \( -name "bin" -o -name "$MODELSGLOB" -prune \) -o ${FINDEXECTYPE} echo {} \;)
     do
         [ ! -d "${INSTALLDIR}/bin" ] && mkdir -p "${INSTALLDIR}/bin";
         if [ "$INSTALLMODE" == 'hard-copies' ]
@@ -171,13 +256,17 @@ then
             ln ${LNOPTS} ${f} "${INSTALLDIR}/bin/"
         fi
     done
+
+    $_VERBOSE && echo
+    echo "Binaries successfully installed."
+    $_VERBOSE && echo
 fi
 
 # installation of sub-directories
 if [ "$INSTALLTYPE" == 'subdirs' ]||[ "$INSTALLTYPE" == 'subdirs' ]||[ "$INSTALLTYPE" == 'all' ]
 then
-    $_VERBOSE && echo "> linking sub-directory in '${INSTALLDIR}/%s' ..."
-    for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( -name ".git" -o -name "bin" -o -name "etc" -o -name "home" -o -name "modules" -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
+    $_VERBOSE && echo "> linking sub-directories in '${INSTALLDIR}/%s' ..."
+    for d in $(find "$(pwd)" -mindepth 1 -maxdepth 1 \( $ARGEXCLUDED -prune \) -o -type d ${FINDEXECTYPE} echo {} \;)
     do
         odn="$(basename "$d")"
         installer="${d}/${AUTOINSTALLER}"

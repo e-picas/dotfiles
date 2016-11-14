@@ -56,8 +56,6 @@ The final install may be something like:
     |
     | bin/cmd       -> as a symlink to path/to/clone/bin/cmd
     |
-    | notes/        -> as a symlink to path/to/clone/notes/
-    |
 
 ## Special features
 
