@@ -19,7 +19,6 @@
     "ext-libxml": "*",
     "ext-mbstring": "*",
     "ext-mcrypt": "*",
-    "ext-mysql": "*",
     "ext-mysqli": "*",
     "ext-openssl": "*",
     "ext-pcre": "*",
