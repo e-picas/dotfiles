@@ -20,6 +20,45 @@ if [ -n "$shell" ]; then return 0; fi
 PATH="$HOME/bin:$PATH"
 export PATH
 
+# ignore duplicate history lines and any command beginning by a space
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=5000
+HISTIGNORE="ls:l:la:ll:clear:pwd:hist:history:tree"
+export HISTCONTROL
+export HISTSIZE
+export HISTFILESIZE
+export HISTIGNORE
+
+# force shell on bash
+if [ -z "$SHELL" ] && command -v bash > /dev/null; then
+    SHELL="$(type -p bash)";
+    export SHELL
+fi
+if command -v less > /dev/null; then
+    PAGER="$(type -p less) -i";
+    export PAGER
+fi
+if command -v vim > /dev/null; then
+    EDITOR="$(type -p vim)";
+    export EDITOR
+fi
+if command -v gedit > /dev/null; then
+    VISUAL="$(type -p gedit)";
+    export VISUAL
+fi
+if command -v emacs > /dev/null; then
+    VISUAL="$(type -p emacs)";
+    export VISUAL
+fi
+if command -v lynx > /dev/null; then
+    BROWSER="$(type -p lynx)";
+    export BROWSER
+fi
+if command -v less > /dev/null; then
+    MANPAGER="$(type -p less) -X"; # don't clear the screen after a manpage
+    export MANPAGER
+fi
 
 ## ALTERNATE PROFILES FILES
 # this will load any `.profile_XX` alternative file found in user's $HOME
