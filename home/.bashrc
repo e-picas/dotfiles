@@ -9,7 +9,7 @@
 # Read the official Bash manual page at: http://man7.org/linux/man-pages/man1/bash.1.html
 
 # If not running interactively, don't do anything
-[ -z "${PS1:-}" ] && return
+[ -z "${PS1:-}" ] && return;
 
 # global system files
 [ -r /etc/bashrc ] && source /etc/bashrc;
