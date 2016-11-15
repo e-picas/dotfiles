@@ -6,15 +6,16 @@ Some first definitions/reminders:
 
 -   the `rc` filename suffix stands for "resource configuration"
 -   the `.d` extension used for some configuration directories stands for "directory" ; it is often a directory
-    associated with a configuration file which includes its contents
+    associated with a configuration file (with the same name without the suffix) which includes its contents
 -   the user *shell* is the default shell used by the user ; it is mostly *Bash* (on Ubuntu for instance)
-    but can be any other shell like the *C shell* (`csh`), the *Korn shell* (`ksh`) etc
+    but can be any other shell like the *C shell* (`csh`), the *Korn shell* (`ksh`) etc ; the shell of each user
+    is defined in the system's `/etc/passwd` file
 -   an *interactive shell* is created when you log in, on a console, over ssh etc
 -   a *non-interactive shell* is created when no interaction is waited, like running a script from an interactive shell session
 -   a *login shell* is made each time a user identification is required (interactive shells, opening a new desktop manager session etc)
 -   a *non-login shell* is made each time a script is run from an existing login shell session (login is already done)
 
-The following files are loaded by most systems:
+The following files are loaded by most UNIX systems:
 
 -   for *interactive login shell session* (each time you open a new user session on a computer) :
     -   `/etc/profile`
@@ -24,7 +25,7 @@ The following files are loaded by most systems:
 -   for *interactive non-login shell session* (each time you create a new session on a terminal
     or an ssh connection) :
     -   `~/.bashrc` (the file indicated by the `$ENV` variable)
--   for *non-interactive non-login shell session* (each time a shell script is running) :
+-   for *non-interactive non-login shell session* (each time a shell script is run) :
     -   `~/.bashrc` (the file indicated by the `$BASH_ENV` variable)
 
 All the files proposed in this package assumes your shell is Bash. To set it, use:
