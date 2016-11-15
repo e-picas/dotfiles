@@ -1,0 +1,1 @@
+../modules/binaries/bash-utils.1.man

@@ -1,0 +1,18 @@
+[submodule "modules/binaries"]
+	path = modules/binaries
+	url = https://github.com/e-picas/binaries.git
+[submodule "modules/vim-pathogen"]
+	path = modules/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "modules/vim-nerdtree"]
+	path = modules/vim-nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "modules/vim-mde-syntax"]
+	path = modules/vim-mde-syntax
+	url = https://github.com/markdown-extended/vim-mde-syntax.git
+[submodule "modules/mde-cgi"]
+	path = modules/mde-cgi
+	url = https://github.com/markdown-extended/mde-cgi.git
+[submodule "modules/vim-editorconfig"]
+	path = modules/vim-editorconfig
+	url = https://github.com/editorconfig/editorconfig-vim.git
