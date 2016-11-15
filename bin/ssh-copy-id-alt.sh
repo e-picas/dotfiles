@@ -1,1 +1,0 @@
-../modules/binaries/ssh-copy-id-alt.sh

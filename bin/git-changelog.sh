@@ -1,1 +1,0 @@
-../modules/binaries/git-changelog.sh

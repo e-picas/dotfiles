@@ -1,1 +1,0 @@
-../modules/binaries/merge-dev-to-master.sh

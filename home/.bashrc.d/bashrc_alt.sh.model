@@ -1,17 +1,14 @@
 #
-# .bashrc_alt
-# Read more about Bash startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
-# Read the official Bash programming manual at: http://www.gnu.org/software/bash/manual/bash.html
-# Read the official Bash manual page at: http://man7.org/linux/man-pages/man1/bash.1.html
+# .bashrc_alt - <http://github.com/e-picas/dotfiles.git> - licensed under CC BY-NC-SA 4.0
 #
 
-## user directories
-# to avoid their creations, define `TMPDIR=false`, `BACKUPDIR=false` and `NOTESDIR=false` in `.bashrc_alt`
-# temporary directory: TMPDIR
-[ -z "$TMPDIR" ] && mkdir -p "${HOME}/tmp" && export TMPDIR="${HOME}/tmp";
-# backup directory: BACKUPDIR
-[ -z "$BACKUPDIR" ] && mkdir -p "${HOME}/backups" && export BACKUPDIR="${HOME}/backups";
-# personal notes directory: NOTESDIR (used by the `notes` and `cheatsheet` functions)
-[ -z "$NOTESDIR" ] && mkdir -p "${HOME}/notes" && export NOTESDIR="${HOME}/notes";
+## CUSTOMIZATION
+# Personal items to perform for Bash shell
 
-# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh
+
+
+
+
+
+
+# vim:ts=4:sw=4

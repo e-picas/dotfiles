@@ -1,1 +1,0 @@
-../modules/binaries/deploy-env.sh

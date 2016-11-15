@@ -1,0 +1,22 @@
+#
+# .bash_completions_user - <http://github.com/e-picas/dotfiles.git> - licensed under CC BY-NC-SA 4.0
+#
+# Read more about Bash completion at:
+# <http://www.tldp.org/LDP/abs/html/tabexpansion.html>
+#
+
+# personal completions
+_perso()
+{
+    local cur prev
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    MYCOMPLETIONS=()
+
+    COMPREPLY=( $(compgen -W "${MYCOMPLETIONS[@]}" -- "$cur") )
+}
+complete -F _perso perso
+
+# vim:ts=4:sw=4

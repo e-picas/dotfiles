@@ -1,1 +1,0 @@
-../modules/binaries/add-bom.sh

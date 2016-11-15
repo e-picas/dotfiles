@@ -1,1 +1,0 @@
-../modules/binaries/sync-db.sh
