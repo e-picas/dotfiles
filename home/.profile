@@ -121,6 +121,11 @@ fi
 UNAME="$(uname -s)"
 export UNAME
 
+# env & LC
+if [ -r "$HOME/.environment" ]; then
+    source "$HOME/.environment";
+fi
+
 # history
 if [ -z "$HISTFILE" ]; then
     HISTFILE="$HOME/.history";
