@@ -235,6 +235,11 @@ then
         tfn="${ofn/.model}"
         cp ${CPOPTS} ${f} "${INSTALLDIR}/${BASHRCDIR}/${tfn}" && vim "${INSTALLDIR}/${BASHRCDIR}/${tfn}";
     done
+    # dircolors
+    if [ ! -f "${INSTALLDIR}/.dircolors" ] && [ -n "$(which dircolors)" ]; then
+        echo "Installing 'dircolors' customization file in '${INSTALLDIR}/.dircolors'"
+        dircolors -p > "${INSTALLDIR}/.dircolors"
+    fi
 
     $_VERBOSE && echo
     echo "Dotfiles successfully installed."
