@@ -1,0 +1,23 @@
+#
+# .profile_noproxy
+# by @picas (me at picas dot fr)
+# <http://github.com/e-picas/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+# Read more about Bash startup files at: <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html>
+# and: <http://ss64.com/bash/syntax-bashrc.html>
+#
+
+# to unset all proxy variables:
+unset ALL_PROXY
+unset all_proxy
+unset HTTP_PROXY
+unset http_proxy
+unset HTTPS_PROXY
+unset https_proxy
+unset FTP_PROXY
+unset ftp_proxy
+unset NO_PROXY
+unset no_proxy
+
+# vim: autoindent tabstop=4 shiftwidth=4 expandtab softtabstop=4 filetype=sh

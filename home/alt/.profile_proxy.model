@@ -1,9 +1,25 @@
 #
 # .profile_proxy
-# Read more about shells startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# by @picas (me at picas dot fr)
+# <http://github.com/e-picas/dotfiles.git>
+# (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+# Read more about Bash startup files at: <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html>
+# and: <http://ss64.com/bash/syntax-bashrc.html>
 #
 
-# to use a proxy, fill in the four first variables:
+# to use a global proxy, uncomment this block,
+# comment the second block and fill in the two first variables:
+#ALL_PROXY=''
+#NO_PROXY=''
+#all_proxy="$ALL_PROXY"
+#no_proxy="$NO_PROXY"
+#export ALL_PROXY
+#export all_proxy
+#export NO_PROXY
+#export no_proxy
+
+# to use selective protocols proxy, fill in the four first variables:
 HTTP_PROXY=''
 HTTPS_PROXY=''
 FTP_PROXY=''
