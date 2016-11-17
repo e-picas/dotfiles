@@ -4,7 +4,8 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about shells startup files at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html
+# Read more about shells startup files at: <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html>
+#
 
 #
 # The `.profile` is loaded at startup of most of UNIX shells.

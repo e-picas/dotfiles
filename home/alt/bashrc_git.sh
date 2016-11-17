@@ -1,15 +1,18 @@
 #
-# .bashrc_git
+# .bashrc.d/bashrc_git.sh
 # by @picas (me at picas dot fr)
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+# Read more about Bash startup files at: <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html>
+# and: <http://ss64.com/bash/syntax-bashrc.html>
 #
 # Special `.bashrc` file to embed the GIT completion tools below:
 # Copyright (C) 2006,2007 Shawn O. Pearce <spearce@spearce.org>
 # Conceptually based on gitcompletion (http://gitweb.hawaga.org.uk/).
 # Distributed under the GNU General Public License, version 2.0.
 #
-# To use this file, copy the `git-completion` script at ~/.git-completion
+# To use this file, copy the `git-completion` script at `~/.bashrc.d/git-completion`
 # The command line prompt is redraw but REQUIRES to include the common `home/.bashrc`
 #
 

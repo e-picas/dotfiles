@@ -1,8 +1,11 @@
 #
-# .bashrc_osx
+# .bashrc.d/bashrc_osx.sh
 # by @picas (me at picas dot fr)
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
+#
+# Read more about Bash startup files at: <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html>
+# and: <http://ss64.com/bash/syntax-bashrc.html>
 #
 
 # path to use MacPorts

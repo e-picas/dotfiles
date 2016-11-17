@@ -1,10 +1,12 @@
 #
-# .bash_profile <http://www.linuxfromscratch.org/blfs/view/svn/postlfs/profile.html>
+# .bash_profile
 # by @picas (me at picas dot fr)
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# this should only include `~/.bashrc` and `~/.profile`
+# Read more about Bash profile at: <http://www.linuxfromscratch.org/blfs/view/svn/postlfs/profile.html>
+# This should only include `~/.bashrc` and `~/.profile`
+#
 
 # load .profile containing login, non-bash related initializations
 if [ -r "$HOME/.profile" ]; then source "$HOME/.profile"; fi

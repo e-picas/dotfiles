@@ -4,7 +4,8 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about .gitattributes file at: http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes
+# Read more about `.gitattributes` file at: <http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes>
+#
 
 # binary is a macro for -text -diff
 

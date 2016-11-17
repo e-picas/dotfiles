@@ -1,18 +1,16 @@
 #
-# .npmrc <https://www.npmjs.org/doc/files/npmrc.html>
+# .npmrc
 # by @picas (me at picas dot fr)
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about NPM configuration file at: https://docs.npmjs.com/files/npmrc
-
+# Read more about NPM configuration file at: <https://docs.npmjs.com/files/npmrc>
 #
+
 # 'npm' user config
 # - packages are installed in $PREFIX/lib/node_modules/
 # - binary files are linke into $PREFIX/bin/
 # - manpages are linked into $PREFIX/share/man/
-#
-
 loglevel=verbose
 editor=$EDITOR
 init.author.email=@USEREMAIL@

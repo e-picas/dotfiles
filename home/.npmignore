@@ -4,7 +4,8 @@
 # <http://github.com/e-picas/dotfiles.git>
 # (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 #
-# Read more about .npmignore file at: https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
+# Read more about `.npmignore` file at: <https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package>
+#
 
 # OS & temp files
 .DS_Store

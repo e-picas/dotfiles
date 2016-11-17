@@ -4,7 +4,8 @@
 -- <http://github.com/e-picas/dotfiles.git>
 -- (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 --
--- Read more about PostgreSQL configuration file at: http://www.postgresql.org/docs/9.3/static/app-psql.html
+-- Read more about PostgreSQL configuration file at: <http://www.postgresql.org/docs/9.3/static/app-psql.html>
+--
 
 \set PROMPT1 '%M %n@%/%R%#%x '
 \set PROMPT2 '%M %n@%/%R %# '

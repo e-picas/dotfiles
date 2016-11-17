@@ -4,7 +4,8 @@
 " <http://github.com/e-picas/dotfiles.git>
 " (personal) file licensed under CC BY-NC-SA 4.0 <http://creativecommons.org/licenses/by-nc-sa/4.0/>
 "
-" Read more about Vim and configuration at: http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/vimrc.html
+" Read more about Vim and configuration at: <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/vimrc.html>
+"
 
 " Sets how many lines of history VIM has to remember
 set history=700
