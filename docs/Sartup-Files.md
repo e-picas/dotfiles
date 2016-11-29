@@ -80,6 +80,26 @@ The common `.bashrc` file proposed here will try to load any `*.sh` script store
 directory. This can let you separate features in distinct files or quickly add configuration settings
 for a device. The files with a `~` suffix will be ignored.
 
+Related links:
+
+-   <http://www.linuxfromscratch.org/blfs/view/6.3/postlfs/profile.html>
+-   <https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/>
+-   <http://blog.flowblok.id.au/2013-02/shell-startup-scripts.html>
+-   <http://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell>
+-   <http://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path/26059#26059>
+-   <http://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile/183980#183980>
+-   <http://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con/4132#4132>
+-   <http://unix.stackexchange.com/questions/117467/how-to-permanently-set-environmental-variables>
+-   <https://help.ubuntu.com/community/EnvironmentVariables>
+-   <http://www.sbin.org/doc/oreilly_bookshelf/linux/run/ch04_15.htm>
+-   <https://wiki.archlinux.org/index.php/proxy_settings>
+
+
+Inspiration:
+
+-   <https://github.com/chr4/shellrc/>
+
+
 ----
 
 Author: Pierre Cassat - @picas (me at picas dot fr)

@@ -57,15 +57,16 @@ if [ -d "$HOME/lib" ]; then
 fi
 
 # user 'cd' path
-if [ -z "$CDPATH" ]; then
-    CDPATH=".:$HOME:/mnt:/usr/lib:/usr/local:/software";
-fi
-if [ -d "$HOME/Documents" ]; then
-    CDPATH="$CDPATH:$HOME/Documents";
-fi
-if [ -d "$HOME/www" ]; then
-    CDPATH="$CDPATH:$HOME/www";
-fi
+# commented because it mess a lot of scripts
+#if [ -z "$CDPATH" ]; then
+#    CDPATH=".:$HOME:/mnt:/usr/lib:/usr/local:/software";
+#fi
+#if [ -d "$HOME/Documents" ]; then
+#    CDPATH="$CDPATH:$HOME/Documents";
+#fi
+#if [ -d "$HOME/www" ]; then
+#    CDPATH="$CDPATH:$HOME/www";
+#fi
 
 # deduplicate PATHs variables
 # @see <http://unix.stackexchange.com/a/40755>
@@ -74,7 +75,7 @@ fi
 MANPATH="$(printf "%s" "${MANPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')";
 
 # remove duplicates in CDPATH
-CDPATH="$(printf "%s" "${CDPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')";
+#CDPATH="$(printf "%s" "${CDPATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')";
 
 # remove duplicates in PATH
 PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')";
@@ -82,7 +83,7 @@ PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]
 # export all variables
 export PATH
 export MANPATH
-export CDPATH
+#export CDPATH
 export LD_LIBRARY_PATH
 export LD_RUN_PATH
 
